@@ -1,0 +1,414 @@
+.course-advisor {
+  background-color: rgba(255, 255, 255, 1.0);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.course-advisor .div {
+  background-color: rgba(255, 255, 255, 1.0);
+  background: linear-gradient(
+    180deg,
+    rgb(191, 215, 237) 0%,
+    rgb(96, 163, 217) 100%
+  );
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+}
+
+.course-advisor .overlap {
+  position: absolute;
+  width: 1485px;
+  height: 1001px;
+  top: 46px;
+  left: 392px;
+  background-color: #f7f7f7;
+  border-radius: 35px;
+  box-shadow:
+    0px 0px 0px #0013331a, 0px 2px 5px #0013331a, 0px 9px 9px #00133317, 0px 21px 13px #0013330d, 0px 38px 15px #00133303, 0px 59px 17px transparent;
+}
+
+.course-advisor .frame {
+  display: flex;
+  width: 206px;
+  height: 73px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px 43px;
+  position: absolute;
+  top: 880px;
+  left: 640px;
+  background-color: #60a3d9;
+  border-radius: 20px;
+}
+
+.course-advisor .text-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-left: -22.00px;
+  margin-right: -22.00px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 400;
+  white-space: nowrap;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .div-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 56px;
+  left: 623px;
+  background-color: #2f46d633;
+}
+
+.course-advisor .text-wrapper-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 700;
+  color: #383030;
+  font-size: 32px;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .p {
+  position: absolute;
+  height: 38px;
+  top: 210px;
+  left: 141px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 400;
+  color: #383030;
+  font-size: 32px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.course-advisor .text-wrapper-3 {
+  position: absolute;
+  height: 38px;
+  top: 312px;
+  left: 86px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 32px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.course-advisor .table {
+  display: flex;
+  width: 1354px;
+  height: 116px;
+  align-items: flex-start;
+  padding: 10px 0px;
+  position: absolute;
+  top: 387px;
+  left: 100px;
+}
+
+.course-advisor .frame-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.course-advisor .frame-3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 10px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.course-advisor .frame-4 {
+  display: flex;
+  height: 45px;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+  background-color: #ddf3f9;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: #000000;
+}
+
+.course-advisor .text-wrapper-4 {
+  position: relative;
+  flex: 1;
+  font-family: "Roboto", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .frame-wrapper {
+  display: flex;
+  width: 1354px;
+  height: 214px;
+  align-items: flex-start;
+  padding: 10px 0px;
+  position: absolute;
+  top: 606px;
+  left: 100px;
+}
+
+.course-advisor .text-wrapper-5 {
+  position: absolute;
+  height: 38px;
+  top: 563px;
+  left: 76px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 32px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.course-advisor .carbon-machine {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 44px;
+  left: 60px;
+}
+
+.course-advisor .text-wrapper-6 {
+  position: absolute;
+  width: 156px;
+  height: 30px;
+  top: 63px;
+  left: 148px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 4.80px;
+  line-height: normal;
+}
+
+.course-advisor .pepicons-pop {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 219px;
+  left: 75px;
+}
+
+.course-advisor .text-wrapper-7 {
+  position: absolute;
+  height: 39px;
+  top: 222px;
+  left: 150px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .text-wrapper-8 {
+  position: absolute;
+  height: 39px;
+  top: 324px;
+  left: 150px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .text-wrapper-9 {
+  position: absolute;
+  height: 39px;
+  top: 430px;
+  left: 150px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .healthicons-i {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 320px;
+  left: 70px;
+}
+
+.course-advisor .fluent-publish {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 431px;
+  left: 76px;
+}
+
+.course-advisor .covid-transmission {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 525px;
+  left: 75px;
+}
+
+.course-advisor .group {
+  position: absolute;
+  width: 39px;
+  height: 39px;
+  top: 0;
+  left: 0;
+}
+
+.course-advisor .text-wrapper-10 {
+  position: absolute;
+  height: 39px;
+  top: 1px;
+  left: 79px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .medical-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 619px;
+  left: 76px;
+  background-image: url(https://c.animaapp.com/Sw8kURSx/img/vector.svg);
+  background-size: 100% 100%;
+}
+
+.course-advisor .text-wrapper-11 {
+  position: absolute;
+  height: 39px;
+  top: -1px;
+  left: 77px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .pajamas-leave {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 720px;
+  left: 76px;
+}
+
+.course-advisor .vector {
+  position: absolute;
+  width: 40px;
+  height: 24px;
+  top: 7px;
+  left: 0;
+}
+
+.course-advisor .teenyicons-chatbot {
+  position: absolute;
+  width: 41px;
+  height: 41px;
+  top: 814px;
+  left: 76px;
+}
+
+.course-advisor .overlap-group {
+  position: absolute;
+  width: 41px;
+  height: 41px;
+  top: 0;
+  left: 0;
+}
+
+.course-advisor .img {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 14px;
+  left: 16px;
+}
+
+.course-advisor .text-wrapper-12 {
+  position: absolute;
+  height: 39px;
+  top: -3px;
+  left: 78px;
+  font-family: "Monda", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.course-advisor .fluent-people {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 898px;
+  left: 75px;
+}
+
+.course-advisor .vector-2 {
+  position: absolute;
+  width: 33px;
+  height: 30px;
+  top: 4px;
+  left: 3px;
+}
