@@ -1,0 +1,340 @@
+.student-dashboard {
+    background-color: rgba(255, 255, 255, 1.0);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .student-dashboard .div {
+    background-color: rgba(255, 255, 255, 1.0);
+    background: linear-gradient(
+      180deg,
+      rgb(191, 215, 237) 0%,
+      rgb(96, 163, 217) 100%
+    );
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+  }
+  
+  .student-dashboard .overlap {
+    position: absolute;
+    width: 1515px;
+    height: 1039px;
+    top: 41px;
+    left: 377px;
+    background-image: url(https://c.animaapp.com/3WaKuvRO/img/rectangle-139.svg);
+    background-size: 100% 100%;
+  }
+  
+  .student-dashboard .main-message-box {
+    position: absolute;
+    width: 1488px;
+    height: 80px;
+    top: 926px;
+    left: 13px;
+    background-color: var(--x-light-themerestbackgrounddefault-background);
+    border-radius: 20px;
+    border: 1.35px solid;
+    border-color: #02040f;
+    box-shadow: 0px 0.69px 1.54px #00000021, 0px 0.13px 0.39px #0000001c;
+  }
+  
+  .student-dashboard .body {
+    position: absolute;
+    width: 650px;
+    top: 30px;
+    left: 16px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: var(--x-light-themerestforegrounddefault-foreground-1-424242);
+    font-size: 16.2px;
+    letter-spacing: 0;
+    line-height: 17.2px;
+  }
+  
+  .student-dashboard .component {
+    position: absolute;
+    width: 96px;
+    height: 31px;
+    top: 23px;
+    left: 1372px;
+  }
+  
+  .student-dashboard .frame {
+    position: relative;
+    height: 31px;
+    background-color: #000000;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: #1900ff;
+  }
+  
+  .student-dashboard .vector {
+    position: absolute;
+    width: 20px;
+    height: 21px;
+    top: 3px;
+    left: 6px;
+  }
+  
+  .student-dashboard .text-wrapper {
+    position: absolute;
+    top: 4px;
+    left: 36px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 16.2px;
+    letter-spacing: 0;
+    line-height: 17.2px;
+    white-space: nowrap;
+  }
+  
+  .student-dashboard .animation {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    top: 305px;
+    left: 531px;
+    background-color: #ffffff;
+  }
+  
+  .student-dashboard .overlap-group {
+    position: relative;
+    width: 247px;
+    height: 220px;
+    top: 40px;
+    left: 76px;
+  }
+  
+  .student-dashboard .ellipse {
+    position: absolute;
+    width: 242px;
+    height: 212px;
+    top: 5px;
+    left: 4px;
+  }
+  
+  .student-dashboard .img {
+    position: absolute;
+    width: 247px;
+    height: 220px;
+    top: 0;
+    left: 0;
+  }
+  
+  .student-dashboard .carbon-machine {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    top: 44px;
+    left: 60px;
+  }
+  
+  .student-dashboard .text-wrapper-2 {
+    position: absolute;
+    width: 156px;
+    height: 30px;
+    top: 63px;
+    left: 148px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 4.80px;
+    line-height: normal;
+  }
+  
+  .student-dashboard .pepicons-pop {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 219px;
+    left: 75px;
+  }
+  
+  .student-dashboard .text-wrapper-3 {
+    position: absolute;
+    height: 39px;
+    top: 222px;
+    left: 150px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .text-wrapper-4 {
+    position: absolute;
+    height: 39px;
+    top: 324px;
+    left: 150px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .text-wrapper-5 {
+    top: 430px;
+    left: 150px;
+    position: absolute;
+    height: 39px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .healthicons-i {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 320px;
+    left: 70px;
+  }
+  
+  .student-dashboard .fluent-publish {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 431px;
+    left: 76px;
+  }
+  
+  .student-dashboard .covid-transmission {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 525px;
+    left: 75px;
+  }
+  
+  .student-dashboard .group {
+    position: absolute;
+    width: 39px;
+    height: 39px;
+    top: 0;
+    left: 0;
+  }
+  
+  .student-dashboard .text-wrapper-6 {
+    position: absolute;
+    height: 39px;
+    top: 1px;
+    left: 79px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .medical-icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 619px;
+    left: 76px;
+    background-image: url(https://c.animaapp.com/3WaKuvRO/img/vector.svg);
+    background-size: 100% 100%;
+  }
+  
+  .student-dashboard .text-wrapper-7 {
+    top: -1px;
+    left: 77px;
+    position: absolute;
+    height: 39px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .pajamas-leave {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 720px;
+    left: 76px;
+  }
+  
+  .student-dashboard .vector-2 {
+    position: absolute;
+    width: 40px;
+    height: 24px;
+    top: 7px;
+    left: 0;
+  }
+  
+  .student-dashboard .teenyicons-chatbot {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: 814px;
+    left: 76px;
+  }
+  
+  .student-dashboard .vector-3 {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: 0;
+    left: 0;
+  }
+  
+  .student-dashboard .vector-4 {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 14px;
+    left: 16px;
+  }
+  
+  .student-dashboard .text-wrapper-8 {
+    position: absolute;
+    height: 39px;
+    top: -3px;
+    left: 78px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-dashboard .fluent-people {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 898px;
+    left: 75px;
+  }
+  
+  .student-dashboard .vector-5 {
+    position: absolute;
+    width: 33px;
+    height: 30px;
+    top: 4px;
+    left: 3px;
+  }
+  
