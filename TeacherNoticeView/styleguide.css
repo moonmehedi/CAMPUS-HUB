@@ -1,0 +1,56 @@
+:root {
+    --whitew-100: rgba(255, 255, 255, 1);
+    --heading-font-family: "Inter", Helvetica;
+    --heading-font-weight: 600;
+    --heading-font-size: 24px;
+    --heading-letter-spacing: -0.48px;
+    --heading-line-height: 120.00000476837158%;
+    --heading-font-style: normal;
+    --single-line-body-base-font-family: "Inter", Helvetica;
+    --single-line-body-base-font-weight: 400;
+    --single-line-body-base-font-size: 16px;
+    --single-line-body-base-letter-spacing: 0px;
+    --single-line-body-base-line-height: 100%;
+    --single-line-body-base-font-style: normal;
+    --color-text-brand-on-brand: var(--color-primitives-brand-100);
+    --color-text-brand-default: var(--color-primitives-brand-800);
+    --color-background-default-tertiary: var(--color-primitives-gray-300);
+    --color-background-danger-hover: var(--color-primitives-red-600);
+    --color-border-brand-default: var(--color-primitives-brand-800);
+    --color-primitives-brand-100: rgba(245, 245, 245, 1);
+    --color-primitives-brand-800: rgba(44, 44, 44, 1);
+    --color-primitives-brand-900: rgba(30, 30, 30, 1);
+    --color-primitives-gray-300: rgba(217, 217, 217, 1);
+    --color-primitives-red-600: rgba(192, 15, 12, 1);
+    --color-primitives-gray-600: rgba(68, 68, 68, 1);
+    --size-space-200: 8px;
+    --size-space-300: 12px;
+    --size-radius-400: 16px;
+  }
+  
+  /*
+  
+  To enable a theme in your HTML, simply add one of the following data attributes to an HTML element, like so:
+  
+  <body data-color-mode="SDS-light">
+      <!-- the rest of your content -->
+  </body>
+  
+  You can apply the theme on any DOM node, not just the `body`
+  
+  */
+  
+  [data-color-mode="SDS-light"] {
+    --color-text-brand-on-brand: var(--color-primitives-brand-100);
+    --color-text-brand-default: var(--color-primitives-brand-800);
+    --color-background-default-tertiary: var(--color-primitives-gray-300);
+    --color-border-brand-default: var(--color-primitives-brand-800);
+  }
+  
+  [data-color-mode="SDS-dark"] {
+    --color-text-brand-on-brand: var(--color-primitives-brand-900);
+    --color-text-brand-default: var(--color-primitives-brand-100);
+    --color-background-default-tertiary: var(--color-primitives-gray-600);
+    --color-border-brand-default: var(--color-primitives-brand-100);
+  }
+  
