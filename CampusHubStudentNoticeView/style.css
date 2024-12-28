@@ -1,0 +1,360 @@
+.student-notice-view {
+    background-color: rgba(255, 255, 255, 1.0);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .student-notice-view .div {
+    background-color: rgba(255, 255, 255, 1.0);
+    background: linear-gradient(
+      180deg,
+      rgb(191, 215, 237) 0%,
+      rgb(96, 163, 217) 100%
+    );
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+  }
+  
+  .student-notice-view .overlap {
+    position: absolute;
+    width: 1485px;
+    height: 1001px;
+    top: 44px;
+    left: 392px;
+    background-color: #f7f7f7;
+    border-radius: 35px;
+    box-shadow:
+      0px 0px 0px #0013331a, 0px 2px 5px #0013331a, 0px 9px 9px #00133317, 0px 21px 13px #0013330d, 0px 38px 15px #00133303, 0px 59px 17px transparent;
+  }
+  
+  .student-notice-view .group {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 568px;
+    left: 123px;
+    border: 1px solid;
+    border-color: #000000;
+  }
+  
+  .student-notice-view .overlap-group {
+    position: relative;
+    width: 1226px;
+    height: 293px;
+    top: -92px;
+    left: -34px;
+    background-color: #e4ffaf;
+    border-radius: 57px;
+    border: 1px solid;
+    border-color: #000000;
+  }
+  
+  .student-notice-view .alert-octagon {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: 91px;
+    left: 33px;
+  }
+  
+  .student-notice-view .dear-students-and {
+    position: absolute;
+    width: 965px;
+    top: 145px;
+    left: 109px;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    color: #000000;
+    font-size: var(--heading-font-size);
+    letter-spacing: var(--heading-letter-spacing);
+    line-height: var(--heading-line-height);
+    font-style: var(--heading-font-style);
+  }
+  
+  .student-notice-view .element-DEC-pm {
+    position: absolute;
+    width: 205px;
+    top: 26px;
+    left: 928px;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    color: #000000;
+    font-size: var(--heading-font-size);
+    letter-spacing: var(--heading-letter-spacing);
+    line-height: var(--heading-line-height);
+    font-style: var(--heading-font-style);
+  }
+  
+  .student-notice-view .overlap-wrapper {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 231px;
+    left: 123px;
+    border: 1px solid;
+    border-color: #000000;
+  }
+  
+  .student-notice-view .overlap-2 {
+    position: relative;
+    width: 1226px;
+    height: 293px;
+    top: -92px;
+    left: -34px;
+    background-color: #ff9998;
+    border-radius: 57px;
+    border: 1px solid;
+    border-color: #000000;
+  }
+  
+  .student-notice-view .overlap-group-2 {
+    position: absolute;
+    width: 966px;
+    height: 186px;
+    top: 99px;
+    left: 109px;
+  }
+  
+  .student-notice-view .text-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    color: #000000;
+    font-size: var(--heading-font-size);
+    letter-spacing: var(--heading-letter-spacing);
+    line-height: var(--heading-line-height);
+    font-style: var(--heading-font-style);
+  }
+  
+  .student-notice-view .p {
+    position: absolute;
+    width: 965px;
+    top: 47px;
+    left: 1px;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    color: #000000;
+    font-size: var(--heading-font-size);
+    letter-spacing: var(--heading-letter-spacing);
+    line-height: var(--heading-line-height);
+    font-style: var(--heading-font-style);
+  }
+  
+  .student-notice-view .carbon-machine {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    top: 44px;
+    left: 60px;
+  }
+  
+  .student-notice-view .text-wrapper-2 {
+    position: absolute;
+    width: 156px;
+    height: 30px;
+    top: 63px;
+    left: 148px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 4.80px;
+    line-height: normal;
+  }
+  
+  .student-notice-view .pepicons-pop {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 219px;
+    left: 75px;
+  }
+  
+  .student-notice-view .text-wrapper-3 {
+    position: absolute;
+    height: 39px;
+    top: 222px;
+    left: 150px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .text-wrapper-4 {
+    position: absolute;
+    height: 39px;
+    top: 324px;
+    left: 150px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .text-wrapper-5 {
+    top: 430px;
+    left: 150px;
+    position: absolute;
+    height: 39px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .healthicons-i {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 320px;
+    left: 70px;
+  }
+  
+  .student-notice-view .fluent-publish {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 431px;
+    left: 76px;
+  }
+  
+  .student-notice-view .covid-transmission {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 525px;
+    left: 75px;
+  }
+  
+  .student-notice-view .img {
+    position: absolute;
+    width: 39px;
+    height: 39px;
+    top: 0;
+    left: 0;
+  }
+  
+  .student-notice-view .text-wrapper-6 {
+    position: absolute;
+    height: 39px;
+    top: 1px;
+    left: 79px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .medical-icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 619px;
+    left: 76px;
+    background-image: url(https://c.animaapp.com/Yq5DfHIj/img/vector.svg);
+    background-size: 100% 100%;
+  }
+  
+  .student-notice-view .text-wrapper-7 {
+    top: -1px;
+    left: 77px;
+    position: absolute;
+    height: 39px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .pajamas-leave {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 720px;
+    left: 76px;
+  }
+  
+  .student-notice-view .vector {
+    position: absolute;
+    width: 40px;
+    height: 24px;
+    top: 7px;
+    left: 0;
+  }
+  
+  .student-notice-view .teenyicons-chatbot {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: 814px;
+    left: 76px;
+  }
+  
+  .student-notice-view .vector-2 {
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    top: 0;
+    left: 0;
+  }
+  
+  .student-notice-view .vector-3 {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 14px;
+    left: 16px;
+  }
+  
+  .student-notice-view .text-wrapper-8 {
+    position: absolute;
+    height: 39px;
+    top: -3px;
+    left: 78px;
+    font-family: "Monda", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-notice-view .fluent-people {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 898px;
+    left: 75px;
+  }
+  
+  .student-notice-view .vector-4 {
+    position: absolute;
+    width: 33px;
+    height: 30px;
+    top: 4px;
+    left: 3px;
+  }
+  
