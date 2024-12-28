@@ -1,0 +1,156 @@
+.student-login {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .student-login .overlap-group-wrapper {
+    background-color: #ffffff;
+    width: 1920px;
+    height: 1080px;
+  }
+  
+  .student-login .overlap-group {
+    position: relative;
+    height: 1080px;
+    background-image: url(https://c.animaapp.com/aBVTLoPA/img/students-pana-1.png);
+    background-size: cover;
+    background-position: 50% 50%;
+  }
+  
+  .student-login .rectangle {
+    position: absolute;
+    width: 904px;
+    height: 904px;
+    top: 101px;
+    left: 483px;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: #bfd7ed4c;
+    backdrop-filter: blur(50px) brightness(100%);
+    -webkit-backdrop-filter: blur(50px) brightness(100%);
+    background: linear-gradient(
+      180deg,
+      rgba(191, 215, 237, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+  
+  .student-login .text-wrapper {
+    position: absolute;
+    width: 358px;
+    top: 177px;
+    left: 781px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-login .line {
+    top: 387px;
+    position: absolute;
+    width: 715px;
+    height: 5px;
+    left: 602px;
+  }
+  
+  .student-login .img {
+    top: 581px;
+    position: absolute;
+    width: 715px;
+    height: 5px;
+    left: 602px;
+  }
+  
+  .student-login .div {
+    position: absolute;
+    width: 253px;
+    top: 301px;
+    left: 602px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-login .text-wrapper-2 {
+    position: absolute;
+    width: 253px;
+    top: 681px;
+    left: 654px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-login .text-wrapper-3 {
+    position: absolute;
+    width: 254px;
+    top: 489px;
+    left: 602px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-login .rectangle-2 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 684px;
+    left: 602px;
+    background-color: #d9d9d9;
+  }
+  
+  .student-login .rectangle-3 {
+    position: absolute;
+    width: 715px;
+    height: 70px;
+    top: 780px;
+    left: 602px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px #00000040;
+  }
+  
+  .student-login .text-wrapper-4 {
+    position: absolute;
+    width: 130px;
+    top: 791px;
+    left: 908px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .student-login .text-wrapper-5 {
+    position: absolute;
+    width: 527px;
+    top: 901px;
+    left: 729px;
+    font-family: "Istok Web", Helvetica;
+    font-weight: 700;
+    font-style: italic;
+    color: #ffffff;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
