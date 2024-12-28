@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Add event listeners for buttons
-    document.getElementById("send-button").addEventListener("click", () => {
-      window.location.href = "chatbot_chat.html";
+    document.getElementById("see-plan-button").addEventListener("click", () => {
+      window.location.href = "see_plan.html";
     });
   
     document.getElementById("notice-button").addEventListener("click", () => {
