@@ -61,120 +61,152 @@ html::-webkit-scrollbar-track {
 html::-webkit-scrollbar-thumb {
     background: var(--brown);
 } 
-  body {
-    background: url('/Assets/student.png') no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Background blur effect */
-  }
-  
-  .container {
-    width: 900px;
-    height: 900px;
-    max-width: none;
-    border: 2px solid rgba(191, 215, 237, 0.3); /* White with 30% opacity */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(191, 215, 237, 0.5)); /* Transparent white */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    backdrop-filter: blur(20px);
-  }
-  
-  .login-box h2 {
-    color: white;
-    margin-bottom: 70px;
-    margin-top: 70px;
-    font-size: 40px; /* Increased font size */
-  }
-  
-  .input-group {
-    margin: 10px 0;
-    text-align: left;
-    padding-left: 60px; /* Add padding to move everything to the right */
-  }
-  
-  .input-group label {
-    font-size: 30px; /* Increased font size */
-    color: white;
-    font-weight: bold;
-    display: block; /* Ensure label stays above the input */
-  }
-  
-  .input-group input {
-    width: 90%; /* Adjust width if needed */
-    padding: 10px 0;
-    margin-top: 30px;
-    margin-bottom: 50px;
-    border: none;
-    border-bottom: 4px solid white; /* Styled as a line */
-    outline: none;
-    font-size: 25px; /* Increased font size */
-    color: white;
-    background: transparent;
-    padding-left: 10px; /* Slight padding for the input text */
-  }
-  
-  
-  .input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.7); /* White with 70% opacity */
-  }
-  
-  .remember-me {
-    margin-top: 30px;
-    margin-bottom: 50px;
-    margin-left: 60px;
-    color: white;
-    display: flex; /* Use flexbox for proper alignment */
-    align-items: center; /* Vertically center the checkbox and label */
-    justify-content: flex-start; /* Align items to the left */
-    gap: 20px; /* Add space between the checkbox and label */
-  }
-  
-  .remember-me input {
-    width: 23px; /* Adjust the width of the checkbox */
-    height: 23px; /* Adjust the height of the checkbox */
-    transform: scale(1.5); /* Makes the checkbox appear bigger */
-    cursor: pointer; /* Adds a pointer cursor for better usability */
-  }
-  
-  .remember-me label {
-    font-size: 30px; /* Adjust font size of the label */
-    cursor: pointer; /* Makes the label clickable */
-  }
-  
-  button {
-    width: 90%;
-    padding: 12px;
-    background-color: white;
-    border: none;
-    border-radius: 25px;
-    color: #000; /* Black for button text */
-    font-size: 30px; /* Increased font size */
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 30px;
-  }
-  
-  button:hover {
-    background-color: #bfd7ed; /* Slightly darker white for hover */
-  }
-  
-  .reset-password {
-    margin-top: 15px;
-    font-size: 30px; 
-     /* Increased font size */
-    color: white;
-  }
-  .reset-password a {
-    color: white;
-    text-decoration: none;
-    font-size: 30px; 
-  }
-  
-  .reset-password a:hover {
-    text-decoration: underline;
-  }
-  
+body {
+  background: url('/Assets/student.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  width: 900px;
+  height: 900px;
+  max-width: none;
+  border: 2px solid rgba(191, 215, 237, 0.3); /* White with 30% opacity */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(191, 215, 237, 0.5)); /* Transparent white */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  backdrop-filter: blur(20px);
+}
+
+.login-box h2 {
+  color: white;
+  margin-bottom: 70px;
+  margin-top: 70px;
+  font-size: 40px;
+}
+
+.input-group {
+  margin: 10px 0;
+  text-align: left;
+  padding-left: 60px;
+}
+
+.input-group label {
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+  display: block;
+}
+
+.input-group input {
+  width: 90%;
+  padding: 10px 0;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  border: none;
+  border-bottom: 4px solid white;
+  outline: none;
+  font-size: 25px;
+  color: white;
+  background: transparent;
+  padding-left: 10px;
+  transition: all 0.3s ease; /* For glow effect */
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group input:focus {
+  border-bottom: 4px solid #00ffcc; /* Glow color */
+  box-shadow: 0 4px 10px rgba(0, 255, 204, 0.5);
+}
+
+.remember-me {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  margin-left: 60px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.remember-me input {
+  width: 23px;
+  height: 23px;
+  transform: scale(1.5);
+  cursor: pointer;
+  appearance: none; /* Removes default browser styles */
+  background: gray;
+  border-radius: 50px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.remember-me input:checked {
+  background: #00ffcc;
+}
+
+.remember-me input::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  transition: transform 0.3s ease;
+}
+
+.remember-me input:checked::after {
+  transform: translateX(20px);
+}
+
+.remember-me label {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+button {
+  width: 90%;
+  padding: 12px;
+  background: linear-gradient(90deg, #007bff, #00ffcc);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 255, 204, 0.5);
+}
+
+.reset-password {
+  margin-top: 15px;
+  font-size: 30px;
+  color: white;
+}
+
+.reset-password a {
+  color: white;
+  text-decoration: none;
+  font-size: 30px;
+  transition: color 0.3s ease;
+}
+
+.reset-password a:hover {
+  color: #00ffcc;
+  text-decoration: underline;
+}

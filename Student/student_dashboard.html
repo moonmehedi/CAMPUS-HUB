@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <!-- Link to Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/student_dashboard.css">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1>Welcome back, <span id="student-name">[Student_Name]</span></h1>
+      <div class="header-icons">
+        <!-- Settings Icon -->
+        <button class="icon-button" id="settings-btn">
+          <i class="fas fa-cog"></i>
+        </button>
+        <!-- Notifications Icon -->
+        <button class="icon-button" id="notification-btn">
+          <i class="fas fa-bell"></i>
+        </button>
+        <!-- Profile Section -->
+        <div class="profile-container">
+          <img src="profile-pic.jpg" alt="Profile" class="profile-pic" />
+          <button class="arrow-button"><i class="fas fa-caret-down"></i></button>
+          <div class="profile-dropdown">
+            <img src="profile-pic.jpg" alt="Profile" class="big-profile-pic" />
+            <p id="profile-name">Mehedi Hasan Moon</p>
+            <button id="logout-btn">Log Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <aside class="dashboard-sidebar">
+      <div class="logo">CAMPUS HUB</div>
+      <nav class="sidebar-nav">
+        <!-- Sidebar Navigation with Icons -->
+        <a href="#" class="nav-link"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> Exam Scheduler</a>
+        <a href="#" class="nav-link"><i class="fas fa-book"></i> Course Registration</a>
+        <a href="#" class="nav-link"><i class="fas fa-graduation-cap"></i> Scholarship</a>
+        <a href="#" class="nav-link"><i class="fas fa-user-tie"></i> Course Advisor</a>
+        <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Leave Application</a>
+        <a href="#" class="nav-link"><i class="fas fa-robot"></i> ChatBot</a>
+        <a href="#" class="nav-link"><i class="fas fa-comments"></i> Community Chat</a>
+      </nav>
+    </aside>
+    <main class="dashboard-main">
+      <!-- Main content goes here -->
+    </main>
+    <div class="chatbot">
+      <!-- Chatbot Icon -->
+      <button class="chatbot-icon">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+      <div class="chatbot-modal">
+        <h3>Chat with us</h3>
+        <div class="chat-area">
+          <!-- Chat content -->
+        </div>
+        <a href="chat-page.html">Chat more</a>
+      </div>
+    </div>
+  </div>
+  <script src="/Javascript/student.js"></script>
+</body>
+</html>
