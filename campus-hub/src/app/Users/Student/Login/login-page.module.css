@@ -1,0 +1,104 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('Students-bg.svg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.loginWrapper {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+}
+
+.loginForm {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(10, 10, 10, 0.9) 100%);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.input:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.checkbox {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.loginButton {
+  width: 100%;
+  background: linear-gradient(90deg, #4B6CB7 0%, #182848 100%) !important;
+  color: white !important;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.loginButton:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.googleButton {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.googleButton:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.forgotPassword {
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.forgotPassword:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .loginWrapper {
+    padding: 1rem;
+  }
+
+  .loginForm {
+    padding: 1.5rem;
+  }
+}
+
