@@ -8,35 +8,35 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import styles from './login-page.module.css';
 
-export default function LoginPage() {
-  const [username, setUsername] = useState('');
+export default function TeacherLoginPage() {
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
-  // Mock user database
-  const mockUsers = [
-    { username: 'maisha96', password: '1234' },
-    { username: 'moon48', password: '9088' },
+  // Mock teacher database
+  const mockTeachers = [
+    { phoneNumber: '1234567890', password: 'abcd' },
+    { phoneNumber: '9876543210', password: 'wxyz' },
   ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Check if the username and password match any user in the mock database
-    const user = mockUsers.find(
-      (user) => user.username === username && user.password === password
+    // Check if the phone number and password match any teacher in the mock database
+    const teacher = mockTeachers.find(
+      (teacher) => teacher.phoneNumber === phoneNumber && teacher.password === password
     );
 
-    if (user) {
+    if (teacher) {
       // Successful login
-      console.log('Login successful:', { username, rememberMe });
+      console.log('Login successful:', { phoneNumber, rememberMe });
       setErrorMessage('');
-      router.push('/Users/Student/Home'); // Redirect to dashboard
+      router.push('/Users/Teacher/Home'); // Redirect to teacher dashboard
     } else {
       // Invalid credentials
-      setErrorMessage('Invalid username or password. Please try again.');
+      setErrorMessage('Invalid phone number or password. Please try again.');
     }
   };
 
@@ -46,22 +46,22 @@ export default function LoginPage() {
         <div className={styles.loginWrapper}>
           <form onSubmit={handleSubmit} className={styles.loginForm}>
             <h1 className="text-2xl font-bold text-white mb-8 text-center">
-              STUDENT LOGIN
+              TEACHER LOGIN
             </h1>
 
             <div className="space-y-6 w-full">
               <div className="space-y-2">
-                <label htmlFor="username" className="text-sm font-medium text-white">
-                  USER NAME
+                <label htmlFor="phoneNumber" className="text-sm font-medium text-white">
+                  PHONE NUMBER
                 </label>
                 <Input
-                  id="username"
-                  name="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   className={styles.input}
-                  placeholder="Enter your username"
+                  placeholder="Enter your phone number"
                   required
                 />
               </div>

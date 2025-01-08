@@ -13,7 +13,7 @@ export default function ChatPage() {
         <div className="flex-1 flex flex-col">
           <Header />
           <div className="flex-1 p-6">
-            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm h-[calc(100vh-180px)] flex flex-col">
+          <div className="w-full h-full bg-white rounded-lg shadow-lg border border-black flex flex-col">
               <div className="p-4 border-b">
                 <h2 className="text-lg font-semibold">AI Assistant</h2>
               </div>
@@ -23,12 +23,13 @@ export default function ChatPage() {
                 </div>
               </div>
               <div className="p-4 border-t">
-                <div className="flex gap-2 max-w-4xl mx-auto">
-                  <Input placeholder="Type your message..." className="flex-1" />
-                  <Button size="icon">
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
+              <div className="flex gap-2 w-full mx-auto px-4">
+                <Input placeholder="Type your message..." className="flex-1" />
+                <Button size="icon">
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+
               </div>
             </div>
           </div>

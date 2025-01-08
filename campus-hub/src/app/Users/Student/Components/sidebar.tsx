@@ -6,16 +6,16 @@ import { cn } from "@/lib/utils"
 import { BookOpen, Calendar, GraduationCap, Home, MessageCircle, MessagesSquare, ScrollText, Users2 } from 'lucide-react'
 
 const navigation = [
-  { name: "Campus Hub", href: "/", icon: Home },
-  { name: "Notice", href: "/notice", icon: ScrollText },
-  { name: "Exam Scheduler", href: "/exams", icon: Calendar },
-  { name: "Course Registration", href: "/courses", icon: BookOpen },
-  { name: "Scholarship", href: "/scholarship", icon: GraduationCap },
-  { name: "Course Advisor", href: "/advisor", icon: Users2 },
-  { name: "Leave Application", href: "/leave", icon: ScrollText },
-  { name: "ChatBot", href: "/chat", icon: MessageCircle },
-  { name: "Community Chat", href: "/community", icon: MessagesSquare },
-]
+  { name: "Campus Hub", href: "/Users/Student/Home", icon: Home },
+  { name: "Notice", href: "/Users/Student/Notice", icon: ScrollText },
+  { name: "Exam Scheduler", href: "/Users/Student/Exam_Scheduler", icon: Calendar },
+  { name: "Course Registration", href: "/Users/Student/Course_registration", icon: BookOpen },
+  { name: "Scholarship", href: "/Users/Student/Scholarship", icon: GraduationCap },
+  { name: "Course Advisor", href: "/Users/Student/Course_Advisor", icon: Users2 },
+  { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
+  { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
+  { name: "Community Chat", href: "/Users/Student/Community_Chat", icon: MessagesSquare },
+];
 
 export function Sidebar() {
   const pathname = usePathname()

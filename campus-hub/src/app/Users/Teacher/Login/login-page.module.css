@@ -9,7 +9,7 @@
 .background {
   width: 100%;
   min-height: 100vh;
-  background-image: url('Students-bg.svg');
+  background-image: url('Teacher.svg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -25,8 +25,8 @@
 }
 
 .loginForm {
-  background: linear-gradient(180deg, rgba(191, 215, 237, 0.1) 0%, rgba(10, 10, 10, 0.9) 100%);
-  backdrop-filter: blur(35px);
+  background: linear-gradient(180deg, rgba(191, 215, 237, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+  backdrop-filter: blur(45px);
   padding: 2.5rem;
   border-radius: 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
