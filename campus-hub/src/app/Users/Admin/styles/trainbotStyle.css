@@ -1,61 +1,87 @@
 .train-bot-container {
-    padding: 2rem;
-    max-width: 100%;
-    height: calc(100vh - 64px - 4rem); /* Accounting for header height and container padding */
-    overflow-y: auto;
-  }
-  
-  .input-section {
-    margin-bottom: 2rem;
-  }
-  
-  .input-label {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #1e3a8a;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-  
-  .text-area {
-    width: 100%;
-    min-height: 200px;
-    padding: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.5rem;
-    background-color: #f8fafc;
-    resize: vertical;
-    font-size: 1rem;
-    line-height: 1.5;
-    transition: border-color 0.15s ease-in-out;
-  }
-  
-  .text-area:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-  
-  .train-button {
-    background-color: #0284c7;
-    color: white;
-    padding: 0.75rem 2rem;
-    border-radius: 0.375rem;
-    font-weight: 500;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.15s ease-in-out;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .train-button:hover {
-    background-color: #0369a1;
-  }
-  
-  .train-button:active {
-    background-color: #075985;
-  }
-  
-  
+  padding: 2rem;
+  max-width: 100%;
+  height: calc(100vh - 64px - 4rem);
+  overflow-y: auto;
+}
+
+.input-section {
+  margin-bottom: 2rem;
+}
+
+.input-label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.text-area {
+  width: 100%;
+  min-height: 500px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  resize: vertical;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.text-area:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.train-button {
+  background-color: #0284c7;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  display: block;
+  margin: 0 auto;
+}
+
+.train-button:hover {
+  background-color: #0369a1;
+}
+
+.train-button:active {
+  background-color: #075985;
+}
+
+/* New styles for CSV upload */
+.csv-upload-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+}
+
+.csv-upload-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.csv-upload-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.csv-upload-button {
+  margin-top: 1rem;
+}
+
