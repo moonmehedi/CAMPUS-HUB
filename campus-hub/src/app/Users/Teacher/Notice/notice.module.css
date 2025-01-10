@@ -1,0 +1,91 @@
+.notice {
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+  background-color: white;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.notice:hover {
+  transform: translateY(-2px);
+}
+
+.notice.urgent {
+  background-color: rgb(254 226 226);
+}
+
+.notice.info {
+  background-color: rgb(236 253 245);
+}
+
+.noticeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.noticeIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+  flex-shrink: 0;
+  color: rgb(55 65 81);
+}
+
+.noticeTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin: 0;
+}
+
+.noticeContent {
+  padding-left: 2rem;
+}
+
+.noticeMessage {
+  color: rgb(55 65 81);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.noticeTimestamp {
+  font-size: 0.875rem;
+  color: rgb(75 85 99);
+  white-space: pre;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.noticeScrollContainer {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  height: calc(100vh - 12rem); /* Adjusted for header and padding */
+}
+
+.noticeScrollContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.noticeScrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.noticeScrollContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.noticeScrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
