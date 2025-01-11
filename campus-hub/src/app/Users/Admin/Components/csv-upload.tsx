@@ -45,10 +45,6 @@ export function CSVUpload({ onUploadComplete }: CSVUploadProps) {
     reader.readAsText(file)
 
     setIsUploading(false)
-    setFile(null)
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
   }
 
   return (
@@ -72,6 +68,11 @@ export function CSVUpload({ onUploadComplete }: CSVUploadProps) {
           {isUploading ? 'Uploading...' : 'Upload CSV'}
         </Button>
       </div>
+      {file && !isUploading && (
+        <p className="mt-2 text-sm text-gray-700">
+          Selected file: <span className="font-medium">{file.name}</span>
+        </p>
+      )}
       {isUploading && (
         <div className="mt-4">
           <ProgressBar progress={uploadProgress} />
@@ -81,4 +82,3 @@ export function CSVUpload({ onUploadComplete }: CSVUploadProps) {
     </div>
   )
 }
-

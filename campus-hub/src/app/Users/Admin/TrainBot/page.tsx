@@ -53,54 +53,74 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300">
       <div className="flex">
         <Sidebar />
         <main className="flex-1 pl-64">
           <DashboardHeader />
-          <div className="container py-8">
+          <div className="container py-8 px-6">
             <WelcomeBanner />
             <div className="train-bot-container mt-8">
-              <h2 className="text-2xl font-bold mb-4">Train the Bot</h2>
-              <div className="input-section">
-                <label htmlFor="question" className="input-label">
-                  Question
-                </label>
-                <textarea
-                  id="question"
-                  className="text-area w-full p-2 border rounded"
-                  value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
-                  placeholder="Enter the question you want to train the bot with..."
-                  disabled={isTraining}
-                />
+              <h2 className="text-2xl font-bold mb-6 text-center relative">
+                Train the Bot
+                <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 w-20 bg-blue-600 rounded-full"></span>
+              </h2>
+              
+              <div className="bg-white shadow-lg rounded-lg p-8">
+                <p className="text-center text-lg mb-6">
+                  Enter a question and answer or upload a CSV file to train the bot with custom data.
+                </p>
+
+                <div className="input-section mb-4">
+                  <label htmlFor="question" className="block text-lg font-medium mb-2">
+                    Question
+                  </label>
+                  <textarea
+                    id="question"
+                    className="w-full p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-400 transition-all"
+                    style={{ minHeight: '150px' }}
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Enter the question you want to train the bot with..."
+                    disabled={isTraining}
+                  />
+                </div>
+
+                <div className="input-section mb-4">
+                  <label htmlFor="answer" className="block text-lg font-medium mb-2">
+                    Answer
+                  </label>
+                  <textarea
+                    id="answer"
+                    className="w-full p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-400 transition-all"
+                    style={{ minHeight: '150px' }}
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                    placeholder="Enter the answer for the question..."
+                    disabled={isTraining}
+                  />
+                </div>
+
+                <CSVUpload onUploadComplete={handleCSVUploadComplete} />
+
+                <div className="flex justify-center mt-6">
+                  <button 
+                    className={`bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-medium shadow-lg transform transition-transform ${
+                      isTraining ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 hover:bg-blue-700'
+                    }`}
+                    onClick={handleTrainBot}
+                    disabled={isTraining}
+                  >
+                    {isTraining ? 'Training...' : 'Train the BOT'}
+                  </button>
+                </div>
               </div>
 
-              <div className="input-section mt-4">
-                <label htmlFor="answer" className="input-label">
-                  Answer
-                </label>
-                <textarea
-                  id="answer"
-                  className="text-area w-full p-2 border rounded"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  placeholder="Enter the answer for the question..."
-                  disabled={isTraining}
-                />
-              </div>
-
-              <CSVUpload onUploadComplete={handleCSVUploadComplete} />
-
-              <button 
-                className={`train-button mt-4 bg-blue-600 text-white px-4 py-2 rounded ${isTraining ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
-                onClick={handleTrainBot}
-                disabled={isTraining}
-              >
-                {isTraining ? 'Training...' : 'Train the BOT'}
-              </button>
-
-              {isTraining && <TrainingProgress progress={progress} />}
+              {isTraining && (
+                <div className="mt-6">
+                  <TrainingProgress progress={progress} />
+                </div>
+              )}
             </div>
           </div>
         </main>
@@ -108,4 +128,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-

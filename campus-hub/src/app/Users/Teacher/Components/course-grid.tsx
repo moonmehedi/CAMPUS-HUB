@@ -65,11 +65,15 @@ const courses = [
   }
 ]
 
-export function CourseGrid() {
+interface CourseGridProps {
+  onCourseSelect: (course: { name: string, code: string }) => void
+}
+
+export function CourseGrid({ onCourseSelect }: CourseGridProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {courses.map((course, i) => (
-        <CourseCard key={i} {...course} />
+        <CourseCard key={i} {...course} onSelect={onCourseSelect} />
       ))}
     </div>
   )
