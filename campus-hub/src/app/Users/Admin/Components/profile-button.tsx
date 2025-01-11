@@ -22,7 +22,7 @@ export function ProfileButton() {
         onClick={() => setShowProfile(true)}
       >
         <Avatar>
-          <AvatarImage src="/placeholder.svg" alt="Profile" />
+          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/485c5c33-f665-47b0-833c-a499195d474a/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0ODVjNWMzMy1mNjY1LTQ3YjAtODMzYy1hNDk5MTk1ZDQ3NGEiLCJleHAiOjE3MzY2OTc0NDEsImlhdCI6MTczNjYxMTA0MX0.sqtflGyvXSA_b_jtA-3uvAYLtKXQb0PYoz4M5T5XJ6c" alt="Profile" />
           <AvatarFallback>MI</AvatarFallback>
         </Avatar>
       </Button>
@@ -34,7 +34,7 @@ export function ProfileButton() {
           </DialogHeader>
           <div className="flex flex-col items-center gap-4 p-6">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="/placeholder.svg" alt="Profile" />
+              <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/485c5c33-f665-47b0-833c-a499195d474a/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0ODVjNWMzMy1mNjY1LTQ3YjAtODMzYy1hNDk5MTk1ZDQ3NGEiLCJleHAiOjE3MzY2OTc0NDEsImlhdCI6MTczNjYxMTA0MX0.sqtflGyvXSA_b_jtA-3uvAYLtKXQb0PYoz4M5T5XJ6c" alt="Profile" />
               <AvatarFallback>MI</AvatarFallback>
             </Avatar>
             <div className="text-center">

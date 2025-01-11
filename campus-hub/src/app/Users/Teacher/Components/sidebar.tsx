@@ -23,12 +23,7 @@ const sidebarItems = [
     icon: Calendar,
     href: "/Users/Teacher/Exam_Scheduler",
   },
-  {
-    title: "Course Registration",
-    icon: BookOpen,
-    href: "/Users/Teacher/Course_registration",
-    badge: "219/39",
-  },
+ 
   {
     title: "Scholarship",
     icon: GraduationCap,

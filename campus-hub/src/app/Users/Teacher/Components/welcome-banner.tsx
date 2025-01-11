@@ -10,7 +10,7 @@ export function WelcomeBanner() {
         }}
       >
         <div className="relative z-10 flex-1">
-          <h1 className="text-3xl font-bold">Welcome Back, Abid Hossain</h1>
+          <h1 className="text-3xl font-bold">Welcome Back, Sadia Hossain</h1>
         </div>
 
         {/* Image Section */}
