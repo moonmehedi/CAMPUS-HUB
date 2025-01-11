@@ -1,51 +1,76 @@
-'use client'
+"use client"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { BookOpen, Calendar, GraduationCap, Home, MessageCircle, MessagesSquare, ScrollText, Users2 } from 'lucide-react'
+import { BookOpen, GraduationCap, Home, LogOut, ScrollText, MessageCircle } from 'lucide-react'
 
-const navigation = [
-  { name: "Campus Hub", href: "/Users/Student/Home", icon: Home },
-  { name: "Notice", href: "/Users/Student/Notice", icon: ScrollText },
-  { name: "Exam Scheduler", href: "/Users/Student/Exam_Scheduler", icon: Calendar },
-  { name: "Course Registration", href: "/Users/Student/Course_registration", icon: BookOpen },
-  { name: "Scholarship", href: "/Users/Student/Scholarship", icon: GraduationCap },
-  { name: "Course Advisor", href: "/Users/Student/Course_Advisor", icon: Users2 },
-  { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
-  { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
-  { name: "Community Chat", href: "/Users/Student/Community_Chat", icon: MessagesSquare },
-];
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+const sidebarItems = [
+  {
+    title: "Campus Hub",
+    icon: Home,
+    href: "/Users/Student/Home",
+  },
+  {
+    title: "Notice",
+    icon: ScrollText,
+    href: "/Users/Student/Notice",
+  },
+  {
+    title: "Course Registration",
+    icon: BookOpen,
+    href: "/Users/Student/Course_registration",
+  },
+  {
+    title: "Scholarship",
+    icon: GraduationCap,
+    href: "/Users/Student/Scholarship",
+  },
+  {
+    title: "TrainBot",
+    icon: MessageCircle,
+    href: "/Users/Student/TrainBot",
+  },
+]
 
 export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-col w-64 bg-blue-50 border-r">
-      <div className="p-6">
-        <h2 className="text-2xl font-bold text-blue-900">Campus Hub</h2>
-      </div>
-      <nav className="flex-1 space-y-1 px-4">
-        {navigation.map((item) => {
-          const Icon = item.icon
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "flex items-center px-4 py-3 text-sm font-medium rounded-lg",
-                pathname === item.href
-                  ? "bg-blue-100 text-blue-900"
-                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-900"
-              )}
-            >
-              <Icon className="h-5 w-5 mr-3" />
-              {item.name}
+    <aside className="fixed left-0 top-0 z-30 h-screen w-64 border-r bg-gradient-to-b from-[#003B73] to-[#60A3D9] text-white">
+      <div className="flex h-full flex-col">
+        <div className="flex items-center justify-center p-6">
+          <Home className="h-8 w-8 mr-2" />
+          <h1 className="text-xl font-bold">Campus Hub</h1>
+        </div>
+        <div className="flex-1 space-y-12 p-4">
+          {sidebarItems.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <span
+                className={cn(
+                  "group flex items-center rounded-lg px-3 py-3 text-base font-medium hover:bg-white/10",
+                  pathname === item.href ? "bg-white/10" : "transparent"
+                )}
+              >
+                <item.icon className="mr-3 h-7 w-7" />
+                {item.title}
+              </span>
             </Link>
-          )
-        })}
-      </nav>
-    </div>
+          ))}
+        </div>
+        <div className="p-4">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-white hover:bg-white/10"
+          >
+            <LogOut className="mr-3 h-5 w-5" />
+            Log Out
+          </Button>
+        </div>
+      </div>
+    </aside>
   )
 }
 
