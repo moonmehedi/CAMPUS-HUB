@@ -22,8 +22,8 @@ export function ProfileButton() {
         onClick={() => setShowProfile(true)}
       >
         <Avatar>
-          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/becc4c6c-a257-4231-b1d2-065603fade12/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZWNjNGM2Yy1hMjU3LTQyMzEtYjFkMi0wNjU2MDNmYWRlMTIiLCJleHAiOjE3MzY2ODY2NjEsImlhdCI6MTczNjYwMDI2MX0.Y20NJ9T0hp9Vsz5afdte_pVQcfgXYf5ZqhLO4F17M94" alt="Profile" />
-          <AvatarFallback>SH</AvatarFallback>
+          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/f8071f21-097d-4aa4-8958-f5d593203757/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODA3MWYyMS0wOTdkLTRhYTQtODk1OC1mNWQ1OTMyMDM3NTciLCJleHAiOjE3MzY2OTU0MzYsImlhdCI6MTczNjYwOTAzNn0.NVL-Rv_I-yp-lZG7mdhCXPn5iB6EBgSJHyWQfzBjf6Y" alt="Profile" />
+          <AvatarFallback>SJ</AvatarFallback>
         </Avatar>
       </Button>
 
@@ -34,8 +34,9 @@ export function ProfileButton() {
           </DialogHeader>
           <div className="flex flex-col items-center gap-4 p-6">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="/placeholder.svg" alt="Profile" />
-              <AvatarFallback>AH</AvatarFallback>
+          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/f8071f21-097d-4aa4-8958-f5d593203757/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODA3MWYyMS0wOTdkLTRhYTQtODk1OC1mNWQ1OTMyMDM3NTciLCJleHAiOjE3MzY2OTU0MzYsImlhdCI6MTczNjYwOTAzNn0.NVL-Rv_I-yp-lZG7mdhCXPn5iB6EBgSJHyWQfzBjf6Y" alt="Profile" />
+              <AvatarImage src="" alt="Profile" />
+              <AvatarFallback>SJ</AvatarFallback>
             </Avatar>
             <div className="text-center">
               <h3 className="text-lg font-semibold">Sadia Hossain</h3>
