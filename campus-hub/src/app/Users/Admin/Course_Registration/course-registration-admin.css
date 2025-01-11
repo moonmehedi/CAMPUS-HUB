@@ -1,0 +1,119 @@
+.course-registration-admin-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.course-registration-admin-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.course-registration-admin-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  flex-grow: 1;
+}
+
+.search-button {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.search-button:hover {
+  background-color: #4338ca;
+}
+
+.course-table-container {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.course-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.course-table th,
+.course-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.course-table th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+}
+
+.course-table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.btn-view {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-view:hover {
+  background-color: #bae6fd;
+}
+
+/* Switch styles */
+.switch-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.switch-input:checked + .switch-slider {
+  background-color: #4f46e5;
+}
+
+.switch-input:checked + .switch-slider:before {
+  transform: translateX(20px);
+}
+

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { BookOpen, Calendar, GraduationCap, Home, MessageCircle, MessagesSquare, ScrollText, Users2 } from 'lucide-react'
@@ -18,7 +19,10 @@ const navigation = [
 ];
 
 export function Sidebar() {
+
   const pathname = usePathname()
+
+
 
   return (
     <div className="flex flex-col w-64 bg-blue-50 border-r">
@@ -47,5 +51,5 @@ export function Sidebar() {
       </nav>
     </div>
   )
-}
 
+}
