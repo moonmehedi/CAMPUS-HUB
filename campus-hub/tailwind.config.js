@@ -1,12 +1,15 @@
+const {nextui} = require('@nextui-org/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
-	content: [
-		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/app/Users/**/*.{js,ts,jsx,tsx,mdx}", // Include all subfolders under Users
-	  ],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/Users/**/*.{js,ts,jsx,tsx,mdx}",
+    "// Include all subfolders under Users",
+    "./node_modules/@nextui-org/theme/dist/components/(button|ripple|spinner).js"
+  ],
   theme: {
   	extend: {
   		borderRadius: {
@@ -58,6 +61,6 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),nextui()],
 }
 

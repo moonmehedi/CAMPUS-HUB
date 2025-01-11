@@ -37,7 +37,7 @@ export function ChatbotDialog() {
           </Button>
         </div>
         <div className="px-4 pb-4">
-          <Link href="/chat">
+          <Link href="/Users/Student/Chatbot">
             <Button variant="outline" className="w-full">
               Chat More <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

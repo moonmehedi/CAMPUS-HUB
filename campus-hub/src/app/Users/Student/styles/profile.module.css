@@ -1,0 +1,53 @@
+.container {
+    max-width: 48rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .profileCard {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .avatarSection {
+    flex-shrink: 0;
+  }
+  
+  .detailsSection {
+    flex: 1;
+  }
+  
+  .name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+  }
+  
+  .infoGrid {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .infoItem {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .infoLabel {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+  }
+  
+  .infoValue {
+    font-size: 1rem;
+    color: #1f2937;
+    margin-top: 0.25rem;
+  }
+  
+  

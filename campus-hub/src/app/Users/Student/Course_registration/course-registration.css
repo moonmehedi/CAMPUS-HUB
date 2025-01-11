@@ -1,0 +1,125 @@
+/* Course Registration Page Styles */
+
+.course-registration-container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.course-registration-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.course-registration-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-registration-main {
+  flex: 1;
+  padding: 1.5rem;
+  overflow: auto;
+}
+
+.course-registration-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.course-registration-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.course-registration-filter {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.course-registration-filter input {
+  width: 200px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar-input-wrapper {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.search-bar input {
+  padding-left: 2.5rem;
+}
+
+.course-table-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.course-table {
+  min-width: 1000px; /* Adjust this value based on your needs */
+}
+
+.course-table th,
+.course-table td {
+  white-space: nowrap;
+  padding: 0.5rem;
+}
+
+.course-table th:first-child,
+.course-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+}
+
+.course-table th {
+  background-color: #f9fafb;
+}
+
+.course-table tr:nth-child(even) {
+  background-color: #eff6ff;
+}
+
+.course-action-button {
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+}
+
+.course-action-button:hover {
+  background-color: #e0f2fe;
+}
+
+.course-action-button.add:hover {
+  color: #0891b2;
+}
+
+.course-action-button.drop:hover {
+  color: #dc2626;
+}
+
+@media (max-width: 1024px) {
+  .course-registration-main {
+    padding: 1rem;
+  }
+}
+

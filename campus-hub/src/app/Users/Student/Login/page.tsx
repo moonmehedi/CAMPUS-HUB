@@ -6,7 +6,7 @@ import { Earth } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import styles from './login-page.module.css';
+import styles from '../styles/login-page.module.css';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');

@@ -1,0 +1,40 @@
+.membersSection {
+    width: 280px;
+    background-color: #f9fafb;
+    border-left: 1px solid #e5e7eb;
+    overflow-y: auto;
+  }
+  
+  .membersList {
+    padding: 1rem;
+  }
+  
+  .memberItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .memberItem:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .memberName {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1f2937;
+  }
+  
+  .activeStatus {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    margin-right: 0.5rem;
+  }
+  
+  
