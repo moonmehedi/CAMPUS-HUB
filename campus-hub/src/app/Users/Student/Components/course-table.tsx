@@ -25,7 +25,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "3.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
   {
@@ -36,7 +36,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "3.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
   {
@@ -47,7 +47,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "3.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
   {
@@ -58,7 +58,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "3.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
   {
@@ -69,7 +69,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "3.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
   {
@@ -80,7 +80,7 @@ const courses: Course[] = [
     section: "A",
     regType: "Regular",
     contactHours: "2.00",
-    regStatus: "Registered",
+    regStatus: "Not Registered",
     status: "NULL"
   },
 ]

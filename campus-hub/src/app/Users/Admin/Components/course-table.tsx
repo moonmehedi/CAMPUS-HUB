@@ -8,7 +8,20 @@ interface Course {
   availableSeats: number
 }
 
-const courses: Course[] = Array(12).fill({ name: "CSE", availableSeats: 100 })
+const courses: Course[] = [
+  { name: "CSE 101", availableSeats: 50 },
+  { name: "CSE 102", availableSeats: 40 },
+  { name: "CSE 103", availableSeats: 30 },
+  { name: "CSE 201", availableSeats: 60 },
+  { name: "CSE 202", availableSeats: 45 },
+  { name: "CSE 203", availableSeats: 35 },
+  { name: "CSE 301", availableSeats: 20 },
+  { name: "CSE 302", availableSeats: 25 },
+  { name: "CSE 303", availableSeats: 15 },
+  { name: "CSE 401", availableSeats: 10 },
+  { name: "CSE 402", availableSeats: 5 },
+  { name: "CSE 403", availableSeats: 8 },
+];
 
 export function CourseTable() {
   const [lockedCourses, setLockedCourses] = useState<Set<number>>(new Set())
@@ -31,7 +44,7 @@ export function CourseTable() {
         <thead>
           <tr>
             <th>Course Name</th>
-            <th>Available Seats</th>
+            <th>Total Seats</th>
             <th>Check Availability</th>
             <th>Lock Registration</th>
           </tr>
