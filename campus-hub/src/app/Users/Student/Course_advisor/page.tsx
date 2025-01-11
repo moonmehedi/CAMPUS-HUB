@@ -77,7 +77,7 @@ export default function CourseAdvisorPage() {
               <p className="text-lg mb-4">
                 Ready to take the next step? Plan your retake or improvement exams to boost your grades!
               </p>
-              <Link href="/Users/Student/Course_advisor/plan">
+              <Link href="/Users/Student/Course_Advisor/plan">
                 <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-lg">
                   See plan
                 </Button>

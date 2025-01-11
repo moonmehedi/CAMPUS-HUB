@@ -65,11 +65,6 @@ export function Sidebar() {
               >
                 <item.icon className="mr-3 h-7 w-7" />
                 {item.title}
-                {item.badge && (
-                  <span className="ml-auto rounded bg-white/20 px-2 py-0.5 text-xs">
-                    {item.badge}
-                  </span>
-                )}
               </span>
             </Link>
           ))}
