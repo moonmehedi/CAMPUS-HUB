@@ -18,6 +18,7 @@ const sidebarItems = [
     icon: ScrollText,
     href: "/Users/Admin/Notice",
   },
+ 
   {
     title: "Course Registration",
     icon: BookOpen,
@@ -27,6 +28,11 @@ const sidebarItems = [
     title: "Scholarship",
     icon: GraduationCap,
     href: "/Users/Admin/Scholarship",
+  },
+  {
+    title: "Leave Requests",
+    icon: ScrollText,
+    href: "/Users/Admin/Leave_requests",
   },
   {
     title: "TrainBot",
