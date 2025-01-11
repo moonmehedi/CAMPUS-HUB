@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation" // Import useRouter for redirection
-import { BookOpen, GraduationCap, Home, LogOut, ScrollText, MessageCircle } from 'lucide-react'
+import { usePathname, useRouter } from "next/navigation"
+import { BookOpen, GraduationCap, Home, LogOut, ScrollText, MessageCircle, UserPlus, UserCheck } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -38,17 +38,26 @@ const sidebarItems = [
     icon: MessageCircle,
     href: "/Users/Admin/TrainBot",
   },
+  {
+    title: "Add Student",
+    icon: UserPlus, // Icon for adding a student
+    href: "/Users/Admin/Add_Student",
+  },
+  {
+    title: "Add Teacher",
+    icon: UserCheck, // Icon for adding a teacher
+    href: "/Users/Admin/Add_Teacher",
+  },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
-  const router = useRouter() // Initialize useRouter
+  const router = useRouter()
 
-  // Handle logout
   const handleLogout = () => {
-    // Perform any required logout operations here (e.g., clearing tokens or session storage)
+    // Perform any necessary logout operations (e.g., clearing tokens or session storage)
     console.log("User logged out")
-    router.push("/") // Redirect to the main page
+    router.push("/") // Redirect to the main page after logout
   }
 
   return (
@@ -77,7 +86,7 @@ export function Sidebar() {
           <Button
             variant="ghost"
             className="w-full justify-start text-white hover:bg-white/10"
-            onClick={handleLogout} // Attach the logout handler here
+            onClick={handleLogout}
           >
             <LogOut className="mr-3 h-5 w-5" />
             Log Out
