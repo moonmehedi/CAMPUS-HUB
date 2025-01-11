@@ -4,7 +4,7 @@ import styles from '../../../styles/profile.module.css'
 const memberDetails = {
   id: '1',
   name: 'Arqam Bin Almas',
-  avatar: '/placeholder.svg',
+  avatar: 'https://media.licdn.com/dms/image/v2/D5603AQEkIGl2qoJm0A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1674890799757?e=1741824000&v=beta&t=0QbIN20PoAsb-4Jdmfbey0oLtxkYNIwtUq8YT2_xeec',
   studentRoll: '202214011',
   batch: 'CSE-22',
   mobileNumber: '01841225706',
@@ -16,10 +16,15 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     <div className={styles.container}>
       <div className={styles.profileCard}>
         <div className={styles.avatarSection}>
-          <Avatar className="h-32 w-32">
+          {/* <Avatar className="h-32 w-32">
             <AvatarImage src={memberDetails.avatar} alt={memberDetails.name} />
             <AvatarFallback>{memberDetails.name[0]}</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
+          <img
+            src={memberDetails.avatar}
+            alt={memberDetails.name}
+            className="h-32 w-32 rounded-full"
+          />
           <h2 className="mt-4 text-center font-semibold">{memberDetails.name}</h2>
         </div>
         <div className={styles.detailsSection}>

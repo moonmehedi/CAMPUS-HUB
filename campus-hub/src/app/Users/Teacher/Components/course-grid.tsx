@@ -9,12 +9,12 @@ const courses = [
     color: "blue" as const,
     instructors: [
       {
-        image: "/placeholder.svg",
+        image: "https://uniplex.mist.ac.bd:8443/admission-api/files/view/55a436f6-604b-4d16-a1dd-bc6fdb46a456/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NWE0MzZmNi02MDRiLTRkMTYtYTFkZC1iYzZmZGI0NmE0NTYiLCJleHAiOjE3MzY2ODY3MDEsImlhdCI6MTczNjYwMDMwMX0.dOhnvJHeGzRE-x9AeoKY7jGlwlfJNQX7xTsl2vJ3imk",
         name: "John Doe",
         initials: "JD"
       },
       {
-        image: "/placeholder.svg",
+        image: "https://uniplex.mist.ac.bd:8443/admission-api/files/view/6202bc51-e351-4ed4-bafd-fc256d0da88f/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjAyYmM1MS1lMzUxLTRlZDQtYmFmZC1mYzI1NmQwZGE4OGYiLCJleHAiOjE3MzY2ODY3MDEsImlhdCI6MTczNjYwMDMwMX0.vFvx4QGf6CBvLm0QGJ-XvzjKVrADawgSAmsls1oFu7o",
         name: "Jane Smith",
         initials: "JS"
       }

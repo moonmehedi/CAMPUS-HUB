@@ -22,8 +22,8 @@ export function ProfileButton() {
         onClick={() => setShowProfile(true)}
       >
         <Avatar>
-          <AvatarImage src="/placeholder.svg" alt="Profile" />
-          <AvatarFallback>AH</AvatarFallback>
+          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/becc4c6c-a257-4231-b1d2-065603fade12/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZWNjNGM2Yy1hMjU3LTQyMzEtYjFkMi0wNjU2MDNmYWRlMTIiLCJleHAiOjE3MzY2ODY2NjEsImlhdCI6MTczNjYwMDI2MX0.Y20NJ9T0hp9Vsz5afdte_pVQcfgXYf5ZqhLO4F17M94" alt="Profile" />
+          <AvatarFallback>SH</AvatarFallback>
         </Avatar>
       </Button>
 
@@ -38,7 +38,7 @@ export function ProfileButton() {
               <AvatarFallback>AH</AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="text-lg font-semibold">Abid Hossain</h3>
+              <h3 className="text-lg font-semibold">Sadia Hossain</h3>
               <p className="text-sm text-muted-foreground">+1 234 567 890</p>
             </div>
           </div>
