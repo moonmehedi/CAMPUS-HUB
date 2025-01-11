@@ -4,7 +4,7 @@ import { AlertCircle } from 'lucide-react'
 import { Sidebar } from "../Components/sidebar"
 import { Header } from "../Components/header"
 import { ProfileDrawer } from "../Components/profile-drawer"
-import styles from './notice.module.css'
+import styles from '../styles/notice.module.css'
 
 interface NoticeProps {
   title: string

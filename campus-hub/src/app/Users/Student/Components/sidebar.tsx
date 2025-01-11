@@ -14,7 +14,7 @@ const navigation = [
   { name: "Course Advisor", href: "/Users/Student/Course_advisor", icon: Users2 },
   { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
   { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
-  { name: "Community Chat", href: "/Users/Student/Community_Chat", icon: MessagesSquare },
+  { name: "Community Chat", href: "/Users/Student/community-chat", icon: MessagesSquare },
 ];
 
 export function Sidebar() {

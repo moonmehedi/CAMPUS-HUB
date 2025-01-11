@@ -39,11 +39,6 @@ const sidebarItems = [
     icon: UserSquare2,
     href: "/Users/Teacher/Attendance",
   },
-  {
-    title: "Community Chat",
-    icon: Users,
-    href: "/Users/Teacher/Community_Chat",
-  },
 ]
 
 export function Sidebar() {
