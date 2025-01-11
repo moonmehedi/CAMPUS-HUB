@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
@@ -8,17 +8,13 @@ import { cn } from "@/lib/utils"
 
 type ViewType = "day" | "week" | "month" | "year"
 
-// Updated time slots from 8 AM to 3 PM
-const timeSlots = Array.from({ length: 8 }, (_, i) => i + 8) // 8 AM to 3 PM
+const timeSlots = [
+  "8 AM", "9 AM", "10 AM", "11 AM", "12 PM",
+  "1 PM", "2 PM", "3 PM"
+]
 
 const daysOfWeek = [
-  { short: "SUN", long: "Sunday" },
-  { short: "MON", long: "Monday" },
-  { short: "TUE", long: "Tuesday" },
-  { short: "WED", long: "Wednesday" },
-  { short: "THU", long: "Thursday" },
-  { short: "FRI", long: "Friday" },
-  { short: "SAT", long: "Saturday" },
+  "SUN", "MON", "TUE", "WED", "THU"
 ]
 
 const exams = [
@@ -26,7 +22,7 @@ const exams = [
     id: 1,
     title: "Sociology CT2",
     date: new Date(2024, 0, 22), // January 22, 2024
-    startTime: 8,
+    startTime: "8 AM",
     duration: 1,
     color: "bg-purple-100 text-purple-900",
   },
@@ -34,48 +30,51 @@ const exams = [
     id: 2,
     title: "Software Engineering CT1",
     date: new Date(2024, 0, 25), // January 25, 2024
-    startTime: 8,
+    startTime: "8 AM",
     duration: 1,
     color: "bg-blue-100 text-blue-900",
   },
-]
+];
+
 
 export function ExamCalendar() {
   const [view, setView] = useState<ViewType>("week")
-  const [currentDate] = useState(new Date(2024, 0, 22)) // January 22, 2024
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 0, 21)) // January 21, 2024 (Sunday)
 
-  const startOfWeek = new Date(currentDate)
-  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay())
+  const goToToday = () => setCurrentDate(new Date())
+  const goBack = () => {
+    const newDate = new Date(currentDate)
+    newDate.setDate(currentDate.getDate() - 7)
+    setCurrentDate(newDate)
+  }
+  const goForward = () => {
+    const newDate = new Date(currentDate)
+    newDate.setDate(currentDate.getDate() + 7)
+    setCurrentDate(newDate)
+  }
 
-  const dates = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(startOfWeek)
-    date.setDate(startOfWeek.getDate() + i)
+  const dates = Array.from({ length: 5 }, (_, i) => {
+    const date = new Date(currentDate)
+    date.setDate(currentDate.getDate() + i)
     return date
   })
+
+  const monthYear = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`
 
   return (
     <div className="bg-white rounded-lg shadow h-[calc(100vh-120px)] flex flex-col">
       <div className="p-4 flex items-center justify-between border-b">
-        <div className="flex-1 flex justify-start">
-          <div className="relative w-[200px]">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search exams..."
-              className="pl-8"
-            />
-          </div>
-        </div>
-        <div className="flex-1 flex items-center justify-center space-x-4">
-          <Button variant="ghost" size="icon">
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" size="icon" onClick={goBack}>
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="outline">Today</Button>
-          <Button variant="ghost" size="icon">
+          <Button variant="outline" onClick={goToToday}>Today</Button>
+          <div className="text-lg font-semibold px-4">{monthYear}</div>
+          <Button variant="ghost" size="icon" onClick={goForward}>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex items-center space-x-2">
           <div className="flex items-center rounded-lg border bg-card text-card-foreground shadow-sm">
             {(["day", "week", "month", "year"] as const).map((viewType) => (
               <Button
@@ -92,64 +91,70 @@ export function ExamCalendar() {
               </Button>
             ))}
           </div>
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search exams..."
+              className="w-[200px] pl-8"
+            />
+          </div>
         </div>
       </div>
+      <div className="text-center py-2 text-lg font-semibold border-b">{monthYear}</div>
       <div className="flex-1 overflow-auto">
         <div className="grid grid-cols-[auto,1fr] min-w-[800px]">
-          <div className="w-20" /> {/* Increased width for time column */}
-          <div className="grid grid-cols-7 text-center py-4 border-b">
+          <div className="w-20" />
+          <div className="grid grid-cols-5 text-center py-2 border-b">
             {dates.map((date, i) => (
               <div key={i} className="flex flex-col items-center">
                 <div className="text-sm text-muted-foreground">
-                  {daysOfWeek[i].short}
+                  {daysOfWeek[i]}
                 </div>
-                <div className="text-xl font-semibold mt-1">{date.getDate()}</div>
+                <div className="text-lg font-semibold">{date.getDate()}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-[auto,1fr] divide-y min-w-[800px]">
-          {timeSlots.map((hour) => (
-            <div key={hour} className="grid grid-cols-[auto,1fr]">
-              <div className="w-20 py-8 px-4 text-right text-sm text-muted-foreground">
-                {hour % 12 || 12} {hour < 12 ? "AM" : "PM"}
-              </div>
-              <div className="grid grid-cols-7 border-l">
-                {dates.map((date, dayIndex) => {
-                  const exam = exams.find(
-                    (e) =>
-                      e.startTime === hour &&
-                      e.date.getDate() === date.getDate() &&
-                      e.date.getMonth() === date.getMonth()
-                  )
-
-                  return (
-                    <div
-                      key={dayIndex}
-                      className={cn(
-                        "border-r py-8 px-4", // Increased padding for larger cells
-                        dayIndex === 6 && "border-r-0"
-                      )}
-                    >
-                      {exam && (
-                        <div
-                          className={cn(
-                            "p-2 rounded text-sm h-full",
-                            exam.color
-                          )}
-                        >
-                          {exam.title}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
+        {timeSlots.map((time) => (
+          <div key={time} className="grid grid-cols-[auto,1fr]">
+            <div className="w-20 py-2 px-2 text-right text-sm text-muted-foreground">
+              {time}
             </div>
-          ))}
-        </div>
+            <div className="grid grid-cols-5 border-l">
+              {dates.map((date, dayIndex) => {
+                const exam = exams.find(
+                  (e) =>
+                    e.startTime === time &&
+                    e.date.getDate() === date.getDate() &&
+                    e.date.getMonth() === date.getMonth()
+                )
+
+                return (
+                  <div
+                    key={dayIndex}
+                    className={cn(
+                      "border-r h-16 p-1 flex flex-col justify-center", // Consistent placement
+                      dayIndex === 4 && "border-r-0"
+                    )}
+                  >
+                    {exam && (
+                      <div
+                        className={cn(
+                          "p-1 rounded text-xs h-full flex items-center justify-center",
+                          exam.color
+                        )}
+                      >
+                        {exam.title}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
 }
-
