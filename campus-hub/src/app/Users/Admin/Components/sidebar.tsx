@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation" // Import useRouter for redirection
 import { BookOpen, GraduationCap, Home, LogOut, ScrollText, MessageCircle } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
@@ -18,7 +18,6 @@ const sidebarItems = [
     icon: ScrollText,
     href: "/Users/Admin/Notice",
   },
- 
   {
     title: "Course Registration",
     icon: BookOpen,
@@ -43,6 +42,14 @@ const sidebarItems = [
 
 export function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter() // Initialize useRouter
+
+  // Handle logout
+  const handleLogout = () => {
+    // Perform any required logout operations here (e.g., clearing tokens or session storage)
+    console.log("User logged out")
+    router.push("/") // Redirect to the main page
+  }
 
   return (
     <aside className="fixed left-0 top-0 z-30 h-screen w-64 border-r bg-gradient-to-b from-[#003B73] to-[#60A3D9] text-white">
@@ -70,6 +77,7 @@ export function Sidebar() {
           <Button
             variant="ghost"
             className="w-full justify-start text-white hover:bg-white/10"
+            onClick={handleLogout} // Attach the logout handler here
           >
             <LogOut className="mr-3 h-5 w-5" />
             Log Out
@@ -79,4 +87,3 @@ export function Sidebar() {
     </aside>
   )
 }
-
