@@ -23,7 +23,7 @@ export function ProfileDrawer() {
         </SheetHeader>
         <div className="flex flex-col items-center justify-center space-y-4 py-12">
           <Avatar className="h-32 w-32">
-            <AvatarImage src="/placeholder.svg" alt="Profile Picture" />
+            <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/0918307f-37a2-4fc5-b77d-28b6e8e020e2/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwOTE4MzA3Zi0zN2EyLTRmYzUtYjc3ZC0yOGI2ZThlMDIwZTIiLCJleHAiOjE3MzY2ODI3NjUsImlhdCI6MTczNjU5NjM2NX0.kjLRhjmnQRXrOlwcxNrhu7oKaPl0R3DazEgrhtd55a8" alt="Profile Picture" />
             <AvatarFallback>MH</AvatarFallback>
           </Avatar>
           <h2 className="text-2xl font-bold">Mehedi Hasan Moon</h2>
