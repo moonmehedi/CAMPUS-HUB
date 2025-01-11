@@ -1,67 +1,81 @@
 .scholarship-application-container {
-    min-height: 100vh;
-    background-color: #f8f9fa;
-  }
-  
-  .scholarship-application-content {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .scholarship-application-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-  }
-  
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.scholarship-application-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.scholarship-application-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.scholarship-application-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
   .scholarship-application-sections {
-    display: flex;
-    gap: 2rem;
+    flex-direction: row;
   }
-  
-  .scholarship-form-section {
-    flex: 1;
-  }
-  
-  .applications-table-section {
-    flex: 1;
-  }
-  
-  .section-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .search-bar {
-    position: relative;
-    margin-bottom: 1rem;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-    color: #6b7280;
-  }
-  
-  .search-input {
-    padding-left: 2.5rem;
-    background-color: #f3f4f6;
-    border: none;
-  }
-  
-  .applications-table-container {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-  }
-  
-  /* Add any additional styles for form elements, buttons, etc. */
-  
-  
+}
+
+.scholarship-form-section {
+  flex: 1;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.applications-table-section {
+  flex: 1;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.search-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: #6b7280;
+}
+
+.search-input {
+  padding-left: 2.5rem;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+.applications-table-container {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* Add any additional styles for form elements, buttons, etc. */
+
