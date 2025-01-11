@@ -59,12 +59,7 @@ export default function PlanPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="border-t px-4 py-2">DSA</td>
-                      <td className="border-t px-4 py-2">CSE-205</td>
-                      <td className="border-t px-4 py-2">3.00</td>
-                      <td className="border-t px-4 py-2">1.00</td>
-                    </tr>
+                    
                     <tr>
                       <td className="border-t px-4 py-2">Compiler</td>
                       <td className="border-t px-4 py-2">CSE-305</td>

@@ -89,6 +89,14 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
               <Label htmlFor="courseCode">Course Code</Label>
               <Input id="courseCode" placeholder="Enter course code" />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="date">Date</Label>
+              <Input id="date" placeholder="Enter date" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="hour">Hour</Label>
+              <Input id="hour" placeholder="Enter class hour" />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="reason">Reason</Label>

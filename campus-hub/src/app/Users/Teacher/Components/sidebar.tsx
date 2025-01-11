@@ -34,6 +34,7 @@ const sidebarItems = [
     icon: GraduationCap,
     href: "/Users/Teacher/Scholarship",
   },
+ 
   {
     title: "Attendance",
     icon: UserSquare2,
