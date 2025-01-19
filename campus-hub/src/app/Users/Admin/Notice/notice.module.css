@@ -5,6 +5,7 @@
   background-color: white;
   transition: transform 0.2s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem; /* Added margin-bottom to increase gap between notices */
 }
 
 .notice:hover {
@@ -65,6 +66,7 @@
 }
 
 .noticeScrollContainer {
+  padding: 1rem;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -96,4 +98,50 @@
   border-radius: 4px;
   font-size: 16px;
   resize: vertical;
+}
+
+.addNoticeForm {
+  /* margin: 15px 15px 15px 15px; */
+  display: flex;
+  flex-direction:row;
+  /* gap: 1rem; */
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  overflow:auto;
+  margin-top: 1rem; 
+  border: 1px solid black;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.input, .textarea, .select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  margin-top: 1%;
+  align-self:center;
+  padding: 2rem 4rem;
+}
+
+.formContainer {
+  
+  padding: 1rem;
+  height: 1%;
+  width: 100%;
+  margin:0 auto;
 }

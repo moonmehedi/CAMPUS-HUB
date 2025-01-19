@@ -1,10 +1,11 @@
 "use client"
+import { useState } from 'react';
 import { AlertCircle } from 'lucide-react'
 import { Sidebar } from "../Components/sidebar"
 import { DashboardHeader } from "../Components/dashboard-header"
+import AddNoticeForm from './AddNoticeForm';
 import styles from './notice.module.css'
 import { Button } from "@nextui-org/button";
-import { useState } from 'react';
 
 interface NoticeProps {
   user_id: string,
@@ -62,7 +63,7 @@ function Notice({ user_id, message_id, title, message, timestamp, type = 'info' 
   );
 }
 
-const notices = [
+const initialNotices = [
   {
     user_id: "admin",
     message_id: "1",
@@ -106,6 +107,12 @@ const notices = [
 ]
 
 export default function NoticePage() {
+  const [notices, setNotices] = useState(initialNotices);
+
+  const handleAddNotice = (newNotice: any) => {
+    setNotices([newNotice, ...notices]);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex h-screen">
@@ -117,19 +124,20 @@ export default function NoticePage() {
               <div className="p-4 border-b sticky top-0 bg-white z-10">
                 <h2 className="text-xl font-semibold">Notices</h2>
               </div>
-              <div className={styles.noticeScrollContainer}>
-                <div className="p-6 space-y-4">
+              <div className="p-1 flex-1 overflow-auto ">
+                <AddNoticeForm onAddNotice={handleAddNotice} />
+              </div>
+                <div className={styles.noticeScrollContainer}>
                   {notices.map((notice, index) => (
                     <Notice key={index} {...notice} />
                   ))}
                 </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 
