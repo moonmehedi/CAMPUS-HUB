@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useState, useCallback } from "react";
 import { Sidebar } from "../Components/sidebar";
 import { Header } from "../Components/header";
@@ -13,12 +12,10 @@ import { Upload } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
-// Interface for LeaveApplicationForm props
 interface LeaveApplicationFormProps {
   setIsPopupOpen: (isOpen: boolean) => void;
 }
 
-// Main Leave Application Page
 export default function LeaveApplicationPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -34,7 +31,6 @@ export default function LeaveApplicationPage() {
           <ProfileDrawer />
         </div>
       </div>
-      {/* Dialog Popup */}
       <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
         <DialogContent>
           <DialogHeader>
@@ -50,11 +46,49 @@ export default function LeaveApplicationPage() {
   );
 }
 
-// Leave Application Form Component
 function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    id: '',
+    level: '',
+    department: '',
+    section: '',
+    courseCode: '',
+    date: '',
+    hour: '',
+    reason: '',
+    document:'',
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsPopupOpen(true);
+
+    // Make a POST request to the backend
+    try {
+      const response = await fetch("http://localhost:3000/submit-leave-application", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsPopupOpen(true);
+      } else {
+        console.error("Failed to submit the application");
+      }
+    } catch (error) {
+      console.error("Error submitting the application", error);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
@@ -67,45 +101,97 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" />
+              <Input
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="id">ID</Label>
-              <Input id="id" placeholder="Enter your ID" />
+              <Input
+                id="id"
+                name="id"
+                placeholder="Enter your ID"
+                value={formData.id}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="level">Level</Label>
-              <Input id="level" placeholder="Enter your level" />
+              <Input
+                id="level"
+                name="level"
+                placeholder="Enter your level"
+                value={formData.level}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="department">Department</Label>
-              <Input id="department" placeholder="Enter your department" />
+              <Input
+                id="department"
+                name="department"
+                placeholder="Enter your department"
+                value={formData.department}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="section">Section</Label>
-              <Input id="section" placeholder="Enter your section" />
+              <Input
+                id="section"
+                name="section"
+                placeholder="Enter your section"
+                value={formData.section}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="courseCode">Course Code</Label>
-              <Input id="courseCode" placeholder="Enter course code" />
+              <Input
+                id="courseCode"
+                name="courseCode"
+                placeholder="Enter course code"
+                value={formData.courseCode}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="date">Date</Label>
-              <Input id="date" placeholder="Enter date" />
+              <Input
+                id="date"
+                name="date"
+                placeholder="Enter date"
+                value={formData.date}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="hour">Hour</Label>
-              <Input id="hour" placeholder="Enter class hour" />
+              <Input
+                id="hour"
+                name="hour"
+                placeholder="Enter class hour"
+                value={formData.hour}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="reason">Reason</Label>
             <Textarea
               id="reason"
+              name="reason"
               placeholder="Explain the reason why you want a leave"
               className="min-h-[150px]"
+              value={formData.reason}
+              onChange={handleInputChange}
             />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="documents">Upload Necessary Documents</Label>
             <FileUpload />
@@ -118,6 +204,8 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
     </Card>
   );
 }
+
+
 
 // File Upload Component
 function FileUpload() {
