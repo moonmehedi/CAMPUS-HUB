@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useCallback } from "react";
 import { Sidebar } from "../Components/sidebar";
 import { Header } from "../Components/header";
@@ -48,38 +48,50 @@ export default function LeaveApplicationPage() {
 
 function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    id: '',
-    level: '',
-    department: '',
-    section: '',
-    courseCode: '',
-    date: '',
-    hour: '',
-    reason: '',
-    document:'',
+    name: "",
+    id: "",
+    level: "",
+    department: "",
+    section: "",
+    courseCode: "",
+    date: "",
+    class_period: "",
+    reason: "",
+    document: null,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Make a POST request to the backend
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("id", formData.id);
+    data.append("level", formData.level);
+    data.append("department", formData.department);
+    data.append("section", formData.section);
+    data.append("courseCode", formData.courseCode);
+    data.append("date", formData.date);
+    data.append("class_period", formData.class_period);
+    data.append("reason", formData.reason);
+
+    if (formData.document) {
+      data.append("document", formData.document);
+    }
+
     try {
       const response = await fetch("http://localhost:3000/submit-leave-application", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data,
       });
 
       if (response.ok) {
         setIsPopupOpen(true);
+        console.log("Application submitted successfully.");
       } else {
-        console.error("Failed to submit the application");
+        console.error("Failed to submit the application.");
       }
     } catch (error) {
-      console.error("Error submitting the application", error);
+      console.error("Error submitting the application:", error);
     }
   };
 
@@ -91,6 +103,13 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
     }));
   };
 
+  const handleFileUpload = useCallback((file: File) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      document: file,
+    }));
+  }, []);
+
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="bg-blue-100 rounded-t-lg">
@@ -99,146 +118,52 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="id">ID</Label>
-              <Input
-                id="id"
-                name="id"
-                placeholder="Enter your ID"
-                value={formData.id}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="level">Level</Label>
-              <Input
-                id="level"
-                name="level"
-                placeholder="Enter your level"
-                value={formData.level}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="department">Department</Label>
-              <Input
-                id="department"
-                name="department"
-                placeholder="Enter your department"
-                value={formData.department}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="section">Section</Label>
-              <Input
-                id="section"
-                name="section"
-                placeholder="Enter your section"
-                value={formData.section}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="courseCode">Course Code</Label>
-              <Input
-                id="courseCode"
-                name="courseCode"
-                placeholder="Enter course code"
-                value={formData.courseCode}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
-              <Input
-                id="date"
-                name="date"
-                placeholder="Enter date"
-                value={formData.date}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="hour">Hour</Label>
-              <Input
-                id="hour"
-                name="hour"
-                placeholder="Enter class hour"
-                value={formData.hour}
-                onChange={handleInputChange}
-              />
-            </div>
+            <InputField label="Name" name="name" value={formData.name} onChange={handleInputChange} />
+            <InputField label="ID" name="id" value={formData.id} onChange={handleInputChange} />
+            <InputField label="Level" name="level" value={formData.level} onChange={handleInputChange} />
+            <InputField label="Department" name="department" value={formData.department} onChange={handleInputChange} />
+            <InputField label="Section" name="section" value={formData.section} onChange={handleInputChange} />
+            <InputField label="Course Code" name="courseCode" value={formData.courseCode} onChange={handleInputChange} />
+            <InputField label="Date" name="date" value={formData.date} onChange={handleInputChange} />
+            <InputField label="Class Period" name="class_period" value={formData.class_period} onChange={handleInputChange} />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="reason">Reason</Label>
-            <Textarea
-              id="reason"
-              name="reason"
-              placeholder="Explain the reason why you want a leave"
-              className="min-h-[150px]"
-              value={formData.reason}
-              onChange={handleInputChange}
-            />
+          <div>
+            <Label>Reason</Label>
+            <Textarea name="reason" value={formData.reason} onChange={handleInputChange} />
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="documents">Upload Necessary Documents</Label>
-            <FileUpload />
+          <div>
+            <Label>Upload Document</Label>
+            <FileUpload onFileUpload={handleFileUpload} />
           </div>
-          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </form>
       </CardContent>
     </Card>
   );
 }
 
+function InputField({ label, name, value, onChange }: any) {
+  return (
+    <div>
+      <Label>{label}</Label>
+      <Input name={name} value={value} onChange={onChange} />
+    </div>
+  );
+}
 
-
-// File Upload Component
-function FileUpload() {
-  const [files, setFiles] = useState<File[]>([]);
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(
-      acceptedFiles.map((file) =>
-        Object.assign(file, { preview: URL.createObjectURL(file) })
-      )
-    );
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+function FileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        onFileUpload(acceptedFiles[0]);
+      }
+    },
+  });
 
   return (
-    <div
-      {...getRootProps()}
-      className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gray-400"
-    >
+    <div {...getRootProps()} className="border-2 border-dashed border-gray-300 p-4 rounded-md">
       <input {...getInputProps()} />
-      <Upload className="mx-auto h-12 w-12 text-gray-400" />
-      {isDragActive ? (
-        <p className="mt-2">Drop the files here...</p>
-      ) : (
-        <p className="mt-2">
-          Drag 'n' drop some files here, or click to select files
-        </p>
-      )}
-      {files.length > 0 && (
-        <div className="mt-4">
-          <p className="text-sm text-gray-500">{files.length} file(s) selected</p>
-        </div>
-      )}
+      <p>Drag & drop a file, or click to select one</p>
     </div>
   );
 }
