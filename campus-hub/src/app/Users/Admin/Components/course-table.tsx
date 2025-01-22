@@ -1,75 +1,103 @@
 "use client"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-interface Course {
+interface Student {
+  id: string
   name: string
-  availableSeats: number
+  selectedCourses: string[]
+  addedCourses: string[]
+  droppedCourses: string[]
 }
 
-const courses: Course[] = [
-  { name: "CSE 101", availableSeats: 50 },
-  { name: "CSE 102", availableSeats: 40 },
-  { name: "CSE 103", availableSeats: 30 },
-  { name: "CSE 201", availableSeats: 60 },
-  { name: "CSE 202", availableSeats: 45 },
-  { name: "CSE 203", availableSeats: 35 },
-  { name: "CSE 301", availableSeats: 20 },
-  { name: "CSE 302", availableSeats: 25 },
-  { name: "CSE 303", availableSeats: 15 },
-  { name: "CSE 401", availableSeats: 10 },
-  { name: "CSE 402", availableSeats: 5 },
-  { name: "CSE 403", availableSeats: 8 },
+const students: Student[] = [
+  { 
+    id: "1", 
+    name: "John Doe", 
+    selectedCourses: ["CSE 101", "CSE 201", "CSE 301"],
+    addedCourses: ["CSE 101", "CSE 201"], 
+    droppedCourses: ["CSE 301"] 
+  },
+  { 
+    id: "2", 
+    name: "Jane Smith", 
+    selectedCourses: ["CSE 102", "CSE 202"],
+    addedCourses: ["CSE 102", "CSE 202"], 
+    droppedCourses: ["CSE 302"] 
+  },
+  { 
+    id: "3", 
+    name: "Bob Johnson", 
+    selectedCourses: ["CSE 103", "CSE 203", "CSE 303"],
+    addedCourses: ["CSE 103", "CSE 203"], 
+    droppedCourses: [] 
+  },
 ];
 
-export function CourseTable() {
-  const [lockedCourses, setLockedCourses] = useState<Set<number>>(new Set())
+interface StudentRegistrationTableProps {
+  isRegistrationLocked: boolean
+}
 
-  const toggleLock = (index: number) => {
-    setLockedCourses(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(index)) {
-        newSet.delete(index)
-      } else {
-        newSet.add(index)
-      }
-      return newSet
-    })
-  }
-
+export function StudentRegistrationTable({ isRegistrationLocked }: StudentRegistrationTableProps) {
   return (
-    <div className="course-table-container">
-      <table className="course-table">
-        <thead>
-          <tr>
-            <th>Course Name</th>
-            <th>Total Seats</th>
-            <th>Check Availability</th>
-            <th>Lock Registration</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course, index) => (
-            <tr key={index} className={index % 2 === 0 ? "bg-blue-50" : ""}>
-              <td>{course.name}</td>
-              <td>{course.availableSeats}</td>
-              <td>
-                <Button variant="secondary" className="btn-view">
-                  View
-                </Button>
-              </td>
-              <td>
-                <Switch
-                  checked={lockedCourses.has(index)}
-                  onChange={() => toggleLock(index)}
-                />
-              </td>
-            </tr>
+    <div className="student-registration-table-container">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Student Name</TableHead>
+            <TableHead>Selected Courses</TableHead>
+            <TableHead>View Details</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {students.map((student) => (
+            <TableRow key={student.id}>
+              <TableCell>{student.name}</TableCell>
+              <TableCell>{student.selectedCourses.join(", ")}</TableCell>
+              <TableCell>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="secondary" className="btn-view">
+                      View
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{student.name}'s Course Registration Details</DialogTitle>
+                    </DialogHeader>
+                    <div className="mt-4">
+                      <h3 className="font-semibold mb-2">Selected Courses:</h3>
+                      <ul>
+                        {student.selectedCourses.map((course, index) => (
+                          <li key={index}>{course}</li>
+                        ))}
+                      </ul>
+                      <h3 className="font-semibold mt-4 mb-2">Added Courses:</h3>
+                      <ul>
+                        {student.addedCourses.map((course, index) => (
+                          <li key={index}>{course}</li>
+                        ))}
+                      </ul>
+                      <h3 className="font-semibold mt-4 mb-2">Dropped Courses:</h3>
+                      <ul>
+                        {student.droppedCourses.map((course, index) => (
+                          <li key={index}>{course}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
+      {isRegistrationLocked && (
+        <div className="mt-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+          Registration is currently locked. Students cannot modify their course selections.
+        </div>
+      )}
     </div>
   )
 }
-

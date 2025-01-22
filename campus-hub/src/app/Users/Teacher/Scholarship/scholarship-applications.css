@@ -18,7 +18,6 @@
 
 .scholarship-main {
   flex: 1;
-  padding-left: 16rem; /* 64px for the sidebar width */
 }
 
 .scholarship-content {
@@ -138,3 +137,4 @@
 .forward-button:hover {
   background-color: #fecaca;
 }
+
