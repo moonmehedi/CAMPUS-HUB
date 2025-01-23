@@ -12,7 +12,7 @@ const navigation = [
   { name: "Exam Scheduler", href: "/Users/Student/Exam_Scheduler", icon: Calendar },
   { name: "Course Registration", href: "/Users/Student/Course_registration", icon: BookOpen },
   { name: "Scholarship", href: "/Users/Student/Scholarship", icon: GraduationCap },
-  { name: "Course Advisor", href: "/Users/Student/Course_Advisor", icon: Users2 },
+  { name: "Course Advisor", href: "/Users/Student/Course_advisor", icon: Users2 },
   { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
   { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
   { name: "Community Chat", href: "/Users/Student/community-chat", icon: MessagesSquare },
