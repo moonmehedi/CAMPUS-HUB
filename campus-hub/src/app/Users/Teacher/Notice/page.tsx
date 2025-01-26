@@ -10,10 +10,10 @@ import { Button } from "@nextui-org/button";
 const teacherId = 1001;//needs to be dynamic after implementing cookies
 
 interface NoticeProps {
-  notice_id: string; // UUID from your notices table
-  teacher_id: number; // Integer teacher_id from your notices table
+  notice_id: string; 
+  teacher_id: number; 
   title: string;
-  content: string; // Changed from `message` to `content` to match your schema
+  content: string; 
   created_at: string;
   updated_at?: string;
   type: string;
@@ -94,45 +94,6 @@ function Notice({
   );
 }
 
-const initialNotices = [
-  {
-    user_id: "abidT",
-    message_id: "abidT",
-    title: "Exam Notice",
-    message:
-      "Dear Students your CT exam will be conducted tomorrow at 9:00 am Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos, hic? Necessitatibus totam, consectetur soluta quas nihil, ipsum molestias culpa, velit provident iste similique minima amet recusandae error quam ab. Libero.",
-    timestamp: "12-DEC-2024\n10:15 pm",
-    type: "info" as const,
-  },
-  {
-    user_id: "3",
-    message_id: "4",
-    title: "Library Notice",
-    message:
-      "The library will remain open during winter break from 9 AM to 5 PM.",
-    timestamp: "12-DEC-2024\n9:30 pm",
-    type: "info" as const,
-  },
-  {
-    message_id: "abidT",
-    user_id: "abidT",
-    title: "Sports Day Announcement",
-    message:
-      "Annual Sports Day will be held on December 20th. All students are encouraged to participate.",
-    timestamp: "12-DEC-2024\n9:00 pm",
-    type: "info" as const,
-  },
-  {
-    message_id: "5",
-    user_id: "7",
-    title: "Urgent: System Maintenance",
-    message:
-      "The campus portal will be under maintenance from 2 AM to 4 AM tomorrow.",
-    timestamp: "12-DEC-2024\n8:45 pm",
-    type: "urgent" as const,
-  },
-];
-
 export default function NoticePage() {
   const [notices, setNotices] = useState<NoticeProps[]>([]);
 
@@ -190,7 +151,6 @@ export default function NoticePage() {
     } catch (err) {
       console.error('Error adding notice:', err);
     }
-    // setNotices([newNotice, ...notices]);
   };
   const handleDeleteNotice = async (noticeId: string) => {
     try {
