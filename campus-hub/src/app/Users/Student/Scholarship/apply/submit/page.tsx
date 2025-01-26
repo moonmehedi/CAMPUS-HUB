@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export function SubmittedApplication() {
+export default function SubmittedApplication() {
   // This data would typically come from your backend
   const applicationData = {
     studentName: "John Doe",
