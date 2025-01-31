@@ -1,84 +1,115 @@
-"use client"
+import { useState } from 'react';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import Link from "next/link"
+export function LeaveRequestForm({ leaveDetails }) {
+  const [loading, setLoading] = useState(false);
 
-export function LeaveRequestForm() {
-  const [isPdfOpen, setIsPdfOpen] = useState(false)
+  // Function to convert hex string to an array of bytes (handle any extra characters)
+  function hexToBytes(hex) {
+    if (!hex) return null;
+    const cleanedHex = hex.replace(/^\\x/, '').replace(/\\x/g, '');
+    const bytes = [];
+    for (let i = 0; i < cleanedHex.length; i += 2) {
+      bytes.push(parseInt(cleanedHex.substr(i, 2), 16));
+    }
+    return new Uint8Array(bytes);
+  }
+
+  // Convert the document from hex string to Blob URL if available
+  const documentUrl = leaveDetails.document
+    ? URL.createObjectURL(new Blob([hexToBytes(leaveDetails.document)]))
+    : null;
+
+  // Function to handle download click
+  const handleDownload = () => {
+    if (documentUrl) {
+      const link = document.createElement('a');
+      link.href = documentUrl;
+      link.download = 'leave_document.pdf';
+      link.click();
+    }
+  };
+
+  // Function to update leave status (Approve/Cancel)
+  const updateLeaveStatus = async (status) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:3000/leave/update-leave-status', {  // Correct URL for the POST request
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          student_id: leaveDetails.student_id,
+          leave_date: leaveDetails.leave_date,
+          class_period: leaveDetails.class_period,
+          course_code: leaveDetails.course_code,
+          status,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update leave status');
+      }
+
+      // Optionally handle successful update (e.g., show success message)
+      alert(`Leave status updated to ${status ? 'Approved' : 'Cancelled'}`);
+      window.location.href = '/Users/Admin/Leave_requests';
+    } catch (error) {
+      // Handle error (e.g., show error message)
+      alert('Error updating leave status: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Card className="max-w-3xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-center text-xl">Leave Request</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <p><strong>Name:</strong> Sadia Jahan Moon</p>
-            <p><strong>ID:</strong> 202114085</p>
-            <p><strong>Level:</strong> Level 3</p>
-            <p><strong>Department:</strong> CSE</p>
-            <p><strong>Section:</strong> A</p>
-            <p><strong>Course:</strong> CSE-303</p>
-            <p><strong>Date:</strong> 15/12/2025</p>
-            <p><strong>Hour:</strong> 10:00-10:50</p>
-          </div>
+    <div className="max-w-3xl mx-auto">
+      <h1 className="text-xl font-semibold mb-6">Leave Request Details</h1>
+      <div className="space-y-4">
+        <p><strong>Name:</strong> {leaveDetails.student_name}</p>
+        <p><strong>ID:</strong> {leaveDetails.student_id}</p>
+        <p><strong>Department:</strong> {leaveDetails.dept}</p>
+        <p><strong>Course Code:</strong> {leaveDetails.course_code}</p>
+        <p><strong>Date:</strong> {leaveDetails.leave_date}</p>
+        <p><strong>Period:</strong> {leaveDetails.class_period}</p>
+        <p><strong>Reason:</strong> {leaveDetails.reason}</p>
 
-          <div className="space-y-2">
-            <p><strong>Reason:</strong> I have a medical appointment scheduled so that I can not attend the class.</p>
-          </div>
-
-          <div className="space-y-2">
-            <p><strong>Medical Documents:</strong></p>
-            <Dialog open={isPdfOpen} onOpenChange={setIsPdfOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="w-full">View Uploaded Document</Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[80vh]">
-                <DialogTitle className="sr-only">Medical Document Details</DialogTitle>
-                <div className="bg-white p-6 rounded-lg shadow-md">
-                  <h2 className="text-2xl font-bold mb-4">Doctor Appointment Confirmation</h2>
-                  <p className="mb-4">This is to confirm that you, Sadia Jahan Moon, have an appointment scheduled with the doctor.</p>
-                  <h3 className="text-xl font-semibold mb-2">Appointment Details:</h3>
-                  <ul className="list-disc list-inside mb-4">
-                    <li>Doctor's Name: Dr. John Doe</li>
-                    <li>Specialization: General Physician</li>
-                    <li>Appointment Date: January 15, 2025</li>
-                    <li>Appointment Time: 3:00 PM</li>
-                    <li>Clinic Address: 123 Healthcare Street, Cityville, Country</li>
-                  </ul>
-                  <p className="mb-4">Please ensure to arrive at least 10 minutes before your scheduled time.</p>
-                  <p>For any changes or cancellations, contact the clinic at (123) 456-7890.</p>
-                  <p className="mt-4 font-semibold">Thank you.</p>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          <div className="flex justify-center space-x-4">
-          <Link href="/Users/Admin/Leave_requests">
-            <Button 
-              type="submit"
-              
-              className="w-32 bg-[#60A3D9] hover:bg-[#003B73]"
+        {/* Display the document if available */}
+        {documentUrl && (
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">Supporting Document</h2>
+            <button
+              onClick={handleDownload}
+              className="bg-white text-black border-2 border-black py-2 px-4 rounded hover:bg-gray-300"
             >
-              Cancel
-            </Button>
-            </Link>
-            <Link href="/Users/Admin/Leave_requests">
-              <Button 
-                type="submit"
-                className="w-32 bg-[#60A3D9] hover:bg-[#003B73]"
+              Download the document
+            </button>
+
+            <div className="mt-4 flex space-x-4">
+              <button
+                onClick={() => updateLeaveStatus(false)} // Cancel updates status to false
+                disabled={loading}
+                className="bg-white text-black border-2 border-black py-2 px-4 rounded hover:bg-gray-300 disabled:opacity-50"
               >
-                Approve
-              </Button>
-            </Link>
+                Cancel
+              </button>
+              <button
+                onClick={() => updateLeaveStatus(true)} // Approve updates status to true
+                
+                
+
+                disabled={loading}
+                className="bg-white text-black border-2 border-black py-2 px-4 rounded hover:bg-gray-300 disabled:opacity-50"
+              >
+                Approve 
+              </button>
+             
+
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
+        )}
+      </div>
+    </div>
+  );
 }
