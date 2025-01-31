@@ -17,7 +17,7 @@ export default function LeaveRequestDetailPage() {
 
     async function fetchLeaveDetails() {
       try {
-        const response = await fetch(`http://localhost:3000/leave-requests/${student_id}`);
+        const response = await fetch(`http://localhost:3000/leave/leave-requests/${student_id}`);
         const data = await response.json();
         console.log("Fetched Leave Details:", data.data); // 🛠️ Add this line
         if (data.success) {

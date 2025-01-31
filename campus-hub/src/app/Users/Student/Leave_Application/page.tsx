@@ -79,7 +79,7 @@ function LeaveApplicationForm({ setIsPopupOpen }: LeaveApplicationFormProps) {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/submit-leave-application", {
+      const response = await fetch("http://localhost:3000/leave/submit-leave-application", {
         method: "POST",
         body: data,
       });

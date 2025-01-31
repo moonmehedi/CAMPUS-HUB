@@ -23,7 +23,7 @@ export default function CourseAdvisorPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/courses-to-improve/${studentId}`);
+      const response = await fetch(`http://localhost:3000/courseadvisor/courses-to-improve/${studentId}`);
       const result = await response.json();
 
       if (result.success) {
@@ -38,6 +38,7 @@ export default function CourseAdvisorPage() {
 
     try {
       const response = await fetch(`http://localhost:3000/courses-to-exam/${studentId}`);
+      //const response = await fetch(`http://localhost:3000/courseadvisor/courses-to-exam/${studentId}`);
       const result = await response.json();
 
       if (result.success) {
@@ -50,7 +51,7 @@ export default function CourseAdvisorPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/all-result/${studentId}`);
+      const response = await fetch(`http://localhost:3000/courseadvisor/all-result/${studentId}`);
       const result = await response.json();
 
       if (result.success) {
