@@ -19,6 +19,7 @@ export default function TeacherLoginPage() {
   const mockTeachers = [
     { phoneNumber: '1234567892', password: 'abcf' },
     { phoneNumber: '9876543210', password: 'wxyz' },
+    { phoneNumber: '01841225706',password:'arqam'},
   ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -12,11 +12,11 @@
   transform: translateY(-2px);
 }
 
-.notice.urgent {
+.notice.admin {
   background-color: rgb(254 226 226);
 }
 
-.notice.info {
+.notice.teacher {
   background-color: rgb(236 253 245);
 }
 

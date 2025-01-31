@@ -1,5 +1,5 @@
 "use client"
-
+import { useEffect, useState } from "react";
 import { AlertCircle } from 'lucide-react'
 import { Sidebar } from "../Components/sidebar"
 import { Header } from "../Components/header"
@@ -7,13 +7,15 @@ import { ProfileDrawer } from "../Components/profile-drawer"
 import styles from '../styles/notice.module.css'
 
 interface NoticeProps {
-  title: string
-  message: string
-  timestamp: string
-  type?: 'urgent' | 'info'
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at?: string;
+  type: string;
 }
 
-function Notice({ title, message, timestamp, type = 'info' }: NoticeProps) {
+
+function Notice({ title, content, created_at, type}: NoticeProps) {
   return (
     <div className={`${styles.notice} ${styles[type]}`}>
       <div className={styles.noticeHeader}>
@@ -21,50 +23,35 @@ function Notice({ title, message, timestamp, type = 'info' }: NoticeProps) {
           <AlertCircle className={styles.noticeIcon} />
           <h3 className={styles.noticeTitle}>{title}</h3>
         </div>
-        <time className={styles.noticeTimestamp}>{timestamp}</time>
+        <time className={styles.noticeTimestamp}>{created_at}</time>
       </div>
       <div className={styles.noticeContent}>
-        <p className={styles.noticeMessage}>{message}</p>
+        <p className={styles.noticeMessage}>{content}</p>
       </div>
     </div>
   )
 }
 
-// Added more sample notices to demonstrate scrolling
-const notices = [
-  {
-    title: 'Notice from Dept.Head',
-    message: 'Dear Students and Faculties you are requested to be present at the auditorium at 11:50 am.Please be present there at time.',
-    timestamp: '12-DEC-2024\n11:15 pm',
-    type: 'urgent' as const,
-  },
-  {
-    title: 'Exam Notice',
-    message: 'Dear Students your CT exam will be conducted tomorrow at 9:00 am',
-    timestamp: '12-DEC-2024\n10:15 pm',
-    type: 'info' as const,
-  },
-  {
-    title: 'Library Notice',
-    message: 'The library will remain open during winter break from 9 AM to 5 PM.',
-    timestamp: '12-DEC-2024\n9:30 pm',
-    type: 'info' as const,
-  },
-  {
-    title: 'Sports Day Announcement',
-    message: 'Annual Sports Day will be held on December 20th. All students are encouraged to participate.',
-    timestamp: '12-DEC-2024\n9:00 pm',
-    type: 'info' as const,
-  },
-  {
-    title: 'Urgent: System Maintenance',
-    message: 'The campus portal will be under maintenance from 2 AM to 4 AM tomorrow.',
-    timestamp: '12-DEC-2024\n8:45 pm',
-    type: 'urgent' as const,
-  },
-]
-
 export default function NoticePage() {
+  const [notices, setNotices] = useState<NoticeProps[]>([]);
+  useEffect(() => {
+    // Fetch notices for the logged-in teacher
+    const fetchNotices = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/notices`);
+        const data = await response.json();
+        if (response.ok) {
+          setNotices(data);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error("Failed to fetch notices:", error);
+      }
+    };
+  
+    fetchNotices();
+  }, []);
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex h-screen">

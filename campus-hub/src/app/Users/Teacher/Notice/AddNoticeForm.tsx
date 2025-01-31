@@ -8,23 +8,25 @@ interface AddNoticeFormProps {
 
 export default function AddNoticeForm({ onAddNotice }: AddNoticeFormProps) {
   const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState<'urgent' | 'info'>('info');
+  const [content, setContent] = useState('');
+  const [type, setType] = useState<'admin' | 'teacher'>('teacher');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    // e.preventDefault();
+    // const teacher_id; // Initialize teacher_id must be change after implementing cookies
+    const teacher_id = 1001
     const newNotice = {
-      user_id: 'admin',
+      teacher_id:teacher_id,
       message_id: Date.now().toString(),
       title,
-      message,
-      timestamp: new Date().toLocaleString(),
+      content,
+      created_at: new Date().toLocaleString(),
       type,
     };
-    onAddNotice(newNotice);
+    await onAddNotice(newNotice);
     setTitle('');
-    setMessage('');
-    setType('info');
+    setContent('');
+    setType('teacher');
   };
 
   return (
@@ -41,10 +43,10 @@ export default function AddNoticeForm({ onAddNotice }: AddNoticeFormProps) {
           />
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.label}>Message</label>
+          <label className={styles.label}>Notice</label>
           <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             className={styles.textarea}
             required
           />
