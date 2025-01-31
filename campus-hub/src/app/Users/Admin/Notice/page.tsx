@@ -28,7 +28,8 @@ function Notice({
   type,
   adminId,
   onDelete,
-}: NoticeProps & { adminId: number; onDelete: (id: string) => void }) {
+  refreshNotices,
+}: NoticeProps & { adminId: number; onDelete: (id: string) => void;refreshNotices: () => void }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
 
@@ -43,11 +44,12 @@ function Notice({
       const response = await fetch(`http://localhost:5000/notices/${notice_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: editedContent }),
+        body: JSON.stringify({ adminId,content: editedContent }),
       });
       if (!response.ok) {
         console.error("Failed to Update Notices");
       }
+      refreshNotices();
     } catch (error) {
       console.error("Error Updating Notice: ", error);
     }
@@ -97,23 +99,6 @@ function Notice({
 export default function NoticePage() {
   const [notices, setNotices] = useState<NoticeProps[]>([]);
 
-  // const fetchNotices = async () => {
-  //   try {
-  //     const response = await fetch(`localhost:5000/notices`);
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setNotices(data);
-  //     }else
-  //     {
-  //       console.error(data.message);
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.error("Failed to fetch notices:", error);
-  //   }
-  //   }
-  // };
-  useEffect(() => {
     // Fetch notices for the logged-in teacher
     const fetchNotices = async () => {
       try {
@@ -121,6 +106,7 @@ export default function NoticePage() {
         const data = await response.json();
         if (response.ok) {
           setNotices(data);
+          console.log(data)
         } else {
           console.error(data.message);
         }
@@ -129,8 +115,9 @@ export default function NoticePage() {
       }
     };
 
-    fetchNotices();
-  }, []);
+    useEffect(()=>{
+      fetchNotices();
+    },[]);
 
   const handleAddNotice = async (newNotice: Omit<NoticeProps, 'notice_id' | 'created_at'>) => {
     try {
@@ -189,8 +176,8 @@ export default function NoticePage() {
                 <AddNoticeForm onAddNotice={handleAddNotice} />
               </div>
               <div className={styles.noticeScrollContainer}>
-                {notices.map((notice, index) => (
-                  <Notice key={index} {...notice} adminId={adminId} onDelete={handleDeleteNotice} />
+                {notices.map((notice) => (
+                  <Notice key={notice.notice_id} {...notice} adminId={adminId} onDelete={handleDeleteNotice} refreshNotices={fetchNotices} />
                 ))}
               </div>
             </div>

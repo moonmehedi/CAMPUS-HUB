@@ -7,13 +7,13 @@ import AddNoticeForm from "./AddNoticeForm";
 import styles from "./notice.module.css";
 import { Button } from "@nextui-org/button";
 
-const teacherId = 1001;//needs to be dynamic after implementing cookies
+const teacherId = 1001; // Needs to be dynamic after implementing cookies
 
 interface NoticeProps {
-  notice_id: string; 
-  teacher_id: number; 
+  notice_id: string;
+  teacher_id: number;
   title: string;
-  content: string; 
+  content: string;
   created_at: string;
   updated_at?: string;
   type: string;
@@ -28,7 +28,8 @@ function Notice({
   type,
   teacherId,
   onDelete,
-}: NoticeProps & { teacherId: number; onDelete: (id: string) => void }) {
+  refreshNotices, // ⬅ New prop to refetch after updating
+}: NoticeProps & { teacherId: number; onDelete: (id: string) => void; refreshNotices: () => void }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
 
@@ -38,23 +39,25 @@ function Notice({
 
   const handleSaveClick = async () => {
     setIsEditing(false);
-    // Save the edited message logic here
     try {
       const response = await fetch(`http://localhost:5000/notices/${notice_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: editedContent }),
+        body: JSON.stringify({ teacherId, content: editedContent }),
       });
+
       if (!response.ok) {
-        console.error("Failed to Update Notices");
+        console.error("Failed to Update Notice");
+        return;
       }
+
+      refreshNotices(); // ⬅ Fetch the latest data instead of reloading
     } catch (error) {
       console.error("Error Updating Notice: ", error);
     }
   };
 
   return (
-    //
     <div className={`${styles.notice} ${styles[type]}`}>
       <div className={styles.noticeHeader}>
         <div className={styles.titleContainer}>
@@ -97,74 +100,53 @@ function Notice({
 export default function NoticePage() {
   const [notices, setNotices] = useState<NoticeProps[]>([]);
 
-  // const fetchNotices = async () => {
-  //   try {
-  //     const response = await fetch(`localhost:5000/notices`);
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setNotices(data);
-  //     }else
-  //     {
-  //       console.error(data.message);
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.error("Failed to fetch notices:", error);
-  //   }
-  //   }
-  // };
-  useEffect(() => {
-    // Fetch notices for the logged-in teacher
-    const fetchNotices = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/notices`);
-        const data = await response.json();
-        if (response.ok) {
-          setNotices(data);
-        } else {
-          console.error(data.message);
-        }
-      } catch (error) {
-        console.error("Failed to fetch notices:", error);
-      }
-    };
+  const fetchNotices = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/notices");
+      if (!response.ok) throw new Error("Failed to fetch notices");
+      const data = await response.json();
+      setNotices(data);
+    } catch (error) {
+      console.error("Failed to fetch notices:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchNotices();
   }, []);
 
-  const handleAddNotice = async (newNotice: Omit<NoticeProps, 'notice_id' | 'created_at'>) => {
+  const handleAddNotice = async (newNotice: Omit<NoticeProps, "notice_id" | "created_at">) => {
     try {
-      const response = await fetch('http://localhost:5000/notices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/notices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newNotice),
       });
 
       if (response.ok) {
-        const {addedNotice} = await response.json();
+        const { addedNotice } = await response.json();
         setNotices([addedNotice[0], ...notices]);
-        alert('Notice added successfully!');
+        alert("Notice added successfully!");
       } else {
         const { error } = await response.json();
         alert(`Error adding notice: ${error}`);
       }
     } catch (err) {
-      console.error('Error adding notice:', err);
+      console.error("Error adding notice:", err);
     }
   };
+
   const handleDeleteNotice = async (noticeId: string) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/notices/${noticeId}`,
-        {
-          method: "DELETE",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ teacherId }),
-        }
-      );
+      const response = await fetch(`http://localhost:5000/notices/${noticeId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ teacherId }),
+      });
+
       if (response.ok) {
         setNotices(notices.filter((notice) => notice.notice_id !== noticeId));
-        alert('Notice Deleted successfully!');
+        alert("Notice Deleted successfully!");
       } else {
         console.error("Failed to delete notice");
       }
@@ -172,25 +154,24 @@ export default function NoticePage() {
       console.error("Error deleting notice:", error);
     }
   };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex h-screen">
         <Sidebar />
         <div className="flex-1 flex flex-col ml-64">
-          {" "}
-          {/* Added margin-left to account for fixed sidebar */}
           <DashboardHeader />
           <div className="flex-1 p-6 overflow-hidden">
             <div className="w-full h-full bg-white rounded-lg shadow-lg border flex flex-col">
               <div className="p-4 border-b sticky top-0 bg-white z-10">
                 <h2 className="text-xl font-semibold">Notices</h2>
               </div>
-              <div className="p-1 flex-1 overflow-auto ">
+              <div className="p-1 flex-1 overflow-auto">
                 <AddNoticeForm onAddNotice={handleAddNotice} />
               </div>
               <div className={styles.noticeScrollContainer}>
-                {notices.map((notice, index) => (
-                  <Notice key={index} {...notice} teacherId={teacherId} onDelete={handleDeleteNotice} />
+                {notices.map((notice) => (
+                  <Notice key={notice.notice_id} {...notice} teacherId={teacherId} onDelete={handleDeleteNotice} refreshNotices={fetchNotices} />
                 ))}
               </div>
             </div>
