@@ -11,7 +11,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import "./scholarship-application.css"
 import "./apply/page.tsx"
-import { SubmittedApplication } from "./apply/submit/submitted-application"
+import SubmittedApplication from "./apply/submit/page"
+
 
 export default function ScholarshipApplicationPage() {
   const [hasSubmitted, setHasSubmitted] = useState(false)

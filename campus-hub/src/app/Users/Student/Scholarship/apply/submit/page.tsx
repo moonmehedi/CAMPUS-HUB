@@ -1,13 +1,30 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
-export function SubmittedApplication() {
-  // This data would typically come from your backend
-  const applicationData = {
-    studentName: "John Doe",
-    applicationNo: "SCH2023001",
-    submissionDate: "2023-05-15",
-  }
+export default function SubmittedApplication() {
+  const [applicationData, setApplicationData] = useState({
+    studentName: "",
+    applicationNo: "",
+    submissionDate: "",
+  })
+
+  useEffect(() => {
+    // This would typically be an API call to fetch the application data
+    const fetchApplicationData = async () => {
+      // Simulating an API call
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      setApplicationData({
+        studentName: "John Doe",
+        applicationNo: "SCH" + Math.floor(1000000 + Math.random() * 9000000),
+        submissionDate: new Date().toISOString().split('T')[0],
+      })
+    }
+
+    fetchApplicationData()
+  }, [])
 
   return (
     <div>
@@ -29,14 +46,13 @@ export function SubmittedApplication() {
         </tbody>
       </table>
       <div className="flex gap-4">
-        <Link href="/scholarship/view-application">
+        <Link href="/Users/Student/Scholarship/apply/submit/view_app">
           <Button variant="outline">View Application</Button>
         </Link>
-        <Link href="/scholarship/modify-application">
+        <Link href="/Users/Student/Scholarship/apply/submit/modify">
           <Button variant="outline">Modify Application</Button>
         </Link>
       </div>
     </div>
   )
 }
-
