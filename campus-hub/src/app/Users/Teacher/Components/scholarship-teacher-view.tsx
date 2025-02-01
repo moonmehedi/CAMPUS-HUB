@@ -1,13 +1,13 @@
 import { ScholarshipTable } from "./scholarship-table"
 import { SearchBar } from "./search-bar"
 
-export function ScholarshipAdminView() {
+export function ScholarshipTeacherView() {
   return (
     <div className="space-y-6">
-      <header className="scholarship-admin-header">
-        <h1 className="scholarship-admin-title">Scholarship Admin View</h1>
+      <header className="scholarship-teacher-header">
+        <h1 className="scholarship-teacher-title">Scholarship Admin View</h1>
       </header>
-      <div className="scholarship-admin-summary bg-white p-6 rounded-lg shadow">
+      <div className="scholarship-teacher-summary bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Application Summary</h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div className="bg-indigo-100 p-4 rounded">
