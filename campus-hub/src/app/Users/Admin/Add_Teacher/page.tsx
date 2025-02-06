@@ -1,5 +1,5 @@
 "use client"
-
+import { TeacherService } from "./teacher";
 import { Sidebar } from "../Components/sidebar"
 import { DashboardHeader } from "../Components/dashboard-header"
 import { Button } from "@nextui-org/button"
@@ -30,72 +30,86 @@ export default function TeacherManagementPage() {
   const [password, setPassword] = useState("")
 
   useEffect(() => {
-    const fetchedTeachers = [
-      { teacherId: "T001", name: "Dr. John Smith", department: "Computer Science", email: "john@example.com" },
-      { teacherId: "T002", name: "Prof. Jane Doe", department: "Mathematics", email: "jane@example.com" },
-    ]
-    setTeachers(fetchedTeachers)
-  }, [])
+    const fetchTeachers = async () => {
+      const { data, error } = await TeacherService.getAllTeachers();
+      if (error) {
+        setMessage("Error loading teachers");
+      } else {
+        setTeachers(data);
+      }
+    };
+    fetchTeachers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!formData.teacherId || !formData.name || !formData.email) {
-      setMessage("Please fill all required fields")
-      return
+      setMessage("Please fill all required fields");
+      return;
     }
     if (password !== "1234") {
-      setMessage("Incorrect password")
-      return
+      setMessage("Incorrect password");
+      return;
     }
-    const newTeacher = { ...formData }
-    setTeachers([...teachers, newTeacher])
-    setFormData({
-      teacherId: "",
-      name: "",
-      department: "",
-      email: "",
-      phone: "",
-      designation: "",
-      dateOfJoining: "",
-      subjectsTaught: "",
-    })
-    setMessage("Teacher added successfully")
-    setShowPasswordPrompt(false)
-    setPassword("")
-  }
+  
+    try {
+      const { data, error } = await TeacherService.addTeacher(formData);
+      if (error) throw error;
+      
+      setTeachers([...teachers, data[0]]);
+      setFormData({
+        teacherId: "",
+        name: "",
+        department: "",
+        email: "",
+        phone: "",
+        designation: "",
+        dateOfJoining: "",
+        subjectsTaught: "",
+      });
+      setMessage("Teacher added successfully");
+    } catch (error) {
+      setMessage("Error adding teacher: " + error.message);
+    } finally {
+      setShowPasswordPrompt(false);
+      setPassword("");
+    }
+  };
 
-  const handleSearch = () => {
-    const found = teachers.find(
-      (teacher) =>
-        teacher.teacherId.toLowerCase() === searchTerm.toLowerCase() ||
-        teacher.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
-    if (found) {
-      setFoundTeacher(found)
-      setMessage(`Found teacher: ${found.name}`)
-    } else {
-      setFoundTeacher(null)
-      setMessage("No teacher found")
+  const handleSearch = async () => {
+    try {
+      const { data, error } = await TeacherService.searchTeachers(searchTerm);
+      if (error) throw error;
+      
+      if (data.length > 0) {
+        setFoundTeacher(data[0]);
+        setMessage(`Found teacher: ${data[0].name}`);
+      } else {
+        setFoundTeacher(null);
+        setMessage("No teacher found");
+      }
+    } catch (error) {
+      setMessage("Search error: " + error.message);
     }
-  }
+  };
 
-  const handleDelete = () => {
-    const teacherIndex = teachers.findIndex((teacher) => teacher.teacherId === deleteId)
-    if (teacherIndex !== -1) {
-      const updatedTeachers = [...teachers]
-      updatedTeachers.splice(teacherIndex, 1)
-      setTeachers(updatedTeachers)
-      setMessage("Teacher deleted successfully")
-      setDeleteId("")
-    } else {
-      setMessage("No teacher found with that ID")
+  const handleDelete = async () => {
+    try {
+      const { error } = await TeacherService.deleteTeacher(deleteId);
+      if (error) throw error;
+      
+      setTeachers(teachers.filter(teacher => teacher.teacher_id !== deleteId));
+      setMessage("Teacher deleted successfully");
+      setDeleteId("");
+    } catch (error) {
+      setMessage("Delete error: " + error.message);
     }
-  }
+  };
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section)
@@ -108,14 +122,20 @@ export default function TeacherManagementPage() {
     setEditData(foundTeacher)
   }
 
-  const handleSave = () => {
-    const updatedTeachers = teachers.map((teacher) =>
-      teacher.teacherId === editData.teacherId ? editData : teacher,
-    )
-    setTeachers(updatedTeachers)
-    setEditMode(false)
-    setMessage("Teacher details updated successfully")
+  const handleSave = async () => {
+  try {
+    const { error } = await TeacherService.updateTeacher(editData.teacher_id, editData);
+    if (error) throw error;
+    
+    setTeachers(teachers.map(teacher => 
+      teacher.teacher_id === editData.teacher_id ? editData : teacher
+    ));
+    setEditMode(false);
+    setMessage("Teacher updated successfully");
+  } catch (error) {
+    setMessage("Update error: " + error.message);
   }
+};
 
   const handleEditChange = (e) => {
     const { name, value } = e.target

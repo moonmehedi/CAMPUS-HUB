@@ -1,5 +1,6 @@
 "use client"
 
+import { StudentService } from "./student";
 import { Sidebar } from "../Components/sidebar"
 import { DashboardHeader } from "../Components/dashboard-header"
 import { Button } from "@nextui-org/button"
@@ -34,77 +35,113 @@ export default function StudentManagementPage() {
   const [password, setPassword] = useState("")
 
   useEffect(() => {
-    const fetchedStudents = [
-      { studentRoll: "S001", studentName: "John Doe", email: "john@example.com", departmentName: "Computer Science" },
-      { studentRoll: "S002", studentName: "Jane Smith", email: "jane@example.com", departmentName: "Mathematics" },
-    ]
-    setStudents(fetchedStudents)
-  }, [])
+    const fetchStudents = async () => {
+      const { data, error } = await StudentService.getAllStudents();
+      if (!error) {
+        setStudents(data.map(studentmanagement => ({
+          studentRoll: studentmanagement.roll,
+          registrationNo: studentmanagement.reg_no,
+          studentName: studentmanagement.name,
+          batch: studentmanagement.batch,
+          classSection: studentmanagement.class_section,
+          fatherName: studentmanagement.father_name,
+          motherName: studentmanagement.mother_name,
+          mobileNumber: studentmanagement.mobile,
+          email: studentmanagement.email,
+          dateOfBirth: studentmanagement.dob,
+          gender: studentmanagement.gender,
+          departmentName: studentmanagement.dept_name
+})));
+
+      }
+    };
+    fetchStudents();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!formData.studentRoll || !formData.studentName || !formData.email) {
-      setMessage("Please fill all required fields")
-      return
+      setMessage("Please fill all required fields");
+      return;
     }
-    if (password !== "1234") {
-      setMessage("Incorrect password")
-      return
-    }
-    const newStudent = { ...formData }
-    setStudents([...students, newStudent])
-    setFormData({
-      studentRoll: "",
-      registrationNo: "",
-      studentName: "",
-      batch: "",
-      classSection: "",
-      fatherName: "",
-      motherName: "",
-      mobileNumber: "",
-      email: "",
-      dateOfBirth: "",
-      gender: "",
-      departmentName: "",
-
-    })
-    setMessage("Student added successfully")
-    setShowPasswordPrompt(false)
-    setPassword("")
-  }
-
-  const handleSearch = () => {
-    const found = students.find(
-      (student) =>
-        student.studentRoll.toLowerCase() === searchTerm.toLowerCase() ||
-        student.studentName.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
-    if (found) {
-      setFoundStudent(found)
-      setMessage(`Found student: ${found.studentName}`)
+  
+    const { data, error } = await StudentService.addStudent(formData);
+    
+    if (!error) {
+      setStudents([{
+        studentRoll: data[0].roll,
+        registrationNo: data[0].reg_no,
+        studentName: data[0].name,
+        batch: data[0].batch,
+        classSection: data[0].class_section,
+        fatherName: data[0].father_name,
+        motherName: data[0].mother_name,
+        mobileNumber: data[0].mobile,
+        email: data[0].email,
+        dateOfBirth: data[0].dob,
+        gender: data[0].gender,
+        departmentName: data[0].dept_name
+      }, ...students]);
+      setMessage("Student added successfully");
+      setFormData({
+        studentRoll: "",
+        registrationNo: "",
+        studentName: "",
+        batch: "",
+        classSection: "",
+        fatherName: "",
+        motherName: "",
+        mobileNumber: "",
+        email: "",
+        dateOfBirth: "",
+        gender: "",
+        departmentName: "",
+      });
     } else {
-      setFoundStudent(null)
-      setMessage("No student found")
+      setMessage("Error: " + error.message);
     }
-  }
+    setShowPasswordPrompt(false);
+  };
 
-  const handleDelete = () => {
-    const studentIndex = students.findIndex((student) => student.studentRoll === deleteId)
-    if (studentIndex !== -1) {
-      const updatedStudents = [...students]
-      updatedStudents.splice(studentIndex, 1)
-      setStudents(updatedStudents)
-      setMessage("Student deleted successfully")
-      setDeleteId("")
+  const handleSearch = async () => {
+    const { data, error } = await StudentService.searchStudents(searchTerm);
+    if (!error && data.length > 0) {
+      setFoundStudent({
+        studentRoll: data[0].roll,
+        registrationNo: data[0].reg_no,
+        studentName: data[0].name,
+        batch: data[0].batch,
+        classSection: data[0].class_section,
+        fatherName: data[0].father_name,
+        motherName: data[0].mother_name,
+        mobileNumber: data[0].mobile,
+        email: data[0].email,
+        dateOfBirth: data[0].dob,
+        gender: data[0].gender,
+        departmentName: data[0].dept_name
+      });
+      setMessage(`Found student: ${data[0].name}`);
     } else {
-      setMessage("No student found with that ID")
+      setFoundStudent(null);
+      setMessage("No student found");
     }
-  }
+  };
+
+  const handleDelete = async () => {
+    const { error } = await StudentService.deleteStudent(deleteId);
+    if (!error) {
+      setStudents(students.filter(s => s.studentRoll !== deleteId));
+      setMessage("Student deleted successfully");
+    } else {
+      setMessage("Error: " + error.message);
+    }
+    setDeleteId("");
+  };
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section)
