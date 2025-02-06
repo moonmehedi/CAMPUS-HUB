@@ -1,85 +1,126 @@
-"use client";
+"use client"
 
-import { Sidebar } from "../Components/sidebar";
-import { DashboardHeader } from "../Components/dashboard-header";
-import { Button } from "@nextui-org/button";
-import { useState } from "react";
-import styles from "./AddTeacherPage.module.css";
+import { Sidebar } from "../Components/sidebar"
+import { DashboardHeader } from "../Components/dashboard-header"
+import { Button } from "@nextui-org/button"
+import { useState, useEffect } from "react"
+import styles from "./teacher.module.css"
+import { motion, AnimatePresence } from "framer-motion"
 
-export default function AddTeacherPage() {
+export default function TeacherManagementPage() {
+  const [teachers, setTeachers] = useState([])
   const [formData, setFormData] = useState({
-    teacherID: "",
+    teacherId: "",
     name: "",
     department: "",
     email: "",
-    phoneNumber: "",
-    hireDate: "",
-    qualification: "",
-    experience: "",
-    subjectSpecialization: "",
-    dateOfBirth: "",
-    gender: "",
-    salaryExpectation: "",
-    resume: null, // For file upload
-    emergencyContactName: "",
-    emergencyContactPhone: "",
-    teachingMethods: "",
-    previousInstitutions: "",
-    languagesKnown: "",
-    photo: null, // Photo upload field
-  });
+    phone: "",
+    designation: "",
+    dateOfJoining: "",
+    subjectsTaught: "",
+  })
+  const [searchTerm, setSearchTerm] = useState("")
+  const [deleteId, setDeleteId] = useState("")
+  const [message, setMessage] = useState("")
+  const [activeSection, setActiveSection] = useState(null)
+  const [foundTeacher, setFoundTeacher] = useState(null)
+  const [editMode, setEditMode] = useState(false)
+  const [editData, setEditData] = useState({})
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false)
+  const [password, setPassword] = useState("")
 
-  const [showMessageBox, setShowMessageBox] = useState(false); // State for message box
-  const [message, setMessage] = useState(""); // State for success/error message
+  useEffect(() => {
+    const fetchedTeachers = [
+      { teacherId: "T001", name: "Dr. John Smith", department: "Computer Science", email: "john@example.com" },
+      { teacherId: "T002", name: "Prof. Jane Doe", department: "Mathematics", email: "jane@example.com" },
+    ]
+    setTeachers(fetchedTeachers)
+  }, [])
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === "photo" || name === "resume" ? files[0] : value, // Handle file upload fields
-    });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Basic validation (ensure that required fields are filled)
-    if (!formData.teacherID || !formData.name || !formData.email) {
-      setMessage("Error: Please fill all required fields.");
-      setShowMessageBox(true);
-      return;
+    e.preventDefault()
+    if (!formData.teacherId || !formData.name || !formData.email) {
+      setMessage("Please fill all required fields")
+      return
     }
-
-    // If validation passes
-    setMessage("Success: Teacher Added Successfully!");
-    setShowMessageBox(true);
-  };
-
-  const handleOkayClick = () => {
-    // Reset form data and hide the message box
+    if (password !== "1234") {
+      setMessage("Incorrect password")
+      return
+    }
+    const newTeacher = { ...formData }
+    setTeachers([...teachers, newTeacher])
     setFormData({
-      teacherID: "",
+      teacherId: "",
       name: "",
       department: "",
       email: "",
-      phoneNumber: "",
-      hireDate: "",
-      qualification: "",
-      experience: "",
-      subjectSpecialization: "",
-      dateOfBirth: "",
-      gender: "",
-      salaryExpectation: "",
-      resume: null,
-      emergencyContactName: "",
-      emergencyContactPhone: "",
-      teachingMethods: "",
-      previousInstitutions: "",
-      languagesKnown: "",
-      photo: null,
-    });
-    setShowMessageBox(false); // Hide the success/error message box
-  };
+      phone: "",
+      designation: "",
+      dateOfJoining: "",
+      subjectsTaught: "",
+    })
+    setMessage("Teacher added successfully")
+    setShowPasswordPrompt(false)
+    setPassword("")
+  }
+
+  const handleSearch = () => {
+    const found = teachers.find(
+      (teacher) =>
+        teacher.teacherId.toLowerCase() === searchTerm.toLowerCase() ||
+        teacher.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    if (found) {
+      setFoundTeacher(found)
+      setMessage(`Found teacher: ${found.name}`)
+    } else {
+      setFoundTeacher(null)
+      setMessage("No teacher found")
+    }
+  }
+
+  const handleDelete = () => {
+    const teacherIndex = teachers.findIndex((teacher) => teacher.teacherId === deleteId)
+    if (teacherIndex !== -1) {
+      const updatedTeachers = [...teachers]
+      updatedTeachers.splice(teacherIndex, 1)
+      setTeachers(updatedTeachers)
+      setMessage("Teacher deleted successfully")
+      setDeleteId("")
+    } else {
+      setMessage("No teacher found with that ID")
+    }
+  }
+
+  const toggleSection = (section) => {
+    setActiveSection(activeSection === section ? null : section)
+    setFoundTeacher(null)
+    setEditMode(false)
+  }
+
+  const handleEdit = () => {
+    setEditMode(true)
+    setEditData(foundTeacher)
+  }
+
+  const handleSave = () => {
+    const updatedTeachers = teachers.map((teacher) =>
+      teacher.teacherId === editData.teacherId ? editData : teacher,
+    )
+    setTeachers(updatedTeachers)
+    setEditMode(false)
+    setMessage("Teacher details updated successfully")
+  }
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target
+    setEditData({ ...editData, [name]: value })
+  }
 
   return (
     <div className={styles.container}>
@@ -87,109 +128,184 @@ export default function AddTeacherPage() {
         <Sidebar />
         <div className={styles.mainContent}>
           <DashboardHeader />
-          <div className={styles.formSection}>
-            <h2 className={styles.formTitle}>Add New Teacher</h2>
-            <form onSubmit={handleSubmit} className={styles.studentForm}>
-              <div className={styles.formGrid}>
-                {[ 
-                  { label: "Teacher ID", name: "teacherID" },
-                  { label: "Full Name", name: "name" },
-                  { label: "Department", name: "department" },
-                  { label: "Email", name: "email" },
-                  { label: "Phone Number", name: "phoneNumber" },
-                  { label: "Hire Date", name: "hireDate", type: "date" },
-                  { label: "Qualification", name: "qualification" },
-                  { label: "Experience (years)", name: "experience" },
-                  { label: "Subject Specialization", name: "subjectSpecialization" },
-                  { label: "Date of Birth", name: "dateOfBirth", type: "date" },
-                  { label: "Gender", name: "gender", type: "select", options: ["Male", "Female", "Other"] },
-                  { label: "Salary Expectation", name: "salaryExpectation" },
-                  { label: "Resume", name: "resume", type: "file" },
-                  { label: "Emergency Contact Name", name: "emergencyContactName" },
-                  { label: "Emergency Contact Phone", name: "emergencyContactPhone" },
-                  { label: "Teaching Methods", name: "teachingMethods" },
-                  { label: "Previous Institutions", name: "previousInstitutions" },
-                  { label: "Languages Known", name: "languagesKnown" },
-                ].map(({ label, name, type = "text", options }) => (
-                  <div key={name} className={styles.formGroup}>
-                    <label htmlFor={name} className={styles.formLabel}>
-                      {label}
-                    </label>
-                    {type === "select" ? (
-                      <select
-                        id={name}
-                        name={name}
-                        value={formData[name]}
-                        onChange={handleChange}
-                        className={styles.formInput}
+          <div className={styles.teacherManagement}>
+            <div className={styles.sectionContainer}>
+              {["add", "search", "delete"].map((section) => (
+                <motion.div
+                  key={section}
+                  className={`${styles.section} ${styles[`${section}Section`]} ${activeSection === section ? styles.expanded : ""}`}
+                  onClick={() => toggleSection(section)}
+                  layout
+                  transition={{ duration: 0.5, type: "spring" }}
+                >
+                  <h2 className={styles.sectionTitle}>{section.charAt(0).toUpperCase() + section.slice(1)} Teacher</h2>
+                  <p className={styles.sectionDescription}>
+                    {section === "add" && "Add a new teacher to the database."}
+                    {section === "search" && "Search for a teacher by ID or name."}
+                    {section === "delete" && "Delete a teacher by ID."}
+                  </p>
+                  <AnimatePresence>
+                    {activeSection === section && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={styles.sectionContent}
                       >
-                        {options.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    ) : type === "file" ? (
-                      <input
-                        id={name}
-                        name={name}
-                        type={type}
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleChange}
-                        className={styles.formInput}
-                      />
-                    ) : (
-                      <input
-                        id={name}
-                        name={name}
-                        type={type}
-                        value={formData[name]}
-                        onChange={handleChange}
-                        className={styles.formInput}
-                      />
+                        {section === "add" && (
+                          <>
+                            <form onSubmit={handleSubmit} className={styles.teacherForm}>
+                              <div className={styles.formGrid}>
+                                {Object.keys(formData).map((field) => (
+                                  <div key={field} className={styles.formGroup}>
+                                    <label htmlFor={field} className={styles.formLabel}>
+                                      {field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                                    </label>
+                                    <input
+                                      id={field}
+                                      name={field}
+                                      type={field === "dateOfJoining" ? "date" : "text"}
+                                      value={formData[field]}
+                                      onChange={handleChange}
+                                      className={styles.formInput}
+                                      onClick={(e) => e.stopPropagation()}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <Button
+                                type="button"
+                                className={styles.button}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setShowPasswordPrompt(true)
+                                }}
+                              >
+                                Add Teacher
+                              </Button>
+                            </form>
+                            {showPasswordPrompt && (
+                              <div className={styles.passwordPrompt}>
+                                <input
+                                  type="password"
+                                  placeholder="Enter Password"
+                                  value={password}
+                                  onChange={(e) => setPassword(e.target.value)}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={styles.formInput}
+                                />
+                                <Button
+                                  onClick={handleSubmit}
+                                  className={styles.button}
+                                >
+                                  Submit
+                                </Button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {section === "search" && (
+                          <>
+                            <div className={styles.searchBox}>
+                              <input
+                                type="text"
+                                placeholder="Search by ID or Name"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className={styles.formInput}
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleSearch()
+                                }}
+                                className={styles.button}
+                              >
+                                Search
+                              </Button>
+                            </div>
+                            {foundTeacher && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className={styles.teacherDetails}
+                              >
+                                {Object.keys(foundTeacher).map((key) => (
+                                  <div key={key} className={styles.formGroup}>
+                                    <label className={styles.formLabel}>
+                                      {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                                    </label>
+                                    {editMode ? (
+                                      <input
+                                        type="text"
+                                        name={key}
+                                        value={editData[key]}
+                                        onChange={handleEditChange}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className={styles.formInput}
+                                      />
+                                    ) : (
+                                      <p>{foundTeacher[key]}</p>
+                                    )}
+                                  </div>
+                                ))}
+                                {editMode ? (
+                                  <Button onClick={handleSave} className={`${styles.button} ${styles.saveButton}`}>
+                                    Save
+                                  </Button>
+                                ) : (
+                                  <Button onClick={handleEdit} className={`${styles.button} ${styles.editButton}`}>
+                                    Edit
+                                  </Button>
+                                )}
+                              </motion.div>
+                            )}
+                          </>
+                        )}
+                        {section === "delete" && (
+                          <div className={styles.deleteBox}>
+                            <input
+                              type="text"
+                              placeholder="Enter Teacher ID to Delete"
+                              value={deleteId}
+                              onChange={(e) => setDeleteId(e.target.value)}
+                              className={styles.formInput}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete()
+                              }}
+                              className={`${styles.button} ${styles.deleteButton}`}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        )}
+                      </motion.div>
                     )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Right Column for Photo Upload */}
-              <div className={styles.rightColumn}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="photo" className={styles.formLabel}>
-                    Upload Photo
-                  </label>
-                  <input
-                    id="photo"
-                    name="photo"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className={styles.formInput}
-                  />
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div className={styles.buttonGroup}>
-                <Button color="default" className={styles.cancelButton}>
-                  Cancel
-                </Button>
-                <Button type="submit" color="primary" className={styles.proceedButton}>
-                  Proceed
-                </Button>
-              </div>
-            </form>
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Success/Error Message Box */}
-          {showMessageBox && (
-            <div className={styles.messageBox}>
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className={styles.messageBox}
+            >
               <p>{message}</p>
-              <Button color="primary" onClick={handleOkayClick}>Okay</Button>
-            </div>
+              <Button onClick={() => setMessage("")}>Okay</Button>
+            </motion.div>
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }

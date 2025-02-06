@@ -1,19 +1,20 @@
-"use client";
+"use client"
 
-import { Sidebar } from "../Components/sidebar";
-import { DashboardHeader } from "../Components/dashboard-header";
-import { Button } from "@nextui-org/button";
-import { useState } from "react";
-import styles from "./AddStudentPage.module.css";
+import { Sidebar } from "../Components/sidebar"
+import { DashboardHeader } from "../Components/dashboard-header"
+import { Button } from "@nextui-org/button"
+import { useState, useEffect } from "react"
+import styles from "./student.module.css"
+import { motion, AnimatePresence } from "framer-motion"
 
-export default function AddStudentPage() {
+export default function StudentManagementPage() {
+  const [students, setStudents] = useState([])
   const [formData, setFormData] = useState({
     studentRoll: "",
     registrationNo: "",
     studentName: "",
     batch: "",
     classSection: "",
-    creditGroup: "",
     fatherName: "",
     motherName: "",
     mobileNumber: "",
@@ -21,51 +22,48 @@ export default function AddStudentPage() {
     dateOfBirth: "",
     gender: "",
     departmentName: "",
-    quota: "",
-    scholarship: "",
-    stipend: "",
-    activeStatus: "Active",
-    address: "",
-    nationality: "",
-    emergencyContactName: "",
-    emergencyContactNumber: "",
-    bloodGroup: "",
-    guardianOccupation: "",
-    photo: null, // For photo upload
-  });
+  })
+  const [searchTerm, setSearchTerm] = useState("")
+  const [deleteId, setDeleteId] = useState("")
+  const [message, setMessage] = useState("")
+  const [activeSection, setActiveSection] = useState(null)
+  const [foundStudent, setFoundStudent] = useState(null)
+  const [editMode, setEditMode] = useState(false)
+  const [editData, setEditData] = useState({})
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false)
+  const [password, setPassword] = useState("")
 
-  const [showMessageBox, setShowMessageBox] = useState(false);
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const fetchedStudents = [
+      { studentRoll: "S001", studentName: "John Doe", email: "john@example.com", departmentName: "Computer Science" },
+      { studentRoll: "S002", studentName: "Jane Smith", email: "jane@example.com", departmentName: "Mathematics" },
+    ]
+    setStudents(fetchedStudents)
+  }, [])
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData({ ...formData, [name]: name === "photo" ? files[0] : value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Basic validation (e.g., ensure mandatory fields are filled)
+    e.preventDefault()
     if (!formData.studentRoll || !formData.studentName || !formData.email) {
-      setMessage("Error: Please fill all required fields.");
-      setShowMessageBox(true);
-      return;
+      setMessage("Please fill all required fields")
+      return
     }
-
-    // If no validation errors
-    setMessage("Success: Student Added Successfully!");
-    setShowMessageBox(true);
-  };
-
-  const handleOkayClick = () => {
-    // Reset form data and hide the message box
+    if (password !== "1234") {
+      setMessage("Incorrect password")
+      return
+    }
+    const newStudent = { ...formData }
+    setStudents([...students, newStudent])
     setFormData({
       studentRoll: "",
       registrationNo: "",
       studentName: "",
       batch: "",
       classSection: "",
-      creditGroup: "",
       fatherName: "",
       motherName: "",
       mobileNumber: "",
@@ -73,20 +71,65 @@ export default function AddStudentPage() {
       dateOfBirth: "",
       gender: "",
       departmentName: "",
-      quota: "",
-      scholarship: "",
-      stipend: "",
-      activeStatus: "Active",
-      address: "",
-      nationality: "",
-      emergencyContactName: "",
-      emergencyContactNumber: "",
-      bloodGroup: "",
-      guardianOccupation: "",
-      photo: null,
-    });
-    setShowMessageBox(false); // Hide the message box
-  };
+
+    })
+    setMessage("Student added successfully")
+    setShowPasswordPrompt(false)
+    setPassword("")
+  }
+
+  const handleSearch = () => {
+    const found = students.find(
+      (student) =>
+        student.studentRoll.toLowerCase() === searchTerm.toLowerCase() ||
+        student.studentName.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    if (found) {
+      setFoundStudent(found)
+      setMessage(`Found student: ${found.studentName}`)
+    } else {
+      setFoundStudent(null)
+      setMessage("No student found")
+    }
+  }
+
+  const handleDelete = () => {
+    const studentIndex = students.findIndex((student) => student.studentRoll === deleteId)
+    if (studentIndex !== -1) {
+      const updatedStudents = [...students]
+      updatedStudents.splice(studentIndex, 1)
+      setStudents(updatedStudents)
+      setMessage("Student deleted successfully")
+      setDeleteId("")
+    } else {
+      setMessage("No student found with that ID")
+    }
+  }
+
+  const toggleSection = (section) => {
+    setActiveSection(activeSection === section ? null : section)
+    setFoundStudent(null)
+    setEditMode(false)
+  }
+
+  const handleEdit = () => {
+    setEditMode(true)
+    setEditData(foundStudent)
+  }
+
+  const handleSave = () => {
+    const updatedStudents = students.map((student) =>
+      student.studentRoll === editData.studentRoll ? editData : student,
+    )
+    setStudents(updatedStudents)
+    setEditMode(false)
+    setMessage("Student details updated successfully")
+  }
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target
+    setEditData({ ...editData, [name]: value })
+  }
 
   return (
     <div className={styles.container}>
@@ -94,100 +137,186 @@ export default function AddStudentPage() {
         <Sidebar />
         <div className={styles.mainContent}>
           <DashboardHeader />
-          <div className={styles.formSection}>
-            <h2 className={styles.formTitle}>Add New Student</h2>
-            <form onSubmit={handleSubmit} className={styles.studentForm}>
-              <div className={styles.formGrid}>
-                {[ 
-                  { label: "Roll", name: "studentRoll" },
-                  { label: "Registration No", name: "registrationNo" },
-                  { label: "Name", name: "studentName" },
-                  { label: "Batch", name: "batch" },
-                  { label: "Section", name: "classSection" },
-                  { label: "Credits", name: "creditGroup" },
-                  { label: "Father's Name", name: "fatherName" },
-                  { label: "Mother's Name", name: "motherName" },
-                  { label: "Mobile", name: "mobileNumber" },
-                  { label: "Email", name: "email" },
-                  { label: "Date of birth", name: "dateOfBirth", type: "date" },
-                  { label: "Department", name: "departmentName" },
-                  { label: "Quota", name: "quota" },
-                  { label: "Scholarship", name: "scholarship" },
-                  { label: "Status", name: "activeStatus", type: "select", options: ["Active", "Inactive"] },
-                  { label: "Address", name: "address" },
-                  { label: "Nationality", name: "nationality" },
-                  { label: "Emergency Contact Name", name: "emergencyContactName" },
-                  { label: "Emergency Contact Number", name: "emergencyContactNumber" },
-                  { label: "Blood Group", name: "bloodGroup" },
-                  { label: "Guardian's Occupation", name: "guardianOccupation" },
-                ].map(({ label, name, type = "text", options }) => (
-                  <div key={name} className={styles.formGroup}>
-                    <label htmlFor={name} className={styles.formLabel}>
-                      {label}
-                    </label>
-                    {type === "select" ? (
-                      <select
-                        id={name}
-                        name={name}
-                        value={formData[name]}
-                        onChange={handleChange}
-                        className={styles.formInput}
+          <div className={styles.studentManagement}>
+            <div className={styles.sectionContainer}>
+              {["add", "search", "delete"].map((section) => (
+                <motion.div
+                  key={section}
+                  className={`${styles.section} ${styles[`${section}Section`]} ${activeSection === section ? styles.expanded : ""}`}
+                  onClick={() => toggleSection(section)}
+                  layout
+                  transition={{ duration: 0.5, type: "spring" }}
+                >
+                  <h2 className={styles.sectionTitle}>{section.charAt(0).toUpperCase() + section.slice(1)} Student</h2>
+                  <p className={styles.sectionDescription}>
+                    {section === "add" && "Add a new student to the database."}
+                    {section === "search" && "Search for a student by roll number or name."}
+                    {section === "delete" && "Delete a student by roll number."}
+                  </p>
+                  <AnimatePresence>
+                    {activeSection === section && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={styles.sectionContent}
                       >
-                        {options.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input
-                        id={name}
-                        name={name}
-                        type={type}
-                        value={formData[name]}
-                        onChange={handleChange}
-                        className={styles.formInput}
-                      />
+                        {section === "add" && (
+                          <>
+                            <form onSubmit={handleSubmit} className={styles.studentForm}>
+                              <div className={styles.formGrid}>
+                                {Object.keys(formData).map((field) => (
+                                  <div key={field} className={styles.formGroup}>
+                                    <label htmlFor={field} className={styles.formLabel}>
+                                      {field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                                    </label>
+                                    <input
+                                      id={field}
+                                      name={field}
+                                      type={field === "dateOfBirth" ? "date" : "text"}
+                                      value={formData[field]}
+                                      onChange={handleChange}
+                                      className={styles.formInput}
+                                      onClick={(e) => e.stopPropagation()}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <Button
+                                type="button"
+                                className={styles.button}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setShowPasswordPrompt(true)
+                                }}
+                              >
+                                Add Student
+                              </Button>
+                            </form>
+                            {showPasswordPrompt && (
+                              <div className={styles.passwordPrompt}>
+                                <input
+                                  
+                                  type="password"
+                                  placeholder="Enter Password"
+                                  value={password}
+                                  onChange={(e) => setPassword(e.target.value)}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={styles.formInput}
+                                
+                                />
+                                <Button
+                                  onClick={handleSubmit}
+                                  className={styles.button}
+                                >
+                                  Submit
+                                </Button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {section === "search" && (
+                          <>
+                            <div className={styles.searchBox}>
+                              <input
+                                type="text"
+                                placeholder="Search by Roll No or Name"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className={styles.formInput}
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleSearch()
+                                }}
+                                className={styles.button}
+                              >
+                                Search
+                              </Button>
+                            </div>
+                            {foundStudent && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className={styles.studentDetails}
+                              >
+                                {Object.keys(foundStudent).map((key) => (
+                                  <div key={key} className={styles.formGroup}>
+                                    <label className={styles.formLabel}>
+                                      {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                                    </label>
+                                    {editMode ? (
+                                      <input
+                                        type="text"
+                                        name={key}
+                                        value={editData[key]}
+                                        onChange={handleEditChange}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className={styles.formInput}
+                                      />
+                                    ) : (
+                                      <p>{foundStudent[key]}</p>
+                                    )}
+                                  </div>
+                                ))}
+                                {editMode ? (
+                                  <Button onClick={handleSave} className={`${styles.button} ${styles.saveButton}`}>
+                                    Save
+                                  </Button>
+                                ) : (
+                                  <Button onClick={handleEdit} className={`${styles.button} ${styles.editButton}`}>
+                                    Edit
+                                  </Button>
+                                )}
+                              </motion.div>
+                            )}
+                          </>
+                        )}
+                        {section === "delete" && (
+                          <div className={styles.deleteBox}>
+                            <input
+                              type="text"
+                              placeholder="Enter Student Roll No to Delete"
+                              value={deleteId}
+                              onChange={(e) => setDeleteId(e.target.value)}
+                              className={styles.formInput}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete()
+                              }}
+                              className={`${styles.button} ${styles.deleteButton}`}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        )}
+                      </motion.div>
                     )}
-                  </div>
-                ))}
-              </div>
-              <div className={styles.rightColumn}>
-                {/* Photo Upload */}
-                <div className={styles.formGroup}>
-                  <label htmlFor="photo" className={styles.formLabel}>
-                    Upload Photo
-                  </label>
-                  <input
-                    id="photo"
-                    name="photo"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className={styles.formInput}
-                  />
-                </div>
-              </div>
-              <div className={styles.buttonGroup}>
-                <Button color="default" className={styles.cancelButton}>
-                  Cancel
-                </Button>
-                <Button type="submit" color="primary" className={styles.proceedButton}>
-                  Proceed
-                </Button>
-              </div>
-            </form>
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Success/Error Message Box */}
-          {showMessageBox && (
-            <div className={styles.messageBox}>
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className={styles.messageBox}
+            >
               <p>{message}</p>
-              <Button color="primary" onClick={handleOkayClick}>Okay</Button>
-            </div>
+              <Button onClick={() => setMessage("")}>Okay</Button>
+            </motion.div>
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }
