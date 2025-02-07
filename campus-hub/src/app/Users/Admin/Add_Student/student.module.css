@@ -316,3 +316,8 @@
   font-weight: bold;
 }
 
+.errorMessage {
+  color: #ff4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

@@ -349,14 +349,20 @@ export default function StudentManagementPage() {
         </tr>
       </thead>
       <tbody>
-        {students.map((student) => (
-          <tr key={student.student_id}>
-            {Object.values(student).map((value, index) => (
-              <td key={index}>{value}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+            {students && students.length > 0 ? (
+              students.map((student) => (
+                <tr key={student.student_id}>
+                  {Object.entries(student).map(([key, value]) => (
+                    <td key={key}>{value}</td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(students[0] || {}).length}>No students found</td>
+              </tr>
+            )}
+          </tbody>
     </table>
   </div>
 )}

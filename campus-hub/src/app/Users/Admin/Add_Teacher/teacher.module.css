@@ -166,6 +166,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
 }
 
 .button:hover {
@@ -321,4 +322,82 @@
 
 .teacherSection {
   background: linear-gradient(135deg, rgba(255, 183, 77, 0.8), rgba(255, 138, 0, 0.8)); /* Orange Theme */
+}
+/* Correct class names */
+.teacherManagement {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacherForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.teacherDetails {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved button spacing */
+.buttonCenter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+
+/* Password prompt styling */
+.passwordPrompt {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Form error styling */
+.formError {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  height: 1rem;
+}
+
+/* Input error state */
+.formInput.invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+/* Responsive form grid */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Delete and search boxes */
+.deleteBox, .searchBox {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Table improvements */
+.teacherTable th, .teacherTable td {
+  padding: 12px;
+  min-width: 120px;
+}
+
+/* Message box enhancements */
+.messageBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
