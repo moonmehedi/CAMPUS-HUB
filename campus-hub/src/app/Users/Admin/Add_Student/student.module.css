@@ -74,6 +74,14 @@
   );
 }
 
+.viewSection {
+  background: linear-gradient(
+    135deg,
+    rgba(3, 80, 19, 0.8),
+    rgba(5, 145, 24, 0.8)
+  );
+}
+
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: bold;
@@ -285,3 +293,26 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.studentTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.studentTable th,
+.studentTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.studentTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+

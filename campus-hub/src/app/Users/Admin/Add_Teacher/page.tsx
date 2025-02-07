@@ -41,6 +41,13 @@ export default function TeacherManagementPage() {
     fetchTeachers();
   }, []);
 
+  const validateForm = () => {
+    if (!/^[A-Za-z\s]+$/.test(formData.name)) return "Invalid name format";
+    if (!/^\d+$/.test(formData.teacherId)) return "ID must be a number";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email";
+    return null;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -48,8 +55,9 @@ export default function TeacherManagementPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.teacherId || !formData.name || !formData.email) {
-      setMessage("Please fill all required fields");
+    const validationError = validateForm();
+    if (validationError) {
+      setMessage(validationError);
       return;
     }
     if (password !== "1234") {
@@ -123,19 +131,19 @@ export default function TeacherManagementPage() {
   }
 
   const handleSave = async () => {
-  try {
-    const { error } = await TeacherService.updateTeacher(editData.teacher_id, editData);
-    if (error) throw error;
-    
-    setTeachers(teachers.map(teacher => 
-      teacher.teacher_id === editData.teacher_id ? editData : teacher
-    ));
-    setEditMode(false);
-    setMessage("Teacher updated successfully");
-  } catch (error) {
-    setMessage("Update error: " + error.message);
-  }
-};
+    try {
+      const { error } = await TeacherService.updateTeacher(editData.teacher_id, editData);
+      if (error) throw error;
+      
+      setTeachers(teachers.map(teacher => 
+        teacher.teacher_id === editData.teacher_id ? editData : teacher
+      ));
+      setEditMode(false);
+      setMessage("Teacher updated successfully");
+    } catch (error) {
+      setMessage("Update error: " + error.message);
+    }
+  };
 
   const handleEditChange = (e) => {
     const { name, value } = e.target
@@ -150,19 +158,24 @@ export default function TeacherManagementPage() {
           <DashboardHeader />
           <div className={styles.teacherManagement}>
             <div className={styles.sectionContainer}>
-              {["add", "search", "delete"].map((section) => (
+              {["add", "search", "delete", "view"].map((section) => (
                 <motion.div
                   key={section}
                   className={`${styles.section} ${styles[`${section}Section`]} ${activeSection === section ? styles.expanded : ""}`}
-                  onClick={() => toggleSection(section)}
+                  onClick={() =>  toggleSection(section)}
                   layout
                   transition={{ duration: 0.5, type: "spring" }}
                 >
-                  <h2 className={styles.sectionTitle}>{section.charAt(0).toUpperCase() + section.slice(1)} Teacher</h2>
+                  <h2 className={styles.sectionTitle}>
+                    {section === "view" ? "All Teachers" : 
+                     section === "search" && editMode ? "Update Teacher Information" :
+                     section.charAt(0).toUpperCase() + section.slice(1) + " Teacher"}
+                  </h2>
                   <p className={styles.sectionDescription}>
                     {section === "add" && "Add a new teacher to the database."}
                     {section === "search" && "Search for a teacher by ID or name."}
                     {section === "delete" && "Delete a teacher by ID."}
+                    {section === "view" && `Total teachers: ${teachers.length}`}
                   </p>
                   <AnimatePresence>
                     {activeSection === section && (
@@ -172,6 +185,7 @@ export default function TeacherManagementPage() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                         className={styles.sectionContent}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         {section === "add" && (
                           <>
@@ -185,25 +199,30 @@ export default function TeacherManagementPage() {
                                     <input
                                       id={field}
                                       name={field}
-                                      type={field === "dateOfJoining" ? "date" : "text"}
+                                      type={field === "dateOfJoining" ? "date" : 
+                                        field === "teacherId" ? "number" :
+                                        field === "email" ? "email" : "text"}
                                       value={formData[field]}
                                       onChange={handleChange}
                                       className={styles.formInput}
-                                      onClick={(e) => e.stopPropagation()}
+                                      pattern={field === "name" ? "^[A-Za-z\\s]+$" : 
+                                               field === "teacherId" ? "\\d+" : null}
                                     />
                                   </div>
                                 ))}
                               </div>
-                              <Button
-                                type="button"
-                                className={styles.button}
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  setShowPasswordPrompt(true)
-                                }}
-                              >
-                                Add Teacher
-                              </Button>
+                              <div className={styles.buttonCenter}>
+                                <Button
+                                  type="button"
+                                  className={styles.button}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setShowPasswordPrompt(true)
+                                  }}
+                                >
+                                  Add Teacher
+                                </Button>
+                              </div>
                             </form>
                             {showPasswordPrompt && (
                               <div className={styles.passwordPrompt}>
@@ -212,15 +231,13 @@ export default function TeacherManagementPage() {
                                   placeholder="Enter Password"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
-                                  onClick={(e) => e.stopPropagation()}
                                   className={styles.formInput}
                                 />
-                                <Button
-                                  onClick={handleSubmit}
-                                  className={styles.button}
-                                >
-                                  Submit
-                                </Button>
+                                <div className={styles.buttonCenter}>
+                                  <Button onClick={handleSubmit} className={styles.button}>
+                                    Submit
+                                  </Button>
+                                </div>
                               </div>
                             )}
                           </>
@@ -234,17 +251,12 @@ export default function TeacherManagementPage() {
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className={styles.formInput}
-                                onClick={(e) => e.stopPropagation()}
                               />
-                              <Button
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  handleSearch()
-                                }}
-                                className={styles.button}
-                              >
-                                Search
-                              </Button>
+                              <div className={styles.buttonCenter}>
+                                <Button onClick={handleSearch} className={styles.button}>
+                                  Search
+                                </Button>
+                              </div>
                             </div>
                             {foundTeacher && (
                               <motion.div
@@ -259,27 +271,29 @@ export default function TeacherManagementPage() {
                                     </label>
                                     {editMode ? (
                                       <input
-                                        type="text"
+                                        type={key === "teacher_id" ? "text" : "text"}
                                         name={key}
                                         value={editData[key]}
                                         onChange={handleEditChange}
-                                        onClick={(e) => e.stopPropagation()}
                                         className={styles.formInput}
+                                        disabled={key === "teacher_id"}
                                       />
                                     ) : (
                                       <p>{foundTeacher[key]}</p>
                                     )}
                                   </div>
                                 ))}
-                                {editMode ? (
-                                  <Button onClick={handleSave} className={`${styles.button} ${styles.saveButton}`}>
-                                    Save
-                                  </Button>
-                                ) : (
-                                  <Button onClick={handleEdit} className={`${styles.button} ${styles.editButton}`}>
-                                    Edit
-                                  </Button>
-                                )}
+                                <div className={styles.buttonCenter}>
+                                  {editMode ? (
+                                    <Button onClick={handleSave} className={`${styles.button} ${styles.saveButton}`}>
+                                      Save
+                                    </Button>
+                                  ) : (
+                                    <Button onClick={handleEdit} className={`${styles.button} ${styles.editButton}`}>
+                                      Edit
+                                    </Button>
+                                  )}
+                                </div>
                               </motion.div>
                             )}
                           </>
@@ -292,17 +306,34 @@ export default function TeacherManagementPage() {
                               value={deleteId}
                               onChange={(e) => setDeleteId(e.target.value)}
                               className={styles.formInput}
-                              onClick={(e) => e.stopPropagation()}
                             />
-                            <Button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                handleDelete()
-                              }}
-                              className={`${styles.button} ${styles.deleteButton}`}
-                            >
-                              Delete
-                            </Button>
+                            <div className={styles.buttonCenter}>
+                              <Button onClick={handleDelete} className={`${styles.button} ${styles.deleteButton}`}>
+                                Delete
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                        {section === "view" && (
+                          <div className={styles.tableContainer}>
+                            <table className={styles.teacherTable}>
+                              <thead>
+                                <tr>
+                                  {teachers[0] && Object.keys(teachers[0]).map((key) => (
+                                    <th key={key}>{key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {teachers.map((teacher) => (
+                                  <tr key={teacher.teacher_id}>
+                                    {Object.values(teacher).map((value, index) => (
+                                      <td key={index}>{value}</td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </motion.div>

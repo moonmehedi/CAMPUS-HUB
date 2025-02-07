@@ -74,6 +74,14 @@
   );
 }
 
+.viewSection {
+  background: linear-gradient(
+    135deg,
+    rgba(3, 80, 19, 0.8),
+    rgba(5, 145, 24, 0.8)
+  );
+}
+
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: bold;
@@ -281,7 +289,36 @@
   width: 100%;
   margin-top: 1rem;
   padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(1, 65, 56, 0.9);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.buttonCenter {
+  text-align: center;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.teacherTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.teacherTable th,
+.teacherTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.teacherTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.teacherSection {
+  background: linear-gradient(135deg, rgba(255, 183, 77, 0.8), rgba(255, 138, 0, 0.8)); /* Orange Theme */
 }

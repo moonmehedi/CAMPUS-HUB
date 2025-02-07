@@ -176,7 +176,7 @@ export default function StudentManagementPage() {
           <DashboardHeader />
           <div className={styles.studentManagement}>
             <div className={styles.sectionContainer}>
-              {["add", "search", "delete"].map((section) => (
+              {["add", "search", "delete", "view"].map((section) => (
                 <motion.div
                   key={section}
                   className={`${styles.section} ${styles[`${section}Section`]} ${activeSection === section ? styles.expanded : ""}`}
@@ -184,11 +184,16 @@ export default function StudentManagementPage() {
                   layout
                   transition={{ duration: 0.5, type: "spring" }}
                 >
-                  <h2 className={styles.sectionTitle}>{section.charAt(0).toUpperCase() + section.slice(1)} Student</h2>
+                  <h2 className={styles.sectionTitle}>
+                    {section === "view" ? "All Student" : 
+                     section === "search" && editMode ? "Update Student Information" :
+                     section.charAt(0).toUpperCase() + section.slice(1) + " Student"}
+                  </h2>
                   <p className={styles.sectionDescription}>
                     {section === "add" && "Add a new student to the database."}
                     {section === "search" && "Search for a student by roll number or name."}
                     {section === "delete" && "Delete a student by roll number."}
+                    {section === "view" && `Total Student: ${students.length}`}
                   </p>
                   <AnimatePresence>
                     {activeSection === section && (
@@ -333,6 +338,28 @@ export default function StudentManagementPage() {
                             </Button>
                           </div>
                         )}
+                        {section === "view" && (
+  <div className={styles.tableContainer}>
+    <table className={styles.studentTable}>
+      <thead>
+        <tr>
+          {students[0] && Object.keys(students[0]).map((key) => (
+            <th key={key}>{key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {students.map((student) => (
+          <tr key={student.student_id}>
+            {Object.values(student).map((value, index) => (
+              <td key={index}>{value}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
                       </motion.div>
                     )}
                   </AnimatePresence>
