@@ -152,7 +152,7 @@
   box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.2);
 }
 
-.button {
+.button { 
   background-color: rgba(58, 134, 255, 0.8);
   color: #ffffff;
   padding: 0.75rem 1.5rem;
@@ -161,7 +161,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
-  align-self: flex-start;
+  align-self:center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
