@@ -49,173 +49,81 @@ export function ScholarshipForm({ onSubmit }: ScholarshipFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <h2 className="text-lg font-medium">Personal Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Name" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Personal Information Section */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+            Personal Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* All form fields remain the same but with updated styling */}
+            {Object.keys(form.getValues()).map((fieldName) => {
+              if (fieldName === 'reason') return null; // Handle separately
+              return (
+                <FormField
+                  key={fieldName}
+                  control={form.control}
+                  name={fieldName as keyof FormData}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base font-medium text-gray-700">
+                        {fieldName
+                          .replace(/([A-Z])/g, ' $1')
+                          .replace(/^./, str => str.toUpperCase())
+                          .replace('No', 'Number')}
+                      </FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field} 
+                          placeholder={`Enter ${fieldName
+                            .replace(/([A-Z])/g, ' $1')
+                            .toLowerCase()}`}
+                          className="h-12 text-base px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          type={fieldName === 'birthday' ? 'date' : 'text'}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm text-red-500" />
+                    </FormItem>
+                  )}
+                />
+              );
+            })}
+          </div>
+        </div>
 
+        {/* Reason Section */}
+        <div className="space-y-4">
           <FormField
             control={form.control}
-            name="phoneNo"
+            name="reason"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone No</FormLabel>
+                <FormLabel className="text-base font-medium text-gray-700">
+                  Explain the reason why you want a scholarship
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Phone No" />
+                  <Textarea
+                    {...field}
+                    placeholder="Explain the reason why you want a scholarship"
+                    className="min-h-[200px] text-base p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fatherName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Father's Name</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Father's Name" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="motherName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mother's Name</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Mother's Name" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="birthday"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Birthday</FormLabel>
-                <FormControl>
-                  <Input {...field} type="date" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Address" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="classSection"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Class Section</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Class Section" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="currentScholarshipStatus"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Current Scholarship Status</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Current Scholarship Status" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="rollNo"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll No</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Roll No" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="registrationNo"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Registration No</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Registration No" />
-                </FormControl>
-                <FormMessage />
+                <FormMessage className="text-sm text-red-500" />
               </FormItem>
             )}
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="reason"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Explain the reason why you want a scholarship</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="Explain the reason why you want a scholarship"
-                  className="min-h-[150px]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="bg-indigo-600 text-white hover:bg-indigo-700">
-          Submit
-        </Button>
+        {/* Submit Button - Centered */}
+        <div className="flex justify-center pt-8">
+          <Button 
+            type="submit" 
+            className="h-12 px-8 text-lg bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg transition-colors duration-200"
+          >
+            Submit Application
+          </Button>
+        </div>
       </form>
     </Form>
   )
 }
-

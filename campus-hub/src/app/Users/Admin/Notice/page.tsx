@@ -41,7 +41,7 @@ function Notice({
     setIsEditing(false);
     // Save the edited message logic here
     try {
-      const response = await fetch(`http://localhost:5000/notices/${notice_id}`, {
+      const response = await fetch(`http://localhost:3000/notices/${notice_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ adminId,content: editedContent }),
@@ -102,7 +102,7 @@ export default function NoticePage() {
     // Fetch notices for the logged-in teacher
     const fetchNotices = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/notices`);
+        const response = await fetch(`http://localhost:3000/notices`);
         const data = await response.json();
         if (response.ok) {
           setNotices(data);
@@ -121,7 +121,7 @@ export default function NoticePage() {
 
   const handleAddNotice = async (newNotice: Omit<NoticeProps, 'notice_id' | 'created_at'>) => {
     try {
-      const response = await fetch('http://localhost:5000/notices', {
+      const response = await fetch('http://localhost:3000/notices', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newNotice),
@@ -142,7 +142,7 @@ export default function NoticePage() {
   const handleDeleteNotice = async (noticeId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/notices/${noticeId}`,
+        `http://localhost:3000/notices/${noticeId}`,
         {
           method: "DELETE",
           headers: { 'Content-Type': 'application/json' },

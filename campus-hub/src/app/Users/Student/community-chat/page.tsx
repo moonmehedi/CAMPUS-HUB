@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage } from "../Components/chat-message";
 import { MembersList } from "../Components/member-list";
-import { Sidebar } from "../Components/sidebar";
-import { Header } from "../Components/header";
+import { StudentLayout } from "../Components/student-layout";
 
 import styles from "../styles/chat.module.css";
 
@@ -71,34 +70,53 @@ const members = [
 
 export default function CommunityChat() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="flex h-screen">
-        <Sidebar />
-        <div className="flex-1 flex flex-col">
-          <Header />
-          <div className={styles.container}>
-            <div className={styles.chatSection}>
-              <div className={styles.messageContainer}>
-                {messages.map((message) => (
-                  <ChatMessage key={message.id} {...message} />
-                ))}
-              </div>
-              <div className={styles.inputContainer}>
-                <div className={styles.inputWrapper}>
-                  <Input
-                    placeholder="Start Typing Your Message..."
-                    className={styles.input}
-                  />
-                  <Button className="bg-green-400 hover:bg-green-500">
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+    <StudentLayout>
+      <div className="h-full flex">
+        {/* Main Chat Area */}
+        <div className="flex-1 flex flex-col bg-white rounded-l-[30px] overflow-hidden">
+          {/* Chat Header */}
+          <div className="p-4 border-b bg-gradient-to-r from-[#F0F7FF] to-[#E6F0FF]">
+            <h2 className="text-xl font-semibold text-gray-800">Community Chat</h2>
+            <p className="text-sm text-gray-600">
+              {members.filter(m => m.isActive).length} members online
+            </p>
+          </div>
+
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            {messages.map((message) => (
+              <ChatMessage key={message.id} {...message} />
+            ))}
+          </div>
+
+          {/* Input Area */}
+          <div className="p-4 border-t bg-white">
+            <div className="flex gap-3 items-center">
+              <Input
+                placeholder="Start typing your message..."
+                className="flex-1 h-12 px-4 text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <Button 
+                className="h-12 px-6 bg-[#60A3D9] hover:bg-[#4A90D9] text-white rounded-lg transition-all duration-200 flex items-center gap-2"
+              >
+                <Send className="h-5 w-5" />
+                <span className="hidden sm:inline">Send</span>
+              </Button>
             </div>
+          </div>
+        </div>
+
+        {/* Members List - Styled Sidebar */}
+        <div className="w-80 bg-white rounded-r-[30px] border-l overflow-hidden">
+          <div className="p-4 border-b bg-gradient-to-r from-[#F0F7FF] to-[#E6F0FF]">
+            <h3 className="text-lg font-semibold text-gray-800">Members</h3>
+            <p className="text-sm text-gray-600">{members.length} total</p>
+          </div>
+          <div className="overflow-y-auto h-[calc(100%-4rem)]">
             <MembersList members={members} />
           </div>
         </div>
       </div>
-    </div>
+    </StudentLayout>
   );
 }

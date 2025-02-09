@@ -1,53 +1,96 @@
+/* profile.module.css */
 .container {
-    max-width: 48rem;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  .profileCard {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .avatarSection {
-    flex-shrink: 0;
-  }
-  
-  .detailsSection {
-    flex: 1;
-  }
-  
-  .name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 1.5rem;
-  }
-  
-  .infoGrid {
-    display: grid;
-    gap: 1rem;
-  }
-  
-  .infoItem {
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 0.5rem;
-  }
-  
-  .infoLabel {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #6b7280;
-  }
-  
-  .infoValue {
-    font-size: 1rem;
-    color: #1f2937;
-    margin-top: 0.25rem;
-  }
-  
-  
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.profileCard {
+  background-color: white;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.profileHeader {
+  background: linear-gradient(to right, #F0F7FF, #E6F0FF);
+  padding: 3rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.avatarWrapper {
+  display: inline-block;
+  padding: 4px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  width: 150px !important;
+  height: 150px !important;
+  border: 4px solid white;
+}
+
+.name {
+  margin-top: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #F8FAFC;
+  border-radius: 16px;
+  transition: all 0.2s;
+}
+
+.infoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: #60A3D9;
+  border-radius: 12px;
+}
+
+.icon {
+  color: white;
+  width: 24px;
+  height: 24px;
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6B7280;
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1F2937;
+}
