@@ -39,15 +39,16 @@ const sidebarItems = [
     href: "/Users/Admin/TrainBot",
   },
   {
-    title: "Add Student",
+    title: "Student",
     icon: UserPlus, // Icon for adding a student
     href: "/Users/Admin/Add_Student",
   },
   {
-    title: "Add Teacher",
+    title: "Teacher",
     icon: UserCheck, // Icon for adding a teacher
     href: "/Users/Admin/Add_Teacher",
   },
+  
 ]
 
 export function Sidebar() {
