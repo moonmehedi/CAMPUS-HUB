@@ -65,14 +65,42 @@ export default function StudentManagementPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Basic validation for required fields
     if (!formData.studentRoll || !formData.studentName || !formData.email) {
       setMessage("Please fill all required fields");
       return;
     }
   
-    const { data, error } = await StudentService.addStudent(formData);
-    
-    if (!error) {
+    // Fetch admin credentials and check password directly from the 'admin' table
+    try {
+      // Query the 'admin' table to get the admin credentials based on admin_id
+      const { data: adminData, error: adminError } = await supabase
+        .from('admin') // Assuming your table name is 'admin'
+        .select('admin_id, password') // Fetching admin_id and password
+        .eq('admin_id', formData.teacherId) // Matching admin_id with teacherId from form data
+        .single(); // Only expecting one match
+  
+      if (adminError) {
+        setMessage("Error fetching admin credentials");
+        return;
+      }
+  
+      // Check if the fetched password matches the input password
+      if (adminData.password !== password) {
+        setMessage("Incorrect admin ID or password");
+        return;
+      }
+  
+      // If credentials are valid, proceed with adding the student
+      const { data, error } = await StudentService.addStudent(formData);
+  
+      if (error) {
+        setMessage("Error adding student: " + error.message);
+        return;
+      }
+  
+      // Update student list if successfully added
       setStudents([{
         studentRoll: data[0].roll,
         registrationNo: data[0].reg_no,
@@ -87,7 +115,8 @@ export default function StudentManagementPage() {
         gender: data[0].gender,
         departmentName: data[0].dept_name
       }, ...students]);
-      setMessage("Student added successfully");
+  
+      // Reset form fields and success message
       setFormData({
         studentRoll: "",
         registrationNo: "",
@@ -102,12 +131,18 @@ export default function StudentManagementPage() {
         gender: "",
         departmentName: "",
       });
-    } else {
-      setMessage("Error: " + error.message);
+  
+      setMessage("Student added successfully");
+  
+    } catch (error) {
+      setMessage("Error adding student: " + error.message);
+    } finally {
+      // Hide password prompt and clear password field
+      setShowPasswordPrompt(false);
+      setPassword("");
     }
-    setShowPasswordPrompt(false);
   };
-
+  
   const handleSearch = async () => {
     const { data, error } = await StudentService.searchStudents(searchTerm);
     if (!error && data.length > 0) {
@@ -235,27 +270,46 @@ export default function StudentManagementPage() {
                               >
                                 Add Student
                               </Button>
-                            </form>
+                              </form>
                             {showPasswordPrompt && (
-                              <div className={styles.passwordPrompt}>
-                                <input
-                                  
-                                  type="password"
-                                  placeholder="Enter Password"
-                                  value={password}
-                                  onChange={(e) => setPassword(e.target.value)}
-                                  onClick={(e) => e.stopPropagation()}
-                                  className={styles.formInput}
-                                
-                                />
-                                <Button
-                                  onClick={handleSubmit}
-                                  className={styles.button}
-                                >
-                                  Submit
-                                </Button>
-                              </div>
-                            )}
+  <div className={styles.passwordPrompt}>
+    {/* Admin ID input */}
+    <div className={styles.formGroup}>
+      <label htmlFor="adminId" className={styles.formLabel}>Admin ID</label>
+      <input
+        type="text"
+        id="adminId"
+        placeholder="Enter your ID"
+        value={formData.teacherId} // Assuming the admin ID should be the teacherId field
+        onChange={(e) => setFormData({ ...formData, teacherId: e.target.value })}
+        onClick={(e) => e.stopPropagation()}
+        className={styles.formInput}
+      />
+    </div>
+
+    {/* Password input */}
+    <div className={styles.formGroup}>
+      <label htmlFor="password" className={styles.formLabel}>Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
+        className={styles.formInput}
+      />
+    </div>
+
+    {/* Submit button */}
+    <div className={styles.buttonCenter}>
+      <Button onClick={handleSubmit} className={styles.button}>
+        Submit
+      </Button>
+    </div>
+  </div>
+)}
+
                           </>
                         )}
                         {section === "search" && (

@@ -27,7 +27,7 @@ export const TeacherService = {
       };
 
       const { data, error } = await supabase
-        .from('teachermanagement')
+        .from('teacher')
         .insert([formattedData])
         .select();
 
@@ -47,7 +47,7 @@ export const TeacherService = {
       console.log('🗑️ Deleting teacher:', teacherId);
       
       const { error } = await supabase
-        .from('teachermanagement')
+        .from('teacher')
         .delete()
         .eq('teacher_id', teacherId);
 
@@ -67,7 +67,7 @@ export const TeacherService = {
       console.log('🔍 Searching for:', searchTerm);
       
       const { data, error } = await supabase
-        .from('teachermanagement')
+        .from('teacher')
         .select('*')
         .or(`teacher_id.eq.${searchTerm},name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%`);
 
@@ -98,7 +98,7 @@ export const TeacherService = {
       };
   
       const { data, error } = await supabase
-        .from('teachermanagement')
+        .from('teacher')
         .update(formattedData)
         .eq('teacher_id', teacherId)
         .select();
@@ -120,7 +120,7 @@ export const TeacherService = {
       console.log('📋 Fetching all teachers');
       
       const { data, error } = await supabase
-        .from('teachermanagement')
+        .from('teacher')
         .select('*');
 
       if (error) throw error;

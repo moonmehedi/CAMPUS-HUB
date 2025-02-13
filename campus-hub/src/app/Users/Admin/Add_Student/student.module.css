@@ -53,7 +53,7 @@
 .addSection {
   background: linear-gradient(
     135deg,
-    rgba(106, 179, 253, 0.8),
+    rgba(0, 128, 255, 0.8),
     rgba(58, 134, 255, 0.8)
   );
 }
@@ -161,7 +161,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
-  align-self: flex-start;
+  align-self: center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -274,11 +274,15 @@
 .passwordPrompt {
   display: flex;
   flex-direction: column;
-  gap: 0.5;
-  align-items: flex-start;
+  flex-grow: 1; /* Allow the container to grow */
+  justify-content: center; /* Center the content vertically */
   width: 100%;
-  margin-top: 1rem;
 }
+
+.formInput {
+  flex-shrink: 0; /* Prevent shrinking of inputs */
+}
+
 
 .passwordPrompt label {
   font-size: 0.9rem;
