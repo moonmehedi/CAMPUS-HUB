@@ -4,13 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { InteractiveAttendanceSheet } from "./interactive-attendance-sheet";
 
-const parseAttendanceData = (data) => {
-  const students = [];
-  const dateSet = new Set();
+interface AttendanceData {
+  rollNumber: string;
+  name: string;
+  attendance: Record<string, string>;
+}
 
-  data.attendance.forEach((entry) => {
+interface MainAttendanceSheetProps {
+  courseName: string;
+  courseCode: string;
+  onClose: () => void;
+}
+
+const parseAttendanceData = (data: any): { students: AttendanceData[], dates: string[] } => {
+  const students: AttendanceData[] = [];
+  const dateSet = new Set<string>();
+
+  data.attendance.forEach((entry: string) => {
     const parts = entry.split(", ");
-    const student = {
+    const student: AttendanceData = {
       rollNumber: parts[0].split(":")[1],
       name: parts[1].split(":")[1].replace(/'/g, ""),
       attendance: {},
@@ -25,53 +37,47 @@ const parseAttendanceData = (data) => {
     students.push(student);
   });
 
-  return { students, dates: Array.from(dateSet).sort((a, b) => new Date(a) - new Date(b)) };
+  return { students, dates: Array.from(dateSet).sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) };
 };
 
-export function MainAttendanceSheet({ courseName, courseCode, onClose }) {
-  const [students, setStudents] = useState([]);
-  const [dates, setDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAttendanceSheetProps) {
+  const [students, setStudents] = useState<AttendanceData[]>([]);
+  const [dates, setDates] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-//process the course code
+  const parts = courseCode.split("-");
+  const displayCourseCode = parts.join(" ");
+  const processedCourseCode = parseInt(parts[1], 10);
 
-const parts = courseCode.split("-");
+  console.log("Course Code:", processedCourseCode);
 
-
-// You can log or adjust the string if needed:
-// e.g. replacing the dash with a space (if you need to display it somewhere)
-const displayCourseCode = parts.join(" ");
-// Extract the numeric portion from the course code
-const processedCourseCode = parseInt(parts[1], 10);
-
-console.log("Course Code:", processedCourseCode);
+  const fetchAttendanceData = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/attendance/course/${processedCourseCode}`);
+      const data = await response.json();
+      const { students, dates } = parseAttendanceData(data);
+      setStudents(students);
+      setDates(dates);
+    } catch (error) {
+      console.error("Error fetching attendance data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchAttendanceData = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/attendance/course/${processedCourseCode}`);
-        const data = await response.json();
-        const { students, dates } = parseAttendanceData(data);
-        setStudents(students);
-        setDates(dates);
-      } catch (error) {
-        console.error("Error fetching attendance data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAttendanceData();
-  }, []);
+  }, [processedCourseCode]);
 
-  const calculateAttendancePercentage = (attendance) => {
+  const calculateAttendancePercentage = (attendance: Record<string, string>): string => {
     const presentCount = Object.values(attendance).filter((status) => status === "P").length;
     return ((presentCount / dates.length) * 100).toFixed(2);
   };
 
-  const updateAttendance = (updatedStudents) => {
+  const updateAttendance = (updatedStudents: AttendanceData[]) => {
     setStudents(updatedStudents);
+    fetchAttendanceData(); // Re-fetch data after updating attendance
   };
 
   if (loading) {
@@ -104,7 +110,7 @@ console.log("Course Code:", processedCourseCode);
               </TableRow>
             </TableHeader>
             <TableBody>
-              {students.map((student) => (
+              {Array.isArray(students) && students.length > 0 && students.map((student) => (
                 <TableRow key={student.rollNumber}>
                   <TableCell>{student.rollNumber}</TableCell>
                   <TableCell>{student.name}</TableCell>

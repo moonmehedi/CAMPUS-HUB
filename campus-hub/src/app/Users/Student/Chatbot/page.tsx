@@ -17,15 +17,36 @@ export default function ChatPage() {
   const [inputMessage, setInputMessage] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return
 
+    // Add user message to the chat
     setMessages(prev => [...prev, { text: inputMessage, isBot: false }])
     setShowAnimation(false)
-    
-    setTimeout(() => {
-      setMessages(prev => [...prev, { text: "Thanks for your question!", isBot: true }])
-    }, 1000)
+
+    try {
+      // Send message to Django backend
+      const response = await fetch('http://127.0.0.1:8000/blog/getResponse/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: inputMessage }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch response from the server')
+      }
+
+      const data = await response.json()
+
+      // Add bot response to the chat
+      setMessages(prev => [...prev, { text: data.message, isBot: true }])
+    } catch (error) {
+      console.error('Error:', error)
+      // Handle error (e.g., show an error message to the user)
+      setMessages(prev => [...prev, { text: "Sorry, something went wrong. Please try again.", isBot: true }])
+    }
 
     setInputMessage('')
   }

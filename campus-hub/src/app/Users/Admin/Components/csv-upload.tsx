@@ -1,51 +1,49 @@
-'use client'
-
-import { useState, useRef } from 'react'
-import { Upload } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { ProgressBar } from "../Components/progress-bar"
+import { useState, useRef } from 'react';
+import { Upload } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { ProgressBar } from "../Components/progress-bar";
 
 interface CSVUploadProps {
-  onUploadComplete: (data: string) => void
+  onUploadComplete: (file: File) => void;
 }
 
 export function CSVUpload({ onUploadComplete }: CSVUploadProps) {
-  const [file, setFile] = useState<File | null>(null)
-  const [isUploading, setIsUploading] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFile(event.target.files[0])
+      const selectedFile = event.target.files[0];
+      if (selectedFile.name.endsWith('.csv')) {
+        setFile(selectedFile);
+      } else {
+        alert('Please upload a valid CSV file.');
+      }
     }
-  }
+  };
 
   const handleUpload = async () => {
     if (!file) {
-      alert('Please select a CSV file to upload')
-      return
+      alert('Please select a CSV file to upload');
+      return;
     }
 
-    setIsUploading(true)
-    setUploadProgress(0)
+    setIsUploading(true);
+    setUploadProgress(0);
 
-    // Simulating file upload and processing
+    // Simulate upload progress
     for (let i = 0; i <= 100; i += 10) {
-      await new Promise(resolve => setTimeout(resolve, 200))
-      setUploadProgress(i)
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setUploadProgress(i);
     }
 
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const text = e.target?.result as string
-      console.log('CSV data:', text)
-      onUploadComplete(text)
-    }
-    reader.readAsText(file)
+    // Pass the file to the parent component
+    onUploadComplete(file);
 
-    setIsUploading(false)
-  }
+    setIsUploading(false);
+  };
 
   return (
     <div className="mt-8 p-4 border rounded-lg bg-white shadow-sm">
@@ -80,5 +78,5 @@ export function CSVUpload({ onUploadComplete }: CSVUploadProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

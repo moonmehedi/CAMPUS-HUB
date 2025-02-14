@@ -11,10 +11,10 @@ interface Student {
 }
 
 interface InteractiveAttendanceSheetProps {
-  courseCode: string; // Course code passed as prop
+  courseCode: string;
   selectedDate: string;
   onClose: () => void;
-  onUpdateAttendance: () => void;
+  onUpdateAttendance: (updatedStudents: Student[]) => void;
 }
 
 export function InteractiveAttendanceSheet({
@@ -35,12 +35,15 @@ export function InteractiveAttendanceSheet({
         const response = await fetch(
           `http://localhost:3000/attendance/by-date?courseCode=${courseCode}&date=${selectedDate}`
         );
+
         const data = await response.json();
         console.log("Fetched data:", data);
         
-        // Process the fetched data:
-        // 1. Set remark to "No remark" if it's empty.
-        // 2. Sort the students by their roll number.
+        if (!Array.isArray(data)) {
+          console.error("Expected an array but got:", data);
+          setStudents([]); // Prevents the undefined error
+          return;
+        }
         const processedData = data
           .map((student: Student) => ({
             ...student,
@@ -77,11 +80,11 @@ export function InteractiveAttendanceSheet({
             name: s.name,
             date: selectedDate,
             present: s.attendance ? "P" : "A",
-            courseCode:courseCode
+            courseCode: courseCode
           }))
         ),
       });
-      onUpdateAttendance();
+      onUpdateAttendance(students); // Pass updated students to the parent component
       onClose();
     } catch (error) {
       console.error("Error updating attendance:", error);
