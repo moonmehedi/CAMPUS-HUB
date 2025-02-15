@@ -53,7 +53,7 @@
 .addSection {
   background: linear-gradient(
     135deg,
-    rgba(106, 179, 253, 0.8),
+    rgba(0, 128, 255, 0.8),
     rgba(58, 134, 255, 0.8)
   );
 }

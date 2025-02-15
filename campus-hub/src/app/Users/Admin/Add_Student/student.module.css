@@ -53,7 +53,7 @@
 .addSection {
   background: linear-gradient(
     135deg,
-    rgba(106, 179, 253, 0.8),
+    rgba(0, 128, 255, 0.8),
     rgba(58, 134, 255, 0.8)
   );
 }
@@ -166,6 +166,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
 }
 
 .button:hover {
@@ -205,12 +206,12 @@
 }
 
 .editButton {
-  background-color: rgba(255, 193, 7, 0.8);
+  background-color: rgba(87, 66, 4, 0.8);
   margin-top: 1rem;
 }
 
 .editButton:hover {
-  background-color: rgba(255, 179, 0, 0.8);
+  background-color: rgba(151, 106, 0, 0.8);
 }
 
 .saveButton {
@@ -273,11 +274,15 @@
 .passwordPrompt {
   display: flex;
   flex-direction: column;
-  gap: 0.5;
-  align-items: flex-start;
+  flex-grow: 1; /* Allow the container to grow */
+  justify-content: center; /* Center the content vertically */
   width: 100%;
-  margin-top: 1rem;
 }
+
+.formInput {
+  flex-shrink: 0; /* Prevent shrinking of inputs */
+}
+
 
 .passwordPrompt label {
   font-size: 0.9rem;
@@ -320,4 +325,63 @@
   color: #ff4444;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+
+/* Improved button spacing */
+.buttonCenter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+
+/* Password prompt styling */
+.passwordPrompt {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Form error styling */
+.formError {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  height: 1rem;
+}
+
+/* Input error state */
+.formInput.invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+/* Responsive form grid */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Delete and search boxes */
+.deleteBox, .searchBox {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Table improvements */
+.teacherTable th, .teacherTable td {
+  padding: 12px;
+  min-width: 120px;
+}
+
+/* Message box enhancements */
+.messageBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }

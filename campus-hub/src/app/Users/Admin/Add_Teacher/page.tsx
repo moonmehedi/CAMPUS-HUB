@@ -6,6 +6,9 @@ import { Button } from "@nextui-org/button"
 import { useState, useEffect } from "react"
 import styles from "./teacher.module.css"
 import { motion, AnimatePresence } from "framer-motion"
+import { supabase } from '@/config/supabaseClient';
+
+
 
 export default function TeacherManagementPage() {
   const [teachers, setTeachers] = useState([])
@@ -55,20 +58,37 @@ export default function TeacherManagementPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const validationError = validateForm();
     if (validationError) {
       setMessage(validationError);
       return;
     }
-    if (password !== "1234") {
-      setMessage("Incorrect password");
-      return;
-    }
   
+    // Fetch admin credentials and check password directly from the 'admin' table
     try {
+      // Query the 'admin' table to get the admin credentials based on teacherId (admin_id)
+      const { data: adminData, error: adminError } = await supabase
+        .from('admin') // Assuming your table name is 'admin'
+        .select('admin_id, password') // Fetching admin_id and password
+        .eq('admin_id', formData.teacherId) // Matching the admin_id with the input teacherId
+        .single(); // Only expecting one match
+  
+      if (adminError) {
+        setMessage("Error fetching admin credentials");
+        return;
+      }
+  
+      // Check if the fetched password matches the input password
+      if (adminData.password !== password) {
+        setMessage("Incorrect admin ID or password");
+        return;
+      }
+  
+      // If credentials are valid, proceed with adding the teacher
       const { data, error } = await TeacherService.addTeacher(formData);
       if (error) throw error;
-      
+  
       setTeachers([...teachers, data[0]]);
       setFormData({
         teacherId: "",
@@ -81,6 +101,7 @@ export default function TeacherManagementPage() {
         subjectsTaught: "",
       });
       setMessage("Teacher added successfully");
+  
     } catch (error) {
       setMessage("Error adding teacher: " + error.message);
     } finally {
@@ -88,6 +109,7 @@ export default function TeacherManagementPage() {
       setPassword("");
     }
   };
+  
 
   const handleSearch = async () => {
     try {
@@ -111,9 +133,16 @@ export default function TeacherManagementPage() {
       const { error } = await TeacherService.deleteTeacher(deleteId);
       if (error) throw error;
       
-      setTeachers(teachers.filter(teacher => teacher.teacher_id !== deleteId));
-      setMessage("Teacher deleted successfully");
+      setTeachers(prevTeachers => prevTeachers.filter(teacher => teacher.teacherId !== deleteId));
       setDeleteId("");
+      
+      // Fetch updated list from API
+      const { data, fetchError } = await TeacherService.getAllTeachers();
+      if (!fetchError) {
+        setTeachers(data);
+      }
+      
+      setMessage("Teacher deleted successfully");
     } catch (error) {
       setMessage("Delete error: " + error.message);
     }
@@ -225,21 +254,42 @@ export default function TeacherManagementPage() {
                               </div>
                             </form>
                             {showPasswordPrompt && (
-                              <div className={styles.passwordPrompt}>
-                                <input
-                                  type="password"
-                                  placeholder="Enter Password"
-                                  value={password}
-                                  onChange={(e) => setPassword(e.target.value)}
-                                  className={styles.formInput}
-                                />
-                                <div className={styles.buttonCenter}>
-                                  <Button onClick={handleSubmit} className={styles.button}>
-                                    Submit
-                                  </Button>
-                                </div>
-                              </div>
-                            )}
+  <div className={styles.passwordPrompt}>
+    {/* Admin ID input */}
+    <div className={styles.formGroup}>
+      <label htmlFor="adminId" className={styles.formLabel}>Admin ID</label>
+      <input
+        type="text"
+        id="adminId"
+        placeholder="Enter your ID"
+        value={formData.teacherId} // Assuming the admin ID should be the teacherId field
+        onChange={(e) => setFormData({ ...formData, teacherId: e.target.value })}
+        className={styles.formInput}
+      />
+    </div>
+
+    {/* Password input */}
+    <div className={styles.formGroup}>
+      <label htmlFor="password" className={styles.formLabel}>Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className={styles.formInput}
+      />
+    </div>
+
+    {/* Submit button */}
+    <div className={styles.buttonCenter}>
+      <Button onClick={handleSubmit} className={styles.button}>
+        Submit
+      </Button>
+    </div>
+  </div>
+)}
+
                           </>
                         )}
                         {section === "search" && (

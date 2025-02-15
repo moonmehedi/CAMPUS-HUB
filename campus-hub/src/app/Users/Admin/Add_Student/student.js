@@ -18,7 +18,7 @@ export const StudentService = {
       console.log('📥 Attempting to add student:', studentData);
       
       const { data, error } = await supabase
-        .from('studentmanagement')
+        .from('student')
         .insert([{
           roll: studentData.studentRoll,
           reg_no: studentData.registrationNo,
@@ -55,7 +55,7 @@ export const StudentService = {
       console.log('🗑️ Attempting to delete student with roll:', roll);
       
       const { data, error } = await supabase
-        .from('studentmanagement')
+        .from('student')
         .delete()
         .eq('roll', roll);
 
@@ -79,7 +79,7 @@ export const StudentService = {
       console.log('🔍 Searching for:', searchTerm);
       
       const { data, error } = await supabase
-        .from('studentmanagement')
+        .from('student')
         .select('*')
         .or(`roll.eq.${searchTerm},name.ilike.%${searchTerm}%`);
 
@@ -103,7 +103,7 @@ export const StudentService = {
       console.log('🔄 Updating student:', roll, 'with data:', updatedData);
       
       const { data, error } = await supabase
-        .from('studentmanagement')
+        .from('student')
         .update({
           name: updatedData.studentName,
           reg_no: updatedData.registrationNo,
@@ -140,7 +140,7 @@ export const StudentService = {
       console.log('📋 Fetching all students');
       
       const { data, error } = await supabase
-        .from('studentmanagement')
+        .from('student')
         .select('*')
         .order('student_id', { ascending: false });
 
