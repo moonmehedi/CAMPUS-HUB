@@ -1,22 +1,30 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { Sidebar } from "../Components/sidebar";
-import { Header } from "../Components/header";
-import { ProfileDrawer } from "../Components/profile-drawer";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useEffect, useState } from "react"
+import { StudentLayout } from "../Components/student-layout"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { Search, TrendingUp, FileCheck } from "lucide-react"
+
+// Define the Course interface
+interface Course {
+  course_code: string;
+  course_name: string;
+  credit: number;
+  grade: number;
+}
 
 export default function CourseAdvisorPage() {
   const [studentId, setStudentId] = useState("");
-  const [courses, setCourses] = useState([]);  // Courses for improvement
-  const [courses1, setCourses1] = useState([]); // Courses with recommended exams
-  const [CoursesData, setCoursesData] = useState([]); // Full course list with grades
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses1, setCourses1] = useState<Course[]>([]);
+  const [CoursesData, setCoursesData] = useState<Course[]>([]);
   const [loading, setLoading] = useState(false);
-  const [cgpaProgress, setCgpaProgress] = useState(0); // State for CGPA progress
+  const [cgpaProgress, setCgpaProgress] = useState(0);
 
-  const goalCGPA = 3.00; // The target CGPA for the student
+  const goalCGPA = 3.00;
 
+  
   // Function to fetch courses and calculate CGPA progress
   const fetchCourses = async () => {
     if (!studentId.trim()) return; // Prevent API call if input is empty
@@ -67,158 +75,195 @@ export default function CourseAdvisorPage() {
     }
   };
 
+  // Add type annotation to the calculateProgress function parameters
+  
   // Calculate CGPA Progress based on courses data
-  const calculateProgress = (coursesData) => {
+  const calculateProgress = (coursesData: Course[]) => {
     let totalCredits = 0;
     let weightedGrades = 0;
 
-    coursesData.forEach(course => {
+    coursesData.forEach((course: Course) => {
       totalCredits += course.credit;
       weightedGrades += course.grade * course.credit;
     });
 
     const currentCGPA = weightedGrades / totalCredits;
     const progress = (currentCGPA / goalCGPA) * 100;
-    setCgpaProgress(Math.min(progress, 100)); // Cap at 100%
+    setCgpaProgress(Math.min(progress, 100));
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-blue-400">
-      <div className="flex h-screen">
-        <Sidebar />
-        <div className="flex-1 flex flex-col">
-          <Header />
-          <main className="flex-1 p-6 bg-gray-100 m-4 rounded-3xl shadow-lg">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-center bg-blue-100 py-2 rounded-lg">
-                Automated Course Adviser
-              </h1>
-              <h2 className="text-xl mt-6 mb-4 text-center">
-                Your CGPA Progress Towards Target
-              </h2>
 
-              {/* CGPA Progress Bar */}
-              <div className="mb-6">
-                <div className="text-center mb-2">Current CGPA Progress</div>
-                <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div
-                    className="bg-blue-500 h-4 rounded-full"
-                    style={{ width: `${cgpaProgress}%` }}
-                  />
-                </div>
-                <div className="text-center mt-2">{cgpaProgress.toFixed(2)}%</div>
+  return (
+    <StudentLayout>
+      <div className="p-6 max-w-7xl mx-auto w-full">
+        {/* Header Section */}
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            Automated Course Adviser
+          </h1>
+          <p className="text-gray-600">
+            Track your academic progress and get personalized course recommendations
+          </p>
+        </div>
+
+        {/* CGPA Progress Card */}
+        <div className="bg-white rounded-[20px] p-6 shadow-lg mb-8">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            CGPA Progress Towards Target
+          </h2>
+          <div className="w-full bg-gray-100 rounded-full h-6 mb-2">
+            <div
+              className="bg-[#60A3D9] h-6 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${cgpaProgress}%` }}
+            >
+              <div className="h-full flex items-center justify-end">
+                <span className="text-white text-sm px-3">
+                  {cgpaProgress.toFixed(2)}%
+                </span>
               </div>
             </div>
+          </div>
+          <p className="text-sm text-gray-600 text-center">
+            Target CGPA: {goalCGPA.toFixed(2)}
+          </p>
+        </div>
 
-            {/* Input Field for Student ID */}
-            <div className="mb-6 flex justify-center">
+        {/* Search Section */}
+        <div className="bg-white rounded-[20px] p-6 shadow-lg mb-8">
+          <div className="flex gap-4 items-center justify-center">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Insert your student ID"
+                placeholder="Enter your student ID"
                 value={studentId}
                 onChange={(e) => setStudentId(e.target.value)}
-                className="border border-gray-400 rounded-lg px-4 py-2 w-64"
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
-              <Button 
-                onClick={fetchCourses} 
-                className="ml-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
-              >
-                Fetch Courses
-              </Button>
             </div>
+            <Button 
+              onClick={fetchCourses} 
+              className="bg-[#60A3D9] hover:bg-[#4A90D9] text-white px-8 py-3 rounded-xl transition-all duration-200"
+            >
+              Fetch Courses
+            </Button>
+          </div>
+        </div>
 
-            {/* First Table */}
-            <h2 className="text-xl mt-6 mb-4 text-center">
+        {/* Course Tables */}
+        <div className="grid gap-8 mb-8">
+          {/* Improvement Courses Table */}
+          <div className="bg-white rounded-[20px] p-6 shadow-lg">
+            <div className="flex items-center gap-2 mb-6">
+              <TrendingUp className="h-6 w-6 text-[#60A3D9]" />
+              <h2 className="text-xl font-semibold text-gray-800">
                 Courses You Can Do Better In
               </h2>
+            </div>
             <div className="overflow-x-auto">
-              <table className="w-full bg-white shadow-md rounded-lg">
-                <thead className="bg-blue-100">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="px-4 py-2 text-left">Course Code</th>
-                    <th className="px-4 py-2 text-left">Course Name</th>
-                    <th className="px-4 py-2 text-left">Credit</th>
-                    <th className="px-4 py-2 text-left">Grade</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Course Code</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Course Name</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Credit</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Grade</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                   {loading ? (
                     <tr>
-                      <td colSpan="4" className="text-center py-4">Loading...</td>
+                      <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                        Loading...
+                      </td>
                     </tr>
                   ) : courses.length > 0 ? (
                     courses.map((course, index) => (
-                      <tr key={index}>
-                        <td className="border-t px-4 py-2">{course.course_code}</td>
-                        <td className="border-t px-4 py-2">{course.course_name}</td>
-                        <td className="border-t px-4 py-2">{course.credit}</td>
-                        <td className="border-t px-4 py-2">{course.grade}</td>
+                      <tr key={index} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">{course.course_code}</td>
+                        <td className="px-6 py-4">{course.course_name}</td>
+                        <td className="px-6 py-4">{course.credit}</td>
+                        <td className="px-6 py-4">{course.grade}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="4" className="text-center py-4">No courses found.</td>
+                      <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                        No courses found
+                      </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
+          </div>
 
-            <br />
-
-            {/* Second Table with Recommended Exam Type */}
-            <h2 className="text-xl mt-6 mb-4 text-center">
+          {/* Recommended Exams Table */}
+          <div className="bg-white rounded-[20px] p-6 shadow-lg">
+            <div className="flex items-center gap-2 mb-6">
+              <FileCheck className="h-6 w-6 text-[#60A3D9]" />
+              <h2 className="text-xl font-semibold text-gray-800">
                 Recommended Exams To Take
               </h2>
+            </div>
             <div className="overflow-x-auto">
-              <table className="w-full bg-white shadow-md rounded-lg">
-                <thead className="bg-blue-100">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="px-4 py-2 text-left">Course Code</th>
-                    <th className="px-4 py-2 text-left">Course Name</th>
-                    <th className="px-4 py-2 text-left">Credit</th>
-                    <th className="px-4 py-2 text-left">Grade</th>
-                    <th className="px-4 py-2 text-left">Recommended Exam Type</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Course Code</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Course Name</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Credit</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Grade</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Recommended Exam</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                   {loading ? (
                     <tr>
-                      <td colSpan="5" className="text-center py-4">Loading...</td>
+                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                        Loading...
+                      </td>
                     </tr>
                   ) : courses1.length > 0 ? (
                     courses1.map((course1, index) => (
-                      <tr key={index}>
-                        <td className="border-t px-4 py-2">{course1.course_code}</td>
-                        <td className="border-t px-4 py-2">{course1.course_name}</td>
-                        <td className="border-t px-4 py-2">{course1.credit}</td>
-                        <td className="border-t px-4 py-2">{course1.grade}</td>
-                        <td className="border-t px-4 py-2">
-                          {course1.grade === 0.00 ? "Retake" : "Improvement"}
+                      <tr key={index} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">{course1.course_code}</td>
+                        <td className="px-6 py-4">{course1.course_name}</td>
+                        <td className="px-6 py-4">{course1.credit}</td>
+                        <td className="px-6 py-4">{course1.grade}</td>
+                        <td className="px-6 py-4">
+                          <span className={`px-3 py-1 rounded-full text-sm ${
+                            course1.grade === 0.00 
+                              ? "bg-red-100 text-red-700" 
+                              : "bg-blue-100 text-blue-700"
+                          }`}>
+                            {course1.grade === 0.00 ? "Retake" : "Improvement"}
+                          </span>
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center py-4">No courses found.</td>
+                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                        No courses found
+                      </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
 
-            <div className="mt-8 text-center">
-              <Link href={`/Users/Student/Exam_Scheduler`}>
-                <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-lg">
-                 Exam Schedule
-                </Button>
-              </Link>
-            </div>
-          </main>
-
-          <ProfileDrawer />
+        {/* Action Button */}
+        <div className="text-center">
+          <Link href="/Users/Student/Exam_Scheduler">
+            <Button className="bg-[#60A3D9] hover:bg-[#4A90D9] text-white px-8 py-3 rounded-xl transition-all duration-200">
+              View Exam Schedule
+            </Button>
+          </Link>
         </div>
       </div>
-    </div>
-  );
+    </StudentLayout>
+  )
 }
