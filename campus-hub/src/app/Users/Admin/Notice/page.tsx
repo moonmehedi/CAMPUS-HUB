@@ -7,7 +7,7 @@ import AddNoticeForm from "./AddNoticeForm";
 import styles from "./notice.module.css";
 import { Button } from "@nextui-org/button";
 
-const adminId = 1;//needs to be dynamic after implementing cookies
+const adminId = 3;//needs to be dynamic after implementing cookies
 
 interface NoticeProps {
   notice_id: string; 
