@@ -1,49 +1,87 @@
-import { useState } from "react"
-import { X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { InteractiveAttendanceSheet } from "./interactive-attendance-sheet"
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { InteractiveAttendanceSheet } from "./interactive-attendance-sheet";
 
-interface Student {
-  rollNumber: string
-  name: string
-  attendance: boolean[]
-  remark: string
+interface AttendanceData {
+  rollNumber: string;
+  name: string;
+  attendance: Record<string, string>;
 }
 
 interface MainAttendanceSheetProps {
-  courseName: string
-  courseCode: string
-  onClose: () => void
+  courseName: string;
+  courseCode: string;
+  onClose: () => void;
 }
 
-const generateStudents = (): Student[] => {
-  return [
-    { rollNumber: "202214003", name: "Abdullah Faisal", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214008", name: "Anika Tasnim", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214019", name: "Farzana Mozammel Samia", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214024", name: "Iftekhar Ul Islam", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214033", name: "Maisha Nanjeeba", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214039", name: "Md. Ariful Islam Khan", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214049", name: "Md. Nahul Rahman", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214055", name: "Md. Sabbir Hossain", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202114025", name: "G.M.Fahim Tazwar", attendance: Array(14).fill(true), remark: "No Remark" },
-    { rollNumber: "202214048", name: "Mehedi Hasan Moon", attendance: Array(14).fill(false), remark: "Sick" }
-  ];
+const parseAttendanceData = (data: any): { students: AttendanceData[], dates: string[] } => {
+  const students: AttendanceData[] = [];
+  const dateSet = new Set<string>();
+
+  data.attendance.forEach((entry: string) => {
+    const parts = entry.split(", ");
+    const student: AttendanceData = {
+      rollNumber: parts[0].split(":")[1],
+      name: parts[1].split(":")[1].replace(/'/g, ""),
+      attendance: {},
+    };
+
+    for (let i = 2; i < parts.length; i++) {
+      const [classDate, status] = parts[i].split(":");
+      student.attendance[classDate] = status;
+      dateSet.add(classDate);
+    }
+
+    students.push(student);
+  });
+
+  return { students, dates: Array.from(dateSet).sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) };
 };
 
-
 export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAttendanceSheetProps) {
-  const [students, setStudents] = useState(generateStudents())
-  const [selectedClass, setSelectedClass] = useState<number | null>(null)
+  const [students, setStudents] = useState<AttendanceData[]>([]);
+  const [dates, setDates] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const calculateAttendancePercentage = (attendance: boolean[]) => {
-    const presentCount = attendance.filter(Boolean).length
-    return ((presentCount / attendance.length) * 100).toFixed(2)
-  }
+  const parts = courseCode.split("-");
+  const displayCourseCode = parts.join(" ");
+  const processedCourseCode = parseInt(parts[1], 10);
 
-  const updateAttendance = (updatedStudents: Student[]) => {
-    setStudents(updatedStudents)
+  console.log("Course Code:", processedCourseCode);
+
+  const fetchAttendanceData = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/attendance/course/${processedCourseCode}`);
+      const data = await response.json();
+      const { students, dates } = parseAttendanceData(data);
+      setStudents(students);
+      setDates(dates);
+    } catch (error) {
+      console.error("Error fetching attendance data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttendanceData();
+  }, [processedCourseCode]);
+
+  const calculateAttendancePercentage = (attendance: Record<string, string>): string => {
+    const presentCount = Object.values(attendance).filter((status) => status === "P").length;
+    return ((presentCount / dates.length) * 100).toFixed(2);
+  };
+
+  const updateAttendance = (updatedStudents: AttendanceData[]) => {
+    setStudents(updatedStudents);
+    fetchAttendanceData(); // Re-fetch data after updating attendance
+  };
+
+  if (loading) {
+    return <div className="text-center p-4">Loading attendance data...</div>;
   }
 
   return (
@@ -61,27 +99,24 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
               <TableRow>
                 <TableHead>Roll Number</TableHead>
                 <TableHead>Name</TableHead>
-                {Array.from({ length: 14 }, (_, i) => (
-                  <TableHead key={i} className="text-center">
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => setSelectedClass(i)}
-                    >
-                      Class-{i + 1}
+                {dates.map((date) => (
+                  <TableHead key={date} className="text-center">
+                    <Button variant="ghost" onClick={() => setSelectedDate(date)}>
+                      {date}
                     </Button>
                   </TableHead>
                 ))}
-                <TableHead className="text-center">Attendance Percentage</TableHead>
+                <TableHead className="text-center">Attendance %</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {students.map((student) => (
+              {Array.isArray(students) && students.length > 0 && students.map((student) => (
                 <TableRow key={student.rollNumber}>
                   <TableCell>{student.rollNumber}</TableCell>
                   <TableCell>{student.name}</TableCell>
-                  {student.attendance.map((present, index) => (
-                    <TableCell key={index} className="text-center">
-                      {present ? "P" : "A"}
+                  {dates.map((date) => (
+                    <TableCell key={date} className="text-center">
+                      {student.attendance[date] || "A"}
                     </TableCell>
                   ))}
                   <TableCell className="text-center">
@@ -92,16 +127,16 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
             </TableBody>
           </Table>
         </div>
-        {selectedClass !== null && (
+        {selectedDate && (
           <InteractiveAttendanceSheet
             students={students}
-            classIndex={selectedClass}
-            onClose={() => setSelectedClass(null)}
+            selectedDate={selectedDate}
+            courseCode={processedCourseCode}
+            onClose={() => setSelectedDate(null)}
             onUpdateAttendance={updateAttendance}
           />
         )}
       </div>
     </div>
-  )
+  );
 }
-
