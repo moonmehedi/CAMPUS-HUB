@@ -7,6 +7,7 @@ import { Button } from "@nextui-org/button"
 import { useState, useEffect } from "react"
 import styles from "./student.module.css"
 import { motion, AnimatePresence } from "framer-motion"
+import { supabase } from "@/config/supabaseClient";
 
 export default function StudentManagementPage() {
   const [students, setStudents] = useState([])
@@ -38,7 +39,7 @@ export default function StudentManagementPage() {
     const fetchStudents = async () => {
       const { data, error } = await StudentService.getAllStudents();
       if (!error) {
-        setStudents(data.map(studentmanagement => ({
+        setStudents(data.map((studentmanagement: { roll: any; reg_no: any; name: any; batch: any; class_section: any; father_name: any; mother_name: any; mobile: any; email: any; dob: any; gender: any; dept_name: any; }) => ({
           studentRoll: studentmanagement.roll,
           registrationNo: studentmanagement.reg_no,
           studentName: studentmanagement.name,
