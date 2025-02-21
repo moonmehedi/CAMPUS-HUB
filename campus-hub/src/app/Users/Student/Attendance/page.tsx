@@ -21,11 +21,11 @@ export default function AttendancePage() {
 
   // Function to fetch attendance records
   const fetchAttendance = async () => {
-    if (!studentId.trim()) return; // Prevent API call if input is empty
+    
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/courseadvisor/attendance/${studentId}`, { credentials: "include" });
+      const response = await fetch(`http://localhost:3000/courseadvisor/attendance`, { credentials: "include" });
       const result = await response.json();
       console.log(result.data);
       
@@ -59,16 +59,7 @@ export default function AttendancePage() {
         {/* Search Section */}
         <div className="bg-white rounded-[20px] p-6 shadow-lg mb-8">
           <div className="flex gap-4 items-center justify-center">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Enter your student ID"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              />
-            </div>
+            
             <Button 
               onClick={fetchAttendance} 
               className="bg-[#60A3D9] hover:bg-[#4A90D9] text-white px-8 py-3 rounded-xl transition-all duration-200"
