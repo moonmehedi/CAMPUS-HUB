@@ -40,7 +40,7 @@ function Notice({
   const handleSaveClick = async () => {
     setIsEditing(false);
     try {
-      const response = await fetch(`http://localhost:5000/notices/${notice_id}`, {
+      const response = await fetch(`http://localhost:3000/notices/${notice_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ teacherId, content: editedContent }),
@@ -102,7 +102,7 @@ export default function NoticePage() {
 
   const fetchNotices = async () => {
     try {
-      const response = await fetch("http://localhost:5000/notices");
+      const response = await fetch("http://localhost:3000/notices");
       if (!response.ok) throw new Error("Failed to fetch notices");
       const data = await response.json();
       setNotices(data);
@@ -117,7 +117,7 @@ export default function NoticePage() {
 
   const handleAddNotice = async (newNotice: Omit<NoticeProps, "notice_id" | "created_at">) => {
     try {
-      const response = await fetch("http://localhost:5000/notices", {
+      const response = await fetch("http://localhost:3000/notices", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newNotice),
@@ -138,7 +138,7 @@ export default function NoticePage() {
 
   const handleDeleteNotice = async (noticeId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/notices/${noticeId}`, {
+      const response = await fetch(`http://localhost:3000/notices/${noticeId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ teacherId }),

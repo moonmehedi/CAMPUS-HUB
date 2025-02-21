@@ -38,7 +38,7 @@ export default function NoticePage() {
     // Fetch notices for the logged-in teacher
     const fetchNotices = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/notices`);
+        const response = await fetch(`http://localhost:3000/notices`);
         const data = await response.json();
         if (response.ok) {
           setNotices(data);
