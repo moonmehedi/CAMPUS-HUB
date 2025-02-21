@@ -38,7 +38,9 @@ export default function NoticePage() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/notices`);
+        const response = await fetch(`http://localhost:3000/notices`,{
+          credentials: "include",
+        });
         const data = await response.json();
         if (response.ok) {
           setNotices(data);
