@@ -13,7 +13,7 @@ export default function LeaveRequestsPage() {
       try {
         const response = await fetch("http://localhost:3000/leave/leave-requests"); 
         const data = await response.json();
-
+        console.log(data);
         if (data.success) {
           setLeaveRequests(data.data);
         } else {
