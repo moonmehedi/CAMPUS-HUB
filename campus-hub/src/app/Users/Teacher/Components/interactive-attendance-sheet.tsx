@@ -33,7 +33,10 @@ export function InteractiveAttendanceSheet({
     const fetchAttendanceForDate = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/attendance/by-date?courseCode=${courseCode}&date=${selectedDate}`
+          `http://localhost:3000/attendance/by-date?courseCode=${courseCode}&date=${selectedDate}`,
+          {
+            credentials: "include", // ✅ Ensures session cookies are sent
+          }
         );
 
         const data = await response.json();
@@ -73,6 +76,7 @@ export function InteractiveAttendanceSheet({
     try {
       await fetch("http://localhost:3000/attendance/update", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           students.map((s) => ({
