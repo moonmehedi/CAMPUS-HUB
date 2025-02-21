@@ -11,7 +11,9 @@ export default function LeaveRequestsPage() {
   useEffect(() => {
     async function fetchLeaveRequests() {
       try {
-        const response = await fetch("http://localhost:3000/leave/leave-requests"); 
+        const response = await fetch("http://localhost:3000/leave/leave-requests",{
+          credentials: "include",
+        }); 
         const data = await response.json();
 
         if (data.success) {
