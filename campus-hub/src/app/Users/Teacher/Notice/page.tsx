@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { Sidebar } from "../Components/sidebar";
 import { DashboardHeader } from "../Components/dashboard-header";
 import AddNoticeForm from "./AddNoticeForm";
 import styles from "./notice.module.css";
 import { Button } from "@nextui-org/button";
+import { number } from "zod";
 
-const teacherId = 1002; // Needs to be dynamic after implementing cookies
-
+// const teacherId = 1002; // Needs to be dynamic after implementing cookies
 interface NoticeProps {
   notice_id: string;
   teacher_id: number;
@@ -29,7 +30,11 @@ function Notice({
   teacherId,
   onDelete,
   refreshNotices, // ⬅ New prop to refetch after updating
-}: NoticeProps & { teacherId: number; onDelete: (id: string) => void; refreshNotices: () => void }) {
+}: NoticeProps & {
+  teacherId: number;
+  onDelete: (id: string) => void;
+  refreshNotices: () => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
 
@@ -40,11 +45,15 @@ function Notice({
   const handleSaveClick = async () => {
     setIsEditing(false);
     try {
-      const response = await fetch(`http://localhost:3000/notices/${notice_id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ teacherId, content: editedContent }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/notices/${notice_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ teacherId, content: editedContent }),
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         console.error("Failed to Update Notice");
@@ -99,10 +108,13 @@ function Notice({
 
 export default function NoticePage() {
   const [notices, setNotices] = useState<NoticeProps[]>([]);
-
+  const [teacherId, setTeacherId] = useState<number | null>(null);
+  const router = useRouter();
   const fetchNotices = async () => {
     try {
-      const response = await fetch("http://localhost:3000/notices");
+      const response = await fetch(`http://localhost:3000/notices`,{
+        credentials: "include",
+      });
       if (!response.ok) throw new Error("Failed to fetch notices");
       const data = await response.json();
       setNotices(data);
@@ -112,15 +124,37 @@ export default function NoticePage() {
   };
 
   useEffect(() => {
-    fetchNotices();
-  }, []);
+    const savedDteacherId = localStorage.getItem('teacherId');
+    setTeacherId(savedDteacherId ? parseInt(savedDteacherId, 10) : null);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth_teacher", {
+          credentials: "include",
+        });
+        const data = await response.json();
+        console.log(data)
+        if (data.isAuthenticated) {
+          setTeacherId(data.teacher_id);
+        } else {
+          router.push("/Users/Teacher/Login");
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        router.push("/Users/Teacher/Login");
+      }
+    };
+    checkAuth(), fetchNotices();
+  }, [router]);
 
-  const handleAddNotice = async (newNotice: Omit<NoticeProps, "notice_id" | "created_at">) => {
+  const handleAddNotice = async (
+    newNotice: Omit<NoticeProps, "notice_id" | "created_at">
+  ) => {
     try {
       const response = await fetch("http://localhost:3000/notices", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newNotice),
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -138,11 +172,15 @@ export default function NoticePage() {
 
   const handleDeleteNotice = async (noticeId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/notices/${noticeId}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ teacherId }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/notices/${noticeId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ teacherId }),
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
         setNotices(notices.filter((notice) => notice.notice_id !== noticeId));
@@ -171,7 +209,15 @@ export default function NoticePage() {
               </div>
               <div className={styles.noticeScrollContainer}>
                 {notices.map((notice) => (
-                  <Notice key={notice.notice_id} {...notice} teacherId={teacherId} onDelete={handleDeleteNotice} refreshNotices={fetchNotices} />
+                  teacherId !== null && (
+                    <Notice
+                      key={notice.notice_id}
+                      {...notice}
+                      teacherId={teacherId}
+                      onDelete={handleDeleteNotice}
+                      refreshNotices={fetchNotices}
+                    />
+                  )
                 ))}
               </div>
             </div>
