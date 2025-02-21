@@ -1,30 +1,223 @@
+/* Base container styles */
 .scholarship-admin-container {
+  background-color: #f3f4f8;
   min-height: 100vh;
-  background-color: #f8f9fa;
 }
 
-.scholarship-admin-content {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
+/* Header and Title styles */
 .scholarship-admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.scholarship-admin-header:hover {
+  transform: translateY(-2px);
 }
 
 .scholarship-admin-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
+/* Summary Cards */
+.scholarship-admin-summary {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.scholarship-admin-summary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.summary-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: scale(1.05);
+}
+
+/* Table Styles */
 .scholarship-table-container {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.scholarship-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.scholarship-table th {
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem;
+  font-size: 0.875rem;
+}
+
+.scholarship-table tr {
+  transition: all 0.2s ease;
+}
+
+.scholarship-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.scholarship-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Status styles */
+.status-forwarded-to-admin {
+  color: #6366f1;
+  background-color: #e0e7ff;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.status-approved {
+  color: #059669;
+  background-color: #d1fae5;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.status-rejected-by-admin {
+  color: #dc2626;
+  background-color: #fee2e2;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+/* Button animations */
+.scholarship-table-actions button {
+  transition: all 0.2s ease;
+}
+
+.scholarship-table-actions button:hover {
+  transform: translateY(-2px);
+}
+
+/* Dialog styles */
+.dialog-content {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+/* Base container styles */
+.scholarship-admin-container {
+  background-color: #f3f4f8;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.scholarship-admin-header {
+  padding: 2rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -5px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
+}
+
+.scholarship-admin-title {
+  color: white;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Stat Card Styles */
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-icon {
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-desc {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Table Styles */
+.scholarship-table-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  overflow: hidden;
 }
 
 .scholarship-table {
@@ -33,71 +226,152 @@
   border-spacing: 0;
 }
 
-.scholarship-table th,
-.scholarship-table td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-}
-
 .scholarship-table th {
-  background-color: #f1f5f9;
+  background: #f8fafc;
+  padding: 1rem 1.5rem;
   font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #64748b;
 }
 
-.scholarship-table tr:nth-child(even) {
+.scholarship-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.scholarship-table tr:last-child td {
+  border-bottom: none;
+}
+
+.scholarship-table tr {
+  transition: all 0.2s ease;
+}
+
+.scholarship-table tr:hover {
   background-color: #f8fafc;
 }
 
-.scholarship-table-actions {
-  display: flex;
+/* Status Badge Styles */
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-.btn {
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.btn-verify {
-  background-color: #e0f7fa;
-  color: #0288d1;
-}
-
-.btn-verify:hover {
-  background-color: #b2ebf2;
-}
-
-.btn-reject {
-  background-color: #fee2e2;
-  color: #b91c1c;
-}
-
-.btn-reject:hover {
-  background-color: #fecaca;
-}
-
-.status-pending {
-  color: #ca8a04;
-}
-
-.status-verified {
-  color: #15803d;
-}
-
 .status-forwarded-to-admin {
-  color: #0369a1;
+  background-color: #e0e7ff;
+  color: #4f46e5;
 }
 
 .status-approved {
-  color: #15803d;
-  font-weight: bold;
+  background-color: #d1fae5;
+  color: #059669;
 }
 
 .status-rejected-by-admin {
-  color: #b91c1c;
-  font-weight: bold;
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
+/* Dialog Styles */
+.scholarship-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 24px;
+  padding: 0;
+  max-width: 600px;
+  width: 90vw;
+  max-height: 90vh; /* Limit height to 90% of viewport height */
+  margin: 20px 0; /* Add margin to prevent touching screen edges */
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+}
+
+.dialog-header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  padding: 1.5rem 2rem;
+  border-radius: 24px 24px 0 0;
+  color: white;
+}
+
+.dialog-scrollable-content {
+  padding: 2rem;
+  overflow-y: auto; /* Enable scrolling */
+  flex-grow: 1; /* Allow content to grow */
+  max-height: calc(90vh - 80px); /* Subtract header height */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* Webkit scrollbar styles */
+.dialog-scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-scrollable-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dialog-scrollable-content::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dialog-field {
+  margin-bottom: 1.5rem;
+}
+
+.dialog-label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-value {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #1f2937;
+}
+
+.dialog-message {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  white-space: pre-wrap;
+}
+
+.dialog-actions {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Status Badge Styles in Dialog */
+.dialog-value .status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
