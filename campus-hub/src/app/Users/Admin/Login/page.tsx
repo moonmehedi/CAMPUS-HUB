@@ -25,10 +25,17 @@ export default function AdminLoginPage() {
     setErrorMessage(""); // Reset error message
   
     try {
-      const response = await LoginService.login(email, password);
-      console.log("🔍 Login Response:", response);
+      const response = await fetch("http://localhost:3000/auth_admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include", // Ensure session cookies are sent
+      });
   
-      if (!response.success) throw new Error(response.error || "Invalid credentials");
+      const data = await response.json();
+      console.log("🔍 Login Response:", data);
+  
+      if (!data.success) throw new Error(data.message || "Invalid credentials");
   
       // Pass the email to the home page via query parameters
       router.push(`/Users/Admin/Home?email=${encodeURIComponent(email)}`);
@@ -38,11 +45,10 @@ export default function AdminLoginPage() {
     }
   };
   
-  
 
   const handlePasswordReset = async () => {
     try {
-      const response = await fetch("/Login/login", {
+      const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "forgot", email: resetEmail }),
@@ -68,7 +74,7 @@ export default function AdminLoginPage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      const response = await fetch("/Login/login", {
+      const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "google" }),

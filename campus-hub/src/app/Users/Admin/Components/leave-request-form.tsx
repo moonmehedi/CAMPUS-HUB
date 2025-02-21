@@ -36,6 +36,7 @@ export function LeaveRequestForm({ leaveDetails }) {
     try {
       const response = await fetch('http://localhost:3000/leave/update-leave-status', {  // Correct URL for the POST request
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },

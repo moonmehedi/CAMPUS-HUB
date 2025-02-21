@@ -54,8 +54,16 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
 
   const fetchAttendanceData = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/attendance/course/${processedCourseCode}`);
+      const response = await fetch(`http://localhost:3000/attendance/course/${processedCourseCode}`, {
+        credentials: "include", // ✅ Ensures session cookies are sent
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
       const data = await response.json();
+      console.log("Attendance Data:", data);
       const { students, dates } = parseAttendanceData(data);
       setStudents(students);
       setDates(dates);
@@ -65,6 +73,7 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchAttendanceData();
