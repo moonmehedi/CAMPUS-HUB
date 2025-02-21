@@ -16,6 +16,8 @@ const navigation = [
   { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
   { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
   { name: "Community Chat", href: "/Users/Student/community-chat", icon: MessagesSquare },
+  //{ name: "Attendance", href: "/Users/Student/Attendance", icon: Calendar },
+  { name: "Attendance", href: "/Users/Student/Courses", icon: Calendar },
 ];
 
 export function Sidebar() {
