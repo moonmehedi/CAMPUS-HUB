@@ -27,11 +27,11 @@ export default function CourseAdvisorPage() {
   
   // Function to fetch courses and calculate CGPA progress
   const fetchCourses = async () => {
-    if (!studentId.trim()) return; // Prevent API call if input is empty
+   
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/courseadvisor/courses-to-improve/${studentId}`,{ credentials: "include",});
+      const response = await fetch(`http://localhost:3000/courseadvisor/courses-to-improve`,{ credentials: "include",});
       const result = await response.json();
 
       if (result.success) {
@@ -45,7 +45,7 @@ export default function CourseAdvisorPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/courses-to-exam/${studentId}`,{ credentials: "include",});
+      const response = await fetch(`http://localhost:3000/courses-to-exam`,{ credentials: "include",});
       //const response = await fetch(`http://localhost:3000/courseadvisor/courses-to-exam/${studentId}`);
       const result = await response.json();
 
@@ -59,7 +59,7 @@ export default function CourseAdvisorPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/courseadvisor/all-result/${studentId}`,{ credentials: "include",});
+      const response = await fetch(`http://localhost:3000/courseadvisor/all-result`,{ credentials: "include",});
       const result = await response.json();
 
       if (result.success) {
@@ -131,16 +131,7 @@ export default function CourseAdvisorPage() {
         {/* Search Section */}
         <div className="bg-white rounded-[20px] p-6 shadow-lg mb-8">
           <div className="flex gap-4 items-center justify-center">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Enter your student ID"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              />
-            </div>
+           
             <Button 
               onClick={fetchCourses} 
               className="bg-[#60A3D9] hover:bg-[#4A90D9] text-white px-8 py-3 rounded-xl transition-all duration-200"
