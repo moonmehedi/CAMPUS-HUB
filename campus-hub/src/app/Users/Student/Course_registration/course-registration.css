@@ -98,23 +98,56 @@
 .course-table tr:nth-child(even) {
   background-color: #eff6ff;
 }
-
 .course-action-button {
   height: 2rem;
   width: 2rem;
   padding: 0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-.course-action-button:hover {
-  background-color: #e0f2fe;
+/* Add button styles */
+.course-action-button.add {
+  background-color: #E6F0FF;
+  color: #60A3D9;
 }
 
 .course-action-button.add:hover {
-  color: #0891b2;
+  background-color: #60A3D9;
+  color: white;
+}
+
+/* Drop button styles */
+.course-action-button.drop {
+  background-color: #FEE2E2;
+  color: #DC2626;
 }
 
 .course-action-button.drop:hover {
-  color: #dc2626;
+  background-color: #DC2626;
+  color: white;
+}
+
+/* Update table styles to match theme */
+.course-table th {
+  background-color: #F8FAFC;
+  color: #4B5563;
+}
+
+.course-table tr:nth-child(even) {
+  background-color: #F0F7FF; /* Lighter blue background */
+}
+
+/* Update search bar icon color */
+.search-bar-icon {
+  color: #60A3D9;
+}
+
+/* Add focus states for better accessibility */
+.search-bar input:focus {
+  border-color: #60A3D9;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(96, 163, 217, 0.2);
 }
 
 @media (max-width: 1024px) {
@@ -122,4 +155,3 @@
     padding: 1rem;
   }
 }
-

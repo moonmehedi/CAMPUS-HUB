@@ -61,15 +61,6 @@
   cursor: pointer;
 }
 
-.btn-view {
-  background-color: #e0f2fe;
-  color: #0369a1;
-}
-
-.btn-view:hover {
-  background-color: #bae6fd;
-}
-
 .btn-verify {
   background-color: #e0f7fa;
   color: #0288d1;
@@ -79,12 +70,34 @@
   background-color: #b2ebf2;
 }
 
-.btn-forward {
+.btn-reject {
   background-color: #fee2e2;
   color: #b91c1c;
 }
 
-.btn-forward:hover {
+.btn-reject:hover {
   background-color: #fecaca;
+}
+
+.status-pending {
+  color: #ca8a04;
+}
+
+.status-verified {
+  color: #15803d;
+}
+
+.status-forwarded-to-admin {
+  color: #0369a1;
+}
+
+.status-approved {
+  color: #15803d;
+  font-weight: bold;
+}
+
+.status-rejected-by-admin {
+  color: #b91c1c;
+  font-weight: bold;
 }
 

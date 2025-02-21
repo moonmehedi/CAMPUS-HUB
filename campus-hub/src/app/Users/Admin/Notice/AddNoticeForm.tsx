@@ -14,7 +14,7 @@ export default function AddNoticeForm({ onAddNotice }: AddNoticeFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     // e.preventDefault();
     // const teacher_id; // Initialize teacher_id must be change after implementing cookies
-    const admin_id = 1
+    const admin_id = 3
     const newNotice = {
       admin_id:admin_id,
       message_id: Date.now().toString(),

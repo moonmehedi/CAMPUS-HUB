@@ -3,6 +3,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Check, X } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 interface Course {
   serial: number
@@ -16,7 +17,7 @@ interface Course {
   status: string
 }
 
-const courses: Course[] = [
+const initialCourses: Course[] = [
   {
     serial: 1,
     courseCode: "CSE-305",
@@ -26,7 +27,7 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "3.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
   {
     serial: 2,
@@ -37,7 +38,7 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "3.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
   {
     serial: 3,
@@ -48,7 +49,7 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "3.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
   {
     serial: 4,
@@ -59,7 +60,7 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "3.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
   {
     serial: 5,
@@ -70,7 +71,7 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "3.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
   {
     serial: 6,
@@ -81,11 +82,49 @@ const courses: Course[] = [
     regType: "Regular",
     contactHours: "2.00",
     regStatus: "Not Registered",
-    status: "NULL"
+    status: "Suggested"
   },
 ]
 
-export function CourseTable() {
+interface CourseTableProps {
+  isRegistrationLocked: boolean
+}
+
+export function CourseTable({ isRegistrationLocked }: CourseTableProps) {
+  const [courses, setCourses] = useState<Course[]>(initialCourses)
+
+  useEffect(() => {
+    if (isRegistrationLocked) {
+      setCourses(prevCourses =>
+        prevCourses.map(course => ({
+          ...course,
+          regStatus: course.regStatus === "Registered" ? "Registered" : "Not Registered",
+          status: course.regStatus === "Registered" ? "Registered" : "Not Registered"
+        }))
+      )
+    }
+  }, [isRegistrationLocked])
+
+  const handleAddCourse = (index: number) => {
+    if (!isRegistrationLocked) {
+      setCourses(prevCourses => 
+        prevCourses.map((course, i) => 
+          i === index ? { ...course, regStatus: "Registered", status: "Added" } : course
+        )
+      )
+    }
+  }
+
+  const handleDropCourse = (index: number) => {
+    if (!isRegistrationLocked) {
+      setCourses(prevCourses => 
+        prevCourses.map((course, i) => 
+          i === index ? { ...course, regStatus: "Not Registered", status: "Dropped" } : course
+        )
+      )
+    }
+  }
+
   return (
     <div className="course-table-container">
       <Table className="course-table">
@@ -99,8 +138,12 @@ export function CourseTable() {
             <TableHead>Reg. Type</TableHead>
             <TableHead>Contact Hrs.</TableHead>
             <TableHead>Reg. Status</TableHead>
-            <TableHead className="text-center">Add</TableHead>
-            <TableHead className="text-center">Drop</TableHead>
+            {!isRegistrationLocked && (
+              <>
+                <TableHead className="text-center">Add</TableHead>
+                <TableHead className="text-center">Drop</TableHead>
+              </>
+            )}
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
@@ -115,24 +158,32 @@ export function CourseTable() {
               <TableCell>{course.regType}</TableCell>
               <TableCell>{course.contactHours}</TableCell>
               <TableCell>{course.regStatus}</TableCell>
-              <TableCell className="text-center">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="course-action-button add"
-                >
-                  <Check className="h-4 w-4" />
-                </Button>
-              </TableCell>
-              <TableCell className="text-center">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="course-action-button drop"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </TableCell>
+              {!isRegistrationLocked && (
+                <>
+                  <TableCell className="text-center">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="course-action-button add"
+                      onClick={() => handleAddCourse(index)}
+                      disabled={course.regStatus === "Registered"}
+                    >
+                      <Check className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="course-action-button drop"
+                      onClick={() => handleDropCourse(index)}
+                      disabled={course.regStatus === "Not Registered"}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </>
+              )}
               <TableCell>{course.status}</TableCell>
             </TableRow>
           ))}

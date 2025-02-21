@@ -2,27 +2,21 @@
 
 import { Sidebar } from "../Components/sidebar"
 import { DashboardHeader } from "../Components/dashboard-header"
-import { SearchBar } from "../Components/search-bar"
-import { ScholarshipTable } from "../Components/scholarship-table"
+import { ScholarshipTeacherView } from "../Components/scholarship-teacher-view"
 import "../Scholarship/scholarship-applications.css"
 
 export default function ScholarshipApplications() {
   return (
-    <div className="scholarship-page">
-      <div className="scholarship-layout">
+    <div className="scholarship-teacher-container">
+      <div className="flex">
         <Sidebar />
-        <main className="scholarship-main">
+<main className="flex-1 pl-64">
           <DashboardHeader />
-          <div className="scholarship-content">
-            <header className="scholarship-header">
-              <h1 className="scholarship-title">Scholarship Applications</h1>
-            </header>
-            <SearchBar />
-            <ScholarshipTable />
+          <div className="scholarship-admin-content">
+            <ScholarshipTeacherView />
           </div>
         </main>
       </div>
     </div>
   )
 }
-

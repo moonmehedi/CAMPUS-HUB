@@ -6,7 +6,6 @@ interface ChatMessageProps {
   timestamp: string
   sender: {
     name: string
-    avatar?: string
   }
   isSent: boolean
 }
@@ -15,7 +14,7 @@ export function ChatMessage({ content, timestamp, sender, isSent }: ChatMessageP
   return (
     <div className={`${styles.message} ${isSent ? styles.sent : styles.received}`}>
       <Avatar className="h-8 w-8">
-        <AvatarImage src={sender.avatar} alt={sender.name} />
+        <AvatarImage alt={sender.name} />
         <AvatarFallback>{sender.name[0]}</AvatarFallback>
       </Avatar>
       <div className="flex-1">

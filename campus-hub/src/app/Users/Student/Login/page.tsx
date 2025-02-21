@@ -9,36 +9,93 @@ import { Checkbox } from "@/components/ui/checkbox";
 import styles from '../styles/login-page.module.css';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
+  const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Mock user database
-  const mockUsers = [
-    { username: 'maisha96', password: '1234' },
-    { username: 'moon48', password: '9088' },
-  ];
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
 
-    // Check if the username and password match any user in the mock database
-    const user = mockUsers.find(
-      (user) => user.username === username && user.password === password
-    );
+    // 🔥 Debugging logs to confirm function is firing
+    console.log("Submit button clicked!");
 
-    if (user) {
-      // Successful login
-      console.log('Login successful:', { username, rememberMe });
-      setErrorMessage('');
-      router.push('/Users/Student/Home'); // Redirect to dashboard
-    } else {
-      // Invalid credentials
-      setErrorMessage('Invalid username or password. Please try again.');
+    // 🔥 Check if studentId and password exist before sending request
+    console.log("Student ID:", studentId);
+    console.log("Password:", password);
+
+    if (!studentId || !password) {
+        console.error("❌ Error: Student ID or password missing!");
+        setErrorMessage("Student ID and password are required.");
+        setIsLoading(false);
+        return;
     }
-  };
+
+    try {
+        console.log("Trying to send request...");
+
+        // Send request to backend
+        const response = await fetch('http://localhost:3000/auth_student', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',  // Important for cookies
+            body: JSON.stringify({
+                student_id: studentId,
+                password
+            }),
+        });
+        
+        console.log("Response received!", response);
+
+        // Handle HTTP errors
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Invalid response format (not JSON)');
+        }
+
+        const data = await response.json();
+        console.log("Data received from backend:", data);
+
+        if (data.success) {
+            console.log(`✅ Login successful for Student ID: ${data.student_id}`);
+
+            // Remember Me functionality
+            if (rememberMe) {
+                localStorage.setItem('studentId', data.student_id);
+            }
+
+            
+            // 🔥 Fix possible race condition by adding a small delay before navigation
+            setTimeout(() => {
+                router.push('/Users/Student/Home');
+            }, 100);
+
+        } else {
+            console.warn("⚠️ Login failed:", data.message);
+            setErrorMessage(data.message || 'Invalid ID or password. Please try again.');
+        }
+
+    } catch (error) {
+        console.error("❌ Fetch failed:", error);
+        setErrorMessage('Network error. Please try again. Server might be down.');
+    } finally {
+        setIsLoading(false);
+    }
+};
+
+
 
   return (
     <div className={styles.container}>
@@ -51,18 +108,19 @@ export default function LoginPage() {
 
             <div className="space-y-6 w-full">
               <div className="space-y-2">
-                <label htmlFor="username" className="text-sm font-medium text-white">
-                  USER NAME
+                <label htmlFor="studentId" className="text-sm font-medium text-white">
+                  STUDENT ID
                 </label>
                 <Input
-                  id="username"
-                  name="username"
+                  id="studentId"
+                  name="studentId"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
                   className={styles.input}
-                  placeholder="Enter your username"
+                  placeholder="Enter your Student ID"
                   required
+                  disabled={isLoading}
                 />
               </div>
 
@@ -79,6 +137,7 @@ export default function LoginPage() {
                   className={styles.input}
                   placeholder="Enter your password"
                   required
+                  disabled={isLoading}
                 />
               </div>
 
@@ -92,6 +151,7 @@ export default function LoginPage() {
                     }
                   }}
                   className={styles.checkbox}
+                  disabled={isLoading}
                 />
                 <label
                   htmlFor="remember"
@@ -106,8 +166,13 @@ export default function LoginPage() {
               )}
 
               <div className="space-y-4">
-                <Button type="submit" className={styles.loginButton} size="lg">
-                  Log in
+                <Button 
+                  type="submit" 
+                  className={styles.loginButton} 
+                  size="lg"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Logging in...' : 'Log in'}
                 </Button>
 
                 <Button
@@ -116,6 +181,7 @@ export default function LoginPage() {
                   className={styles.googleButton}
                   size="lg"
                   onClick={() => console.log('Google sign-in clicked')}
+                  disabled={isLoading}
                 >
                   <Earth className="mr-2 h-4 w-4" />
                   Sign in with Google
@@ -126,6 +192,7 @@ export default function LoginPage() {
                 type="button"
                 className={styles.forgotPassword}
                 onClick={() => console.log('Forgot password clicked')}
+                disabled={isLoading}
               >
                 Forget Password? Reset Now
               </button>

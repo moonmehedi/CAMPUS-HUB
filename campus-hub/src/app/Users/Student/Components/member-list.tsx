@@ -5,9 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import styles from '../styles/members.module.css'
 
 interface Member {
-  id: string
+  student_id: number
   name: string
-  avatar?: string
   isActive: boolean
 }
 
@@ -23,13 +22,14 @@ export function MembersList({ members }: MembersListProps) {
       <div className={styles.membersList}>
         {members.map((member) => (
           <div
-            key={member.id}
+            key={member.student_id}
             className={styles.memberItem}
-            onClick={() => router.push(`/Users/Student/community-chat/profile/${member.id}`)}
+            onClick={() => router.push(`/Users/Student/community-chat/profile/${member.student_id}`)}
           >
             {member.isActive && <div className={styles.activeStatus} />}
             <Avatar>
-              <AvatarImage src={member.avatar} alt={member.name} />
+            {/* <AvatarImage src={member.avatar} alt={member.name} /> */}
+              <AvatarImage alt={member.name} />
               <AvatarFallback>{member.name[0]}</AvatarFallback>
             </Avatar>
             <span className={styles.memberName}>{member.name}</span>
