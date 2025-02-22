@@ -95,6 +95,22 @@ export function InteractiveAttendanceSheet({
     }
   };
 
+  const get_date_and_period = (date: string): string => {
+    const parts = date.split("-");
+    return parts.slice(1).join("-");
+  };
+
+  const isEditable = () => {
+    const today = new Date();
+    const selected = new Date(get_date_and_period(selectedDate));
+    console.log("Today:", today);
+    console.log("Selected:", selected);
+    const diffTime = Math.abs(today.getTime() - selected.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log("Diff days:", diffDays);
+    return diffDays <= 377;
+  };
+
   if (loading) {
     return <div className="text-center p-4">Loading attendance...</div>;
   }
@@ -128,6 +144,7 @@ export function InteractiveAttendanceSheet({
                       handleAttendanceChange(index, e.target.value === "present")
                     }
                     value={student.attendance ? "present" : "absent"}
+                    disabled={!isEditable()}
                   >
                     <option value="present">Present</option>
                     <option value="absent">Absent</option>
@@ -139,7 +156,7 @@ export function InteractiveAttendanceSheet({
           </TableBody>
         </Table>
         <div className="mt-4 flex justify-end">
-          <Button onClick={handleSave}>Save Attendance</Button>
+          <Button onClick={handleSave} disabled={!isEditable()}>Save Attendance</Button>
         </div>
       </div>
     </div>

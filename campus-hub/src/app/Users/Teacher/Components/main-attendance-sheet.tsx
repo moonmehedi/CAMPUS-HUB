@@ -80,13 +80,44 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
   }, [processedCourseCode]);
 
   const calculateAttendancePercentage = (attendance: Record<string, string>): string => {
-    const presentCount = Object.values(attendance).filter((status) => status === "P").length;
-    return ((presentCount / dates.length) * 100).toFixed(2);
+    const today = new Date();
+    const adjustedToday = new Date(today);
+    adjustedToday.setFullYear(today.getFullYear() - 1);
+    const validDates = dates.filter(date => new Date(get_date_and_period(date)) <= adjustedToday);
+    const presentCount = validDates.filter(date => attendance[date] === "P").length;
+    console.log('adjustedToday:', adjustedToday, 'validDates:', validDates, 'presentCount:', presentCount);
+    return ((presentCount / validDates.length) * 100).toFixed(2);
+  };
+
+  const isDateEditable = (date: string): boolean => {
+    const today = new Date();
+    const targetDate = new Date(get_date_and_period(date));
+    const diffTime = Math.abs(today.getTime() - targetDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return (diffDays > 377 || diffDays < 367);
+  };
+
+  const get_date_and_period = (date: string): string => {
+    const parts = date.split("-");
+    return parts.slice(1).join("-");
   };
 
   const updateAttendance = (updatedStudents: AttendanceData[]) => {
     setStudents(updatedStudents);
     fetchAttendanceData(); // Re-fetch data after updating attendance
+  };
+
+  const handleDateClick = (date: string) => {
+    const today = new Date();
+    const targetDate = new Date(get_date_and_period(date));
+    const diffTime = today.getTime() - targetDate.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log("Diff Days:", diffDays);
+    if (diffDays > 377 || diffDays < 367) {
+      alert("Attendance is locked for this date.");
+    } else {
+      setSelectedDate(date);
+    }
   };
 
   if (loading) {
@@ -110,8 +141,8 @@ export function MainAttendanceSheet({ courseName, courseCode, onClose }: MainAtt
                 <TableHead>Name</TableHead>
                 {dates.map((date) => (
                   <TableHead key={date} className="text-center">
-                    <Button variant="ghost" onClick={() => setSelectedDate(date)}>
-                      {date}
+                    <Button variant="ghost" onClick={() => handleDateClick(date)}>
+                      {date} {isDateEditable(date) ? "(locked)" : ""}
                     </Button>
                   </TableHead>
                 ))}

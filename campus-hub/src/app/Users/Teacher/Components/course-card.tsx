@@ -17,12 +17,12 @@ interface CourseCardProps {
   name: string
   type: string
   credit: number
-  instructors: Instructor[]
+  instructors?: Instructor[]
   color: "blue" | "purple"
   onSelect: (course: { name: string, code: string }) => void
 }
 
-export function CourseCard({ code, name, type, credit, instructors, color, onSelect }: CourseCardProps) {
+export function CourseCard({ code, name, type, credit, instructors = [], color, onSelect }: CourseCardProps) {
   return (
     <Card 
       className={`bg-gradient-to-br ${gradients[color]} text-white hover:shadow-lg transition-shadow cursor-pointer`}
