@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@nextui-org/button": "^2.2.9",
     "@nextui-org/system": "^2.4.6",
@@ -30,13 +31,14 @@
     "@tailwindcss/typography": "^0.5.15",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.8",
+    "@types/react-icons": "^3.0.0",
     "autoprefixer": "^10.4.20",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "framer-motion": "^11.16.4",
+    "framer-motion": "^11.18.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.469.0",
     "next": "^15.1.7",
@@ -45,6 +47,7 @@
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.5",
     "react-hook-form": "^7.54.2",
+    "react-icons": "^5.5.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"
