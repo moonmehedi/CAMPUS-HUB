@@ -22,10 +22,10 @@ const daysOfWeek = [
 const exams = [
   {
     id: 1,
-    title: "Sociology",
-    type: "CT2",
-    room: "401",
-    date: new Date(2025, 1, 1), // February 1, 2025
+    title: "Compiler",
+    type: "CT3",
+    room: "201",
+    date: new Date(2025, 1, 26), // February 1, 2025
     startTime: "8 AM",
     endTime: "9 AM",
     duration: 1,
@@ -33,10 +33,10 @@ const exams = [
   },
   {
     id: 2,
-    title: "Software Engineering",
+    title: "DSD",
     type: "CT1",
-    room: "402",
-    date: new Date(2025, 1, 4), // February 4, 2025
+    room: "701",
+    date: new Date(2025, 1, 24), // February 4, 2025
     startTime: "10 AM",
     endTime: "11 AM",
     duration: 1,
