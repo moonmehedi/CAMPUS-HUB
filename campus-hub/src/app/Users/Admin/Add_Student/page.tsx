@@ -24,6 +24,7 @@ export default function StudentManagementPage() {
     dateOfBirth: "",
     gender: "",
     departmentName: "",
+    adminId: "", // Add adminId to formData
   })
   const [searchTerm, setSearchTerm] = useState("")
   const [deleteId, setDeleteId] = useState("")
@@ -54,6 +55,7 @@ export default function StudentManagementPage() {
           departmentName: studentmanagement.dept_name
 })));
 
+
       }
     };
     fetchStudents();
@@ -79,7 +81,7 @@ export default function StudentManagementPage() {
       const { data: adminData, error: adminError } = await supabase
         .from('admin') // Assuming your table name is 'admin'
         .select('admin_id, password') // Fetching admin_id and password
-        .eq('admin_id', formData.teacherId) // Matching admin_id with teacherId from form data
+        .eq('admin_id', formData.adminId) // Matching admin_id with adminId from form data
         .single(); // Only expecting one match
   
       if (adminError) {
@@ -131,6 +133,7 @@ export default function StudentManagementPage() {
         dateOfBirth: "",
         gender: "",
         departmentName: "",
+        adminId: "", // Reset adminId
       });
   
       setMessage("Student added successfully");
@@ -245,6 +248,7 @@ export default function StudentManagementPage() {
                             <form onSubmit={handleSubmit} className={styles.studentForm}>
                               <div className={styles.formGrid}>
                                 {Object.keys(formData).map((field) => (
+                                  field !== "adminId" && ( // Exclude adminId from the initial form
                                   <div key={field} className={styles.formGroup}>
                                     <label htmlFor={field} className={styles.formLabel}>
                                       {field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
@@ -259,7 +263,7 @@ export default function StudentManagementPage() {
                                       onClick={(e) => e.stopPropagation()}
                                     />
                                   </div>
-                                ))}
+                                )))}
                               </div>
                               <Button
                                 type="button"
@@ -281,8 +285,8 @@ export default function StudentManagementPage() {
         type="text"
         id="adminId"
         placeholder="Enter your ID"
-        value={formData.teacherId} // Assuming the admin ID should be the teacherId field
-        onChange={(e) => setFormData({ ...formData, teacherId: e.target.value })}
+        value={formData.adminId} // Use adminId from formData
+        onChange={(e) => setFormData({ ...formData, adminId: e.target.value })}
         onClick={(e) => e.stopPropagation()}
         className={styles.formInput}
       />

@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress"
 
 export default function DashboardPage() {
   const currentDate = new Date('2025-02-01 08:59:59')
-  const currentUser = 'maisha27'
+  const currentUser = 'Anika Tasmin'
   const currentSemester = "Spring 2025"
   
   const courses = [
