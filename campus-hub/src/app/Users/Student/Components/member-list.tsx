@@ -7,7 +7,7 @@ import styles from '../styles/members.module.css';
 interface Member {
   student_id: number;
   name: string;
-  avatar: string; // Optional avatar URL
+  avatar?: string; // Optional avatar URL
   isActive: boolean;
 }
 
