@@ -190,10 +190,14 @@ export default function NoticePage() {
         body: JSON.stringify(newNotice),
         credentials: "include",
       });
-
+      const result = await response.json()
+      console.log("API Response:", result); // Debugging step
       if (response.ok) {
-        const { addedNotice } = await response.json();
-        setNotices([addedNotice[0], ...notices]);
+        const { addedNotice } = result;
+        console.log("Added Notice:", JSON.stringify(result));
+        if (addedNotice && typeof addedNotice === "object") {
+          setNotices([addedNotice, ...notices]); // No [0] index needed
+        }
         alert("Notice added successfully!");
       } else {
         const { error } = await response.json();

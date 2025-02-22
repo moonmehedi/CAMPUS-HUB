@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,6 +12,19 @@ import {
 
 export function ProfileButton() {
   const [showProfile, setShowProfile] = useState(false)
+  const [profileData, setProfileData] = useState(null)
+
+  useEffect(() => {
+    if (showProfile) {
+      fetch('http://localhost:3000/auth_admin', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => response.json())
+        .then(data => setProfileData(data.admin))
+        .catch(error => console.error('Error fetching profile data:', error))
+    }
+  }, [showProfile])
 
   return (
     <>
@@ -22,8 +35,8 @@ export function ProfileButton() {
         onClick={() => setShowProfile(true)}
       >
         <Avatar>
-          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/485c5c33-f665-47b0-833c-a499195d474a/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0ODVjNWMzMy1mNjY1LTQ3YjAtODMzYy1hNDk5MTk1ZDQ3NGEiLCJleHAiOjE3MzY2OTc0NDEsImlhdCI6MTczNjYxMTA0MX0.sqtflGyvXSA_b_jtA-3uvAYLtKXQb0PYoz4M5T5XJ6c" alt="Profile" />
-          <AvatarFallback>MI</AvatarFallback>
+          <AvatarImage src={profileData?.avatar || "default-avatar-url"} alt="Profile" />
+          <AvatarFallback>{profileData?.initials || "?"}</AvatarFallback>
         </Avatar>
       </Button>
 
@@ -34,12 +47,12 @@ export function ProfileButton() {
           </DialogHeader>
           <div className="flex flex-col items-center gap-4 p-6">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/485c5c33-f665-47b0-833c-a499195d474a/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0ODVjNWMzMy1mNjY1LTQ3YjAtODMzYy1hNDk5MTk1ZDQ3NGEiLCJleHAiOjE3MzY2OTc0NDEsImlhdCI6MTczNjYxMTA0MX0.sqtflGyvXSA_b_jtA-3uvAYLtKXQb0PYoz4M5T5XJ6c" alt="Profile" />
-              <AvatarFallback>MI</AvatarFallback>
+              <AvatarImage src={profileData?.avatar || "default-avatar-url"} alt="Profile" />
+              <AvatarFallback>{profileData?.initials || "?"}</AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="text-lg font-semibold">Major Iman</h3>
-              <p className="text-sm text-muted-foreground">+1 234 567 890</p>
+              <h3 className="text-lg font-semibold">{profileData?.name || "Loading..."}</h3>
+              <p className="text-sm text-muted-foreground">{profileData?.phone || "Loading..."}</p>
             </div>
           </div>
         </DialogContent>
