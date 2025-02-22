@@ -6,6 +6,7 @@ import { GraduationCap, Phone, Briefcase, User } from "lucide-react"; // Import 
 import styles from "../../../styles/profile.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 // const memberDetails = {
 //   student_id: "1",
 //   name: "Arqam Bin Almas",
@@ -18,27 +19,30 @@ import { useRouter } from "next/navigation";
 interface MemberDetails {
   student_id: number;
   name: string;
-  avatar?: string; // optional
+  avatar: string; // optional
   roll: string;
   batch: string;
   mobile: string;
   currentlyWorking: string;
 }
 
-export default function ProfilePage({
-  params,
-}: {
-  params: { student_id: string };
-}) {
+export default function ProfilePage() {
   const [memberDetails, setMemberDetails] = useState<MemberDetails | null>(
     null
   );
+  const params = useParams();
   const router = useRouter();
+  const student_id = Number(params.student_id);
   useEffect(() => {
+    if (isNaN(student_id)) {
+      console.error(`Invalid student ID. Must be an integer. From Frontend ${student_id} as ${typeof student_id}`);
+      router.push("/Users/Student/community-chat");
+      return;
+    }
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/members/${params.student_id}`,
+          `http://localhost:3000/members/${student_id}`,
           { credentials: "include" }
         );
         const data = await response.json();
@@ -54,7 +58,7 @@ export default function ProfilePage({
       }
     };
     fetchProfile();
-  }, [params.student_id, router]);
+  }, [student_id, router]);
   return (
     <StudentLayout>
       <div className={styles.container}>

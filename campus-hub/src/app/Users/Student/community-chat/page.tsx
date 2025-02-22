@@ -11,12 +11,14 @@ import { Header } from "../Components/header";
 
 import styles from "../styles/chat.module.css";
 
-const myCurrentStudentId = localStorage.getItem("studentId");
+// const myCurrentStudentId = Number(localStorage.getItem("studentId"));
+const myCurrentStudentId = 202214011
 
 export default function CommunityChat() {
   interface Member {
     student_id: number;
     name: string;
+    avatar?:string;
     isActive: boolean;
   }
 
