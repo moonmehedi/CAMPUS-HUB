@@ -38,7 +38,8 @@ export default function ProfilePage({
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/members/${params.student_id}`
+          `http://localhost:3000/members/${params.student_id}`,
+          { credentials: "include" }
         );
         const data = await response.json();
         if (response.ok) {
@@ -52,8 +53,8 @@ export default function ProfilePage({
         console.error("Error fetching profile:", error);
       }
     };
-    fetchProfile()
-  },[params.student_id,router]);
+    fetchProfile();
+  }, [params.student_id, router]);
   return (
     <StudentLayout>
       <div className={styles.container}>
@@ -73,7 +74,9 @@ export default function ProfilePage({
                 )}
               </Avatar>
             </div>
-            {memberDetails && <h2 className={styles.name}>{memberDetails.name}</h2>}
+            {memberDetails && (
+              <h2 className={styles.name}>{memberDetails.name}</h2>
+            )}
           </div>
 
           {/* Info Cards */}
