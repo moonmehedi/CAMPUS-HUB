@@ -52,7 +52,7 @@ export function ProfileButton() {
             </Avatar>
             <div className="text-center">
               <h3 className="text-lg font-semibold">{profileData?.name || "Loading..."}</h3>
-              <p className="text-sm text-muted-foreground">{profileData?.phone || "Loading..."}</p>
+              <p className="text-sm text-muted-foreground">{profileData?.mobile || "Loading..."}</p>
             </div>
           </div>
         </DialogContent>
