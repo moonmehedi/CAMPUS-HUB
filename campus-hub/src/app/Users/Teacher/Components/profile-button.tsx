@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,6 +12,20 @@ import {
 
 export function ProfileButton() {
   const [showProfile, setShowProfile] = useState(false)
+  const [profileData, setProfileData] = useState(null)
+
+  useEffect(() => {
+    if (showProfile) {
+      fetch('http://localhost:3000/auth_teacher', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => response.json())
+        .then(data => setProfileData(data.teacher))
+        .catch(error => console.error('Error fetching profile data:', error))
+    }
+  }, [showProfile])
+ 
 
   return (
     <>
@@ -22,8 +36,8 @@ export function ProfileButton() {
         onClick={() => setShowProfile(true)}
       >
         <Avatar>
-          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/f8071f21-097d-4aa4-8958-f5d593203757/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODA3MWYyMS0wOTdkLTRhYTQtODk1OC1mNWQ1OTMyMDM3NTciLCJleHAiOjE3MzY2OTU0MzYsImlhdCI6MTczNjYwOTAzNn0.NVL-Rv_I-yp-lZG7mdhCXPn5iB6EBgSJHyWQfzBjf6Y" alt="Profile" />
-          <AvatarFallback>SJ</AvatarFallback>
+          <AvatarImage src={profileData?.avatar } alt="Profile" />
+          <AvatarFallback>{profileData?.initials || "?"}</AvatarFallback>
         </Avatar>
       </Button>
 
@@ -34,13 +48,12 @@ export function ProfileButton() {
           </DialogHeader>
           <div className="flex flex-col items-center gap-4 p-6">
             <Avatar className="h-24 w-24">
-          <AvatarImage src="https://uniplex.mist.ac.bd:8443/admission-api/files/view/f8071f21-097d-4aa4-8958-f5d593203757/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODA3MWYyMS0wOTdkLTRhYTQtODk1OC1mNWQ1OTMyMDM3NTciLCJleHAiOjE3MzY2OTU0MzYsImlhdCI6MTczNjYwOTAzNn0.NVL-Rv_I-yp-lZG7mdhCXPn5iB6EBgSJHyWQfzBjf6Y" alt="Profile" />
-              <AvatarImage src="" alt="Profile" />
-              <AvatarFallback>SJ</AvatarFallback>
+              <AvatarImage src={profileData?.avatar || "default-avatar-url"} alt="Profile" />
+              <AvatarFallback>{profileData?.initials || "?"}</AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="text-lg font-semibold">Sadia Hossain</h3>
-              <p className="text-sm text-muted-foreground">+1 234 567 890</p>
+              <h3 className="text-lg font-semibold">{profileData?.name || "Loading..."}</h3>
+              <p className="text-sm text-muted-foreground">{profileData?.phone || "Loading..."}</p>
             </div>
           </div>
         </DialogContent>
