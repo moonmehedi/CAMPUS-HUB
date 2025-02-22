@@ -12,7 +12,7 @@ export default function AddNoticeForm({ onAddNotice }: AddNoticeFormProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [type] = useState<'admin' | 'teacher'>('admin');
+  const [type,setType] = useState<'admin' | 'teacher'>('admin');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,6 +44,7 @@ export default function AddNoticeForm({ onAddNotice }: AddNoticeFormProps) {
     setTitle('');
     setContent('');
     setIsFormOpen(false);
+    setType('admin')
   };
   return (
     <AnimatePresence>
