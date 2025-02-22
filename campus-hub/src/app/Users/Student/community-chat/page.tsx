@@ -11,7 +11,7 @@ import { Header } from "../Components/header";
 
 import styles from "../styles/chat.module.css";
 
-const myCurrentStudentId = 202214011;
+const myCurrentStudentId = localStorage.getItem("studentId");
 
 export default function CommunityChat() {
   interface Member {
@@ -35,7 +35,9 @@ export default function CommunityChat() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/messages`);
+        const response = await fetch(`http://localhost:3000/messages`,{
+          credentials:"include"
+        });
         if (!response.ok) throw new Error("Failed to fetch messages");
         const data = await response.json();
         setMessages(data || []);
@@ -46,7 +48,9 @@ export default function CommunityChat() {
 
     const fetchMembers = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/members`);
+        const response = await fetch(`http://localhost:3000/members`,{
+          credentials:"include"
+        });
         if (!response.ok) throw new Error("Failed to fetch members");
         const data = await response.json();
         setMembers(data || []);
@@ -76,7 +80,7 @@ export default function CommunityChat() {
     return {
       ...message,
       sender,
-      isSent: message.student_id === myCurrentStudentId,
+      isSent: message.student_id === Number(myCurrentStudentId),
     };
   });
 
@@ -94,6 +98,7 @@ export default function CommunityChat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(messageData),
+        credentials:"include"
       });
 
       if (response.ok) {
