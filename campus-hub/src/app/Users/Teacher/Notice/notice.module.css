@@ -1,77 +1,180 @@
+/* Base Notice Styles */
 .notice {
   border-radius: 1.5rem;
-  padding: 1.5rem;
+  padding: 2rem;
   position: relative;
   background-color: white;
-  transition: transform 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem; /* Added margin-bottom to increase gap between notices */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.notice::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .notice:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+.notice:hover::before {
+  opacity: 1;
+}
+
+/* Notice Type Styles */
 .notice.admin {
-  background-color: rgb(254 226 226);
+  background: linear-gradient(
+    135deg,
+    rgba(254, 242, 242, 0.95) 0%,
+    rgba(254, 226, 226, 0.95) 100%
+  );
+  border-left: 4px solid #dc2626;
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1),
+              0 2px 4px -1px rgba(220, 38, 38, 0.06);
 }
 
 .notice.teacher {
-  background-color: rgb(236 253 245);
+  background: linear-gradient(
+    135deg,
+    rgba(236, 253, 245, 0.95) 0%,
+    rgba(209, 250, 229, 0.95) 100%
+  );
+  border-left: 4px solid #059669;
+  box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.1),
+              0 2px 4px -1px rgba(5, 150, 105, 0.06);
 }
 
+/* Header Styles */
 .noticeHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.noticeHeader::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.5),
+    transparent
+  );
 }
 
 .titleContainer {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
+/* Icon Styles */
 .noticeIcon {
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1.5rem;
+  width: 1.5rem;
   flex-shrink: 0;
-  color: rgb(55 65 81);
+  transition: transform 0.3s ease;
 }
 
+.notice:hover .noticeIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.noticeIcon.admin {
+  color: #dc2626;
+  filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.2));
+}
+
+.noticeIcon.teacher {
+  color: #059669;
+  filter: drop-shadow(0 0 8px rgba(5, 150, 105, 0.2));
+}
+
+/* Title Styles */
 .noticeTitle {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: rgb(17 24 39);
   margin: 0;
+  transition: transform 0.3s ease;
 }
 
+.notice:hover .noticeTitle {
+  transform: translateX(4px);
+}
+
+/* Content Styles */
 .noticeContent {
-  padding-left: 2rem;
+  padding-left: 2.5rem;
+  position: relative;
 }
 
 .noticeMessage {
   color: rgb(55 65 81);
-  line-height: 1.5;
+  line-height: 1.7;
   margin: 0;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
 }
 
+/* Timestamp Styles */
 .noticeTimestamp {
   font-size: 0.875rem;
-  color: rgb(75 85 99);
-  white-space: pre;
+  color: rgb(107 114 128);
+  white-space: nowrap;
   flex-shrink: 0;
   margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
+.notice:hover .noticeTimestamp {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+/* Scroll Container Styles */
 .noticeScrollContainer {
-  padding: 1rem;
+  padding: 1.5rem;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-  height: calc(100vh - 12rem); /* Adjusted for header and padding */
+  height: calc(100vh - 12rem);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
 }
 
 .noticeScrollContainer::-webkit-scrollbar {
@@ -85,63 +188,205 @@
 .noticeScrollContainer::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  transition: background-color 0.3s ease;
 }
 
 .noticeScrollContainer::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
 }
-.noticeTextarea {
+
+/* Form Styles */
+.formContainer {
+  padding: 2rem;
   width: 100%;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  resize: vertical;
-}
-
-.addNoticeForm {
-  /* margin: 15px 15px 15px 15px; */
-  display: flex;
-  flex-direction:row;
-  /* gap: 1rem; */
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  overflow:auto;
-  margin-top: 1rem; 
-  border: 1px solid black;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(249, 250, 251, 0.95)
+  );
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  position: relative;
   overflow: hidden;
 }
 
-.label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.formContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
+.formContainer:hover::before {
+  opacity: 1;
+}
+
+.addNoticeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: formAppear 0.5s ease-out;
+}
+
+/* Input Styles */
 .input, .textarea, .select {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.button {
-  margin-top: 1%;
-  align-self:center;
-  padding: 2rem 4rem;
-}
-
-.formContainer {
-  
-  padding: 1rem;
-  height: 1%;
   width: 100%;
-  margin:0 auto;
+  padding: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.input:hover, .textarea:hover, .select:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Form Group Styles */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formGroup:focus-within .label {
+  color: #3b82f6;
+  transform: translateX(4px);
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.notice:hover .actionButtons {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Type Tags */
+.typeTag {
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.typeTag.admin {
+  background-color: rgb(254 226 226);
+  color: #dc2626;
+}
+
+.typeTag.teacher {
+  background-color: rgb(236 253 245);
+  color: #059669;
+}
+
+/* Loading Effects */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Animations */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes formAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .notice {
+    padding: 1.5rem;
+  }
+  
+  .noticeHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .noticeTimestamp {
+    margin-left: 0;
+  }
+  
+  .noticeContent {
+    padding-left: 1.5rem;
+  }
 }

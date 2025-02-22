@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface ScholarshipApplication {
   name: string
@@ -70,71 +71,146 @@ export function ScholarshipTable() {
 
   return (
     <>
-      <div className="scholarship-table-container overflow-x-auto">
+      <motion.div 
+        className="scholarship-table-container"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <table className="w-full scholarship-table">
           <thead>
             <tr>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Application ID</th>
-              <th className="px-4 py-2">Submission Date</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Actions</th>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Application ID</th>
+              <th className="px-6 py-4">Submission Date</th>
+              <th className="px-6 py-4">Status</th>
+              <th className="px-6 py-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {applications.map((application, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2">{application.name}</td>
-                <td className="px-4 py-2">{application.applicationId}</td>
-                <td className="px-4 py-2">{application.submissionDate}</td>
-                <td className={`px-4 py-2 status-${application.status.toLowerCase().replace(" ", "-")}`}>
-                  {application.status}
-                </td>
-                <td className="px-4 py-2">
-                  <div className="scholarship-table-actions flex space-x-2">
-                    <Button variant="outline" size="sm" onClick={() => setSelectedApplication(application)}>
-                      View
-                    </Button>
-                    {application.status === "Forwarded to Admin" && (
-                      <>
-                        <Button variant="default" size="sm" onClick={() => handleApprove(application.applicationId)}>
-                          Approve
-                        </Button>
-                        <Button variant="destructive" size="sm" onClick={() => handleReject(application.applicationId)}>
-                          Reject
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+            <AnimatePresence>
+              {applications.map((application, index) => (
+                <motion.tr
+                  key={application.applicationId}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <td className="px-6 py-4 font-medium">{application.name}</td>
+                  <td className="px-6 py-4">{application.applicationId}</td>
+                  <td className="px-6 py-4">{application.submissionDate}</td>
+                  <td className="px-6 py-4">
+                    <span className={`status-${application.status.toLowerCase().replace(" ", "-")}`}>
+                      {application.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="scholarship-table-actions flex space-x-3">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setSelectedApplication(application)}
+                        className="hover:bg-gray-100"
+                      >
+                        View
+                      </Button>
+                      {application.status === "Forwarded to Admin" && (
+                        <>
+                          <Button 
+                            variant="default" 
+                            size="sm" 
+                            onClick={() => handleApprove(application.applicationId)}
+                            className="bg-emerald-600 hover:bg-emerald-700"
+                          >
+                            Approve
+                          </Button>
+                          <Button 
+                            variant="destructive" 
+                            size="sm" 
+                            onClick={() => handleReject(application.applicationId)}
+                            className="bg-rose-600 hover:bg-rose-700"
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
           </tbody>
         </table>
-      </div>
+      </motion.div>
 
       <Dialog open={!!selectedApplication} onOpenChange={() => setSelectedApplication(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{selectedApplication?.name}'s Application</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            <p>
-              <strong>Application ID:</strong> {selectedApplication?.applicationId}
-            </p>
-            <p>
-              <strong>Submission Date:</strong> {selectedApplication?.submissionDate}
-            </p>
-            <p>
-              <strong>Status:</strong> {selectedApplication?.status}
-            </p>
-            <p>
-              <strong>Details:</strong> {selectedApplication?.details}
-            </p>
-          </DialogDescription>
+        <DialogContent className="scholarship-dialog">
+          <div className="dialog-container">
+            <div className="dialog-header sticky top-0 z-10">
+              <h2 className="text-xl font-semibold">Scholarship Application Details</h2>
+            </div>
+            <div className="dialog-scrollable-content">
+              <div className="dialog-field">
+                <span className="dialog-label">Applicant Name</span>
+                <div className="dialog-value">{selectedApplication?.name}</div>
+              </div>
+              
+              <div className="dialog-field">
+                <span className="dialog-label">Application ID</span>
+                <div className="dialog-value">{selectedApplication?.applicationId}</div>
+              </div>
+              
+              <div className="dialog-field">
+                <span className="dialog-label">Submission Date</span>
+                <div className="dialog-value">{selectedApplication?.submissionDate}</div>
+              </div>
+              
+              <div className="dialog-field">
+                <span className="dialog-label">Status</span>
+                <div className="dialog-value">
+                  <span className={`status-badge status-${selectedApplication?.status.toLowerCase().replace(" ", "-")}`}>
+                    {selectedApplication?.status}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="dialog-field">
+                <span className="dialog-label">Application Details</span>
+                <div className="dialog-message">
+                  {selectedApplication?.details}
+                </div>
+              </div>
+
+              {selectedApplication?.status === "Forwarded to Admin" && (
+                <div className="dialog-actions">
+                  <div className="flex justify-end gap-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        handleReject(selectedApplication.applicationId)
+                        setSelectedApplication(null)
+                      }}
+                      className="bg-white hover:bg-red-50 text-red-600 border-red-200"
+                    >
+                      Reject Application
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        handleApprove(selectedApplication.applicationId)
+                        setSelectedApplication(null)
+                      }}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                    >
+                      Approve Application
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>
   )
 }
-

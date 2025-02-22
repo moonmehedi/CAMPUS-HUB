@@ -3,19 +3,24 @@
 import { Sidebar } from "../Components/sidebar"
 import { DashboardHeader } from "../Components/dashboard-header"
 import { ScholarshipTeacherView } from "../Components/scholarship-teacher-view"
-import "../Scholarship/scholarship-applications.css"
+import { motion } from "framer-motion"
 
 export default function ScholarshipApplications() {
   return (
-    <div className="scholarship-teacher-container">
+    <div className="min-h-screen bg-gray-50">
       <div className="flex">
         <Sidebar />
-<main className="flex-1 pl-64">
+        <motion.main 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex-1 pl-64"
+        >
           <DashboardHeader />
-          <div className="scholarship-admin-content">
+          <div className="p-6">
             <ScholarshipTeacherView />
           </div>
-        </main>
+        </motion.main>
       </div>
     </div>
   )

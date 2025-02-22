@@ -12,10 +12,12 @@ const navigation = [
   { name: "Exam Scheduler", href: "/Users/Student/Exam_Scheduler", icon: Calendar },
   { name: "Course Registration", href: "/Users/Student/Course_registration", icon: BookOpen },
   { name: "Scholarship", href: "/Users/Student/Scholarship", icon: GraduationCap },
-  { name: "Course advisor", href: "/Users/Student/Course_advisor", icon: Users2 },
+  { name: "Course advisor", href: "/Users/Student/Course_Advisor", icon: Users2 },
   { name: "Leave Application", href: "/Users/Student/Leave_Application", icon: ScrollText },
   { name: "ChatBot", href: "/Users/Student/Chatbot", icon: MessageCircle },
   { name: "Community Chat", href: "/Users/Student/community-chat", icon: MessagesSquare },
+  //{ name: "Attendance", href: "/Users/Student/Attendance", icon: Calendar },
+  { name: "Attendance", href: "/Users/Student/Courses", icon: Calendar },
 ];
 
 export function Sidebar() {

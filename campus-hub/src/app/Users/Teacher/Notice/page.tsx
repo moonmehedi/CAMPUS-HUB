@@ -8,6 +8,7 @@ import AddNoticeForm from "./AddNoticeForm";
 import styles from "./notice.module.css";
 import { Button } from "@nextui-org/button";
 import { number } from "zod";
+import { motion } from "framer-motion";
 
 // const teacherId = 1002; // Needs to be dynamic after implementing cookies
 interface NoticeProps {
@@ -29,7 +30,7 @@ function Notice({
   type,
   teacherId,
   onDelete,
-  refreshNotices, // ⬅ New prop to refetch after updating
+  refreshNotices,
 }: NoticeProps & {
   teacherId: number;
   onDelete: (id: string) => void;
@@ -66,46 +67,79 @@ function Notice({
     }
   };
 
+  const formattedDate = new Date(created_at).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   return (
-    <div className={`${styles.notice} ${styles[type]}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`${styles.notice} ${styles[type]}`}
+    >
       <div className={styles.noticeHeader}>
         <div className={styles.titleContainer}>
-          <AlertCircle className={styles.noticeIcon} />
+          <AlertCircle className={`${styles.noticeIcon} ${styles[type]}`} />
           <h3 className={styles.noticeTitle}>{title}</h3>
+          <span className={`${styles.typeTag} ${styles[type]}`}>
+            {type.charAt(0).toUpperCase() + type.slice(1)}
+          </span>
         </div>
-        <time className={styles.noticeTimestamp}>{created_at}</time>
+        <time className={styles.noticeTimestamp}>{formattedDate}</time>
       </div>
       <div className={styles.noticeContent}>
         {isEditing ? (
-          <textarea
-            className={`${styles.noticeMessage} ${styles.noticeTextarea}`}
+          <motion.textarea
+            className={styles.textarea}
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
+            whileFocus={{ scale: 1.01 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           />
         ) : (
           <p className={styles.noticeMessage}>{content}</p>
         )}
         {teacher_id === teacherId && (
-          <div className="flex flex-row-reverse flex-wrap gap-4 my-0.5 items-center">
+          <motion.div 
+            className={styles.actionButtons}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             {isEditing ? (
-              <Button color="success" onClick={handleSaveClick}>
+              <Button 
+                color="success" 
+                onClick={handleSaveClick}
+                className="shadow-md hover:shadow-lg transition-all"
+              >
                 Save
               </Button>
             ) : (
-              <Button color="default" onClick={handleEditClick}>
+              <Button 
+                color="default" 
+                onClick={handleEditClick}
+                className="shadow-md hover:shadow-lg transition-all"
+              >
                 Edit
               </Button>
             )}
-            <Button color="danger" onClick={() => onDelete(notice_id)}>
+            <Button 
+              color="danger" 
+              onClick={() => onDelete(notice_id)}
+              className="shadow-md hover:shadow-lg transition-all"
+            >
               Delete
             </Button>
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
-
 export default function NoticePage() {
   const [notices, setNotices] = useState<NoticeProps[]>([]);
   const [teacherId, setTeacherId] = useState<number | null>(null);
