@@ -70,3 +70,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+@import 'react-day-picker/dist/style.css';
+
