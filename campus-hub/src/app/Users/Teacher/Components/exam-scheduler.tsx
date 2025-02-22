@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { addDays, addMonths, format, startOfWeek, isSameDay, parseISO } from "date-fns"
+import { addDays, addMonths, format, startOfWeek, isSameDay, parseISO, isBefore, isAfter } from "date-fns"
 import { CalendarIcon, ChevronLeft, ChevronRight, Clock, Search, Pencil, Trash2 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -12,10 +12,21 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/hooks/use-toast";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+
 
 interface Exam {
   id: number
-  teacher_id: number
+  teacher_id: number | string
   exam_name: string
   exam_type: string
   exam_date: string
@@ -24,6 +35,10 @@ interface Exam {
   room_number: string
 }
 
+interface CurrentUser {
+  id: number | string;
+  role: string;
+}
 const timeSlots = [
   "08:00", "09:00", "10:00", "11:00", "12:00",
   "13:00", "14:00", "15:00"
@@ -50,6 +65,71 @@ export function ExamScheduler() {
   const [selectedExam, setSelectedExam] = React.useState<Exam | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
+  const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false)
+  const [currentUser] = React.useState<CurrentUser>({ id: '1002', role: 'teacher' })
+
+  const validateExamSchedule = (
+    examData: Partial<Exam>,
+    date: Date
+  ): string | null => {
+    // 1. Prevent scheduling in the past
+    const examDateTime = parseISO(`${format(date, 'yyyy-MM-dd')}T${examData.start_time}`);
+    const now = new Date();
+    
+    if (isBefore(examDateTime, now)) {
+      return "Cannot schedule exams in the past";
+    }
+
+    // 2. Validate start time is before end time
+    const startTime = parseISO(`${format(date, 'yyyy-MM-dd')}T${examData.start_time}`);
+    const endTime = parseISO(`${format(date, 'yyyy-MM-dd')}T${examData.end_time}`);
+    
+    if (!isBefore(startTime, endTime)) {
+      return "Start time must be before end time";
+    }
+
+    // 3. Check for overlapping exams
+    const hasOverlap = exams.some(existing => {
+      // Skip comparing with self when editing
+      if (examData.id && existing.id === examData.id) return false;
+
+      const existingStart = parseISO(`${existing.exam_date}T${existing.start_time}`);
+      const existingEnd = parseISO(`${existing.exam_date}T${existing.end_time}`);
+
+      // Check if exams are on the same day
+      if (!isSameDay(startTime, existingStart)) return false;
+
+      // Check for room conflict or teacher conflict
+      const sameRoom = existing.room_number === examData.room_number;
+      const sameTeacher = existing.teacher_id === currentUser.id;
+
+      // Check time overlap
+      const hasTimeOverlap = (
+        (isAfter(startTime, existingStart) && isBefore(startTime, existingEnd)) ||
+        (isAfter(endTime, existingStart) && isBefore(endTime, existingEnd)) ||
+        (isBefore(startTime, existingStart) && isAfter(endTime, existingEnd))
+      );
+
+      return hasTimeOverlap && (sameRoom || sameTeacher);
+    });
+
+    if (hasOverlap) {
+      return "This time slot conflicts with an existing exam in the same room or by the same teacher";
+    }
+
+    // 4. Check for 12-hour restriction on editing
+    if (examData.id) {
+      const hoursUntilExam = (examDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+      if (hoursUntilExam < 12) {
+        return "Cannot modify exams within 12 hours of scheduled time";
+      }
+    }
+
+    return null;
+};
+
+    
+
 
   // Navigation and date calculations
   const moveDate = (direction: 'forward' | 'backward') => {
@@ -112,7 +192,7 @@ const validateExamForm = (formData: FormData): boolean => {
   }
   return true;
 };
-// Update handleAddExam function
+// Update your handleAddExam function
 const handleAddExam = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setIsLoading(true);
@@ -120,33 +200,30 @@ const handleAddExam = async (e: React.FormEvent<HTMLFormElement>) => {
   try {
     const formData = new FormData(e.currentTarget);
     
-    // Log the form data to check values
-    console.log('Form Data:', {
-      courseName: formData.get("courseName"),
-      examType: formData.get("examType"),
-      startTime: formData.get("startTime"),
-      endTime: formData.get("endTime"),
-      roomNumber: formData.get("roomNumber"),
-      examDate: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : null
-    });
-
-    // Validate required fields
     if (!selectedDate) {
       throw new Error('Please select a date');
     }
 
     const examData = {
-      teacher_id: "maisha27", // Using the current user's login instead of ID
-      exam_name: formData.get("courseName"),
-      exam_type: formData.get("examType"),
+      teacher_id: currentUser.id,
+      exam_name: formData.get("courseName") as string,
+      exam_type: formData.get("examType") as string,
       exam_date: format(selectedDate, 'yyyy-MM-dd'),
-      start_time: `${formData.get("startTime")}:00`, // Add seconds to match backend format
-      end_time: `${formData.get("endTime")}:00`, // Add seconds to match backend format
-      room_number: formData.get("roomNumber")
+      start_time: `${formData.get("startTime")}:00`,
+      end_time: `${formData.get("endTime")}:00`,
+      room_number: formData.get("roomNumber") as string
     };
 
-    // Log the request data
-    console.log('Sending exam data:', examData);
+    // Validate the exam data
+    const validationError = validateExamSchedule(examData, selectedDate);
+    if (validationError) {
+      toast({
+        title: "Validation Error",
+        description: validationError,
+        variant: "destructive",
+      });
+      return;
+    }
 
     const response = await fetch('http://localhost:4000/exams/store', {
       method: 'POST',
@@ -157,17 +234,10 @@ const handleAddExam = async (e: React.FormEvent<HTMLFormElement>) => {
       body: JSON.stringify(examData)
     });
 
-    // Log the response status
-    console.log('Response status:', response.status);
-
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Error response:', errorData);
       throw new Error(errorData.error || 'Failed to add exam');
     }
-
-    const result = await response.json();
-    console.log('Success response:', result);
 
     await fetchExams();
     setShowAddExam(false);
@@ -176,7 +246,6 @@ const handleAddExam = async (e: React.FormEvent<HTMLFormElement>) => {
       description: "Exam schedule added successfully",
     });
   } catch (error) {
-    console.error('Error in handleAddExam:', error);
     toast({
       title: "Error",
       description: error instanceof Error ? error.message : "Failed to add exam schedule",
@@ -196,30 +265,40 @@ const handleAddExam = async (e: React.FormEvent<HTMLFormElement>) => {
     setSelectedExam(exam)
     setShowEditExam(true)
   }
-  // Then update the functions
+// Update your handleEditExam function
 const handleEditExam = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-  setIsLoading(true);
-
   if (!selectedExam) return;
+  setIsLoading(true);
 
   try {
     const formData = new FormData(e.currentTarget);
     
-    // Get the raw time values
-    const startTime = formData.get("startTime") as string;
-    const endTime = formData.get("endTime") as string;
-
     const examData = {
-      exam_name: formData.get("courseName"),
-      exam_type: formData.get("examType"),
-      start_time: startTime, // Time already in correct format from the select
-      end_time: endTime, // Time already in correct format from the select
-      room_number: formData.get("roomNumber"),
-      teacher_id: "maisha27" // Current user's login
+      ...selectedExam,
+      exam_name: formData.get("courseName") as string,
+      exam_type: formData.get("examType") as string,
+      start_time: `${formData.get("startTime")}:00`,
+      end_time: `${formData.get("endTime")}:00`,
+      room_number: formData.get("roomNumber") as string,
     };
 
-    const response = await fetch(`http://localhost:3000/exams/${selectedExam.id}`, {
+    // Validate the exam data
+    const validationError = validateExamSchedule(
+      examData, 
+      parseISO(selectedExam.exam_date)
+    );
+    
+    if (validationError) {
+      toast({
+        title: "Validation Error",
+        description: validationError,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const response = await fetch(`http://localhost:4000/exams/${selectedExam.id}`, {
       method: 'PUT',
       headers: { 
         'Content-Type': 'application/json'
@@ -232,9 +311,6 @@ const handleEditExam = async (e: React.FormEvent<HTMLFormElement>) => {
       throw new Error(errorData.error || 'Failed to update exam');
     }
 
-    const updatedExam = await response.json();
-
-    // Refresh the exams list
     await fetchExams();
     setShowEditExam(false);
     setSelectedExam(null);
@@ -254,7 +330,12 @@ const handleEditExam = async (e: React.FormEvent<HTMLFormElement>) => {
   }
 };
 
-const handleDeleteExam = async () => {
+const handleDeleteClick = () => {
+  setShowDeleteConfirm(true);
+};
+
+ // Keep your existing handleDeleteExam but rename it to executeDelete
+ const executeDelete = async () => {
   if (!selectedExam) return;
 
   try {
@@ -271,13 +352,10 @@ const handleDeleteExam = async () => {
       throw new Error(errorData.error || 'Failed to delete exam');
     }
 
-    // Wait for the delete operation to complete
-    await response.json();
-
-    // Refresh the exams list
     await fetchExams();
     setShowEditExam(false);
     setSelectedExam(null);
+    setShowDeleteConfirm(false);
     
     toast({
       title: "Success",
@@ -294,6 +372,31 @@ const handleDeleteExam = async () => {
   }
 };
 
+// Add this helper function for exam display
+const canModifyExam = (exam: Exam): boolean => {
+  return currentUser.id === exam.teacher_id;
+};
+
+ // In your JSX, update the exam display logic
+ const renderExam = (exam: Exam) => {
+  const isOwnExam = canModifyExam(exam);
+  return (
+    <div
+      key={exam.id}
+      className="h-full rounded-lg p-3 bg-[#E6F0FF] border border-[#003B73]/20 hover:shadow-md transition-all cursor-pointer"
+      onClick={() => isOwnExam && handleExamClick(exam)}
+    >
+      <div className="font-medium text-[#003B73]">
+        {isOwnExam ? exam.exam_name : "Your Exam"}
+      </div>
+      <div className="text-sm mt-1 text-[#003B73]/75">
+        {exam.exam_type}
+      </div>
+    </div>
+  );
+};
+
+  
   return (
     <div className="space-y-6 p-6 max-w-[1400px] mx-auto">
       {/* Title */}
@@ -303,14 +406,15 @@ const handleDeleteExam = async () => {
 
       <div className="grid grid-cols-[300px,1fr] gap-6">
         {/* Calendar Picker */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateSelect}
-            className="rounded-xl border-0 bg-gradient-to-b from-[#003B73] to-[#60A3D9]"
-          />
-        </div>
+<div className="bg-gradient-to-b from-[#003B73] to-[#60A3D9] p-4 rounded-xl shadow-lg">
+  <Calendar
+    mode="single"
+    selected={selectedDate}
+    onSelect={handleDateSelect}
+    disabled={(date) => date < new Date()}
+    className="rounded-xl"
+  />
+</div>
 
         {/* Schedule View */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -678,7 +782,7 @@ const handleDeleteExam = async () => {
         <Button
           type="button"
           variant="destructive"
-          onClick={handleDeleteExam}
+          onClick={executeDelete}
           disabled={isLoading}
           className="bg-red-500 hover:bg-red-600 text-white"
         >
@@ -707,6 +811,29 @@ const handleDeleteExam = async () => {
     </form>
   </DialogContent>
 </Dialog>
+
+  <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Delete Exam</AlertDialogTitle>
+        <AlertDialogDescription>
+          Are you sure you want to delete this exam? This action cannot be undone.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+        <AlertDialogAction
+          onClick={executeDelete}
+          disabled={isLoading}
+          className="bg-red-500 hover:bg-red-600"
+        >
+          {isLoading ? "Deleting..." : "Delete"}
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+
     </div>
   )
 }
+
