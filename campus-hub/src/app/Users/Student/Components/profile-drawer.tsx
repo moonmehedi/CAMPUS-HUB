@@ -66,7 +66,8 @@ export function ProfileDrawer() {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/studentInfo/${studentId}`
+          `http://localhost:3000/studentInfo/${studentId}`,
+          { credentials: "include" }
         );
         const data = await response.json();
         if (response.ok) {
