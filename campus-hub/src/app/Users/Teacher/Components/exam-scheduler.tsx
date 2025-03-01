@@ -353,11 +353,11 @@ export function ExamScheduler() {
       };
   
       console.log('Updating exam:', {
-        id: selectedExam.id,
+        id: selectedExam.exam_id,
         data: examData
       });
   
-      const response = await fetch(`http://localhost:3000/exam/edit/${selectedExam.id}`, {
+      const response = await fetch(`http://localhost:3000/exam/edit/${selectedExam.exam_id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 
