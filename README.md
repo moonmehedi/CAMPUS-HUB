@@ -65,5 +65,5 @@ The system consists of three main user roles:
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Contact
-For any queries or contributions, please contact [your email] or raise an issue on the repository.
+For any queries or contributions, please contact or raise an issue on the repository.
 
