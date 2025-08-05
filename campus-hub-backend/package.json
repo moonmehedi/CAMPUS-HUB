@@ -1,0 +1,17 @@
+{
+  "main": "server.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.9"
+  },
+  "scripts": {
+    "start": "nodemon server.js",
+    "run": "server.js",
+    "dev": "server.js"
+  }
+}

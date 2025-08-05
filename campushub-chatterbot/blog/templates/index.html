@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Index</title>
+
+    {%load static%}
+    <link rel="stylesheet" type='text/css' href="{%static "/style.css"%}">
+</head>
+<body>
+  <h1>ChatBot</h1>
+
+  <div>
+    <div id='chatbot'>
+      <p class='botText'><span>Hi There !</span></p>
+    </div>
+  </div>
+
+  <div id='userInput'>
+    <input type='text' id='textInput' name='userMessage' placeholder='Type your message...'/>
+    <input type='submit' value='send' id='buttonInput'/>
+
+  </div>
+
+
+  <script src="{%static "/script.js"%}"></script>
+</body>
+</html>
