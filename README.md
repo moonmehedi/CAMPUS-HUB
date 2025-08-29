@@ -3,7 +3,7 @@
 A comprehensive educational management platform designed to streamline academic operations for students, teachers, and administrators. Built with modern web technologies to provide an intuitive and efficient campus management experience.
 
 ## 🌟 Overview
-
+ 
 Campus Hub is a full-stack web application that digitizes and automates various academic processes in educational institutions. The platform serves three main user roles with tailored interfaces and functionalities to manage their respective academic responsibilities efficiently.
 
 ## ✨ Key Features
